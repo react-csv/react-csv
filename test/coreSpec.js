@@ -177,5 +177,29 @@ describe(`core::jsons2csv`, () => {
    expect(actual).toBeA('string');
    expect(actual.split(`\n`).join(`|`)).toEqual(expected);
  });
+ it(`renders CSV string according to order of given headers`, () => {
+   let fixtures =[{X:'12', Y:'bb'}, {Y:'ee', X:'55'}]
+   const headers = ['Y', 'X', 'Z'];
+   const actual = jsons2csv(fixtures, headers);
+   expect(actual.startsWith(headers.join(`,`))).toBeTruthy();
+   expect(actual.endsWith(`ee,55,`)).toBeTruthy();
+
+ });
+
+});
+
+describe(`core::string2csv`, () =>{
+  let fixtures;
+  beforeEach(() => {
+   fixtures = `33,44\n55,66`;
+  });
+  it(`returns the same string if no header given`, () => {
+    expect(string2csv(fixtures)).toEqual(fixtures);
+   })
+
+  it(`prepends headers at the top of input`, () => {
+    const headers =[`X`, `Y`];
+    expect(string2csv(fixtures, headers)).toEqual(`${headers.join(`,`)}\n${fixtures}`);
+  })
 
 });
