@@ -1,8 +1,8 @@
-export const isJsons = ((array) => array.every(
+export const isJsons = ((array) => Array.isArray(array) && array.every(
  row => (typeof row === 'object' && !(row instanceof Array))
 ));
 
-export const isArrays = ((array) => array.every(
+export const isArrays = ((array) => Array.isArray(array) && array.every(
  row => Array.isArray(row)
 ));
 

@@ -1,5 +1,5 @@
 import expect from 'expect';
-
+import sinon from 'sinon';
 import {
  isJsons,
  isArrays,
@@ -10,7 +10,7 @@ import {
  string2csv,
  toCSV,
  buildURI
-} from '../lib/core';
+} from '../src/core';
 
 describe(`core::isJsons`, () => {
  it(`returns true if all items of array are literal objects`, () => {
@@ -195,11 +195,48 @@ describe(`core::string2csv`, () =>{
   });
   it(`returns the same string if no header given`, () => {
     expect(string2csv(fixtures)).toEqual(fixtures);
-   })
+   });
 
   it(`prepends headers at the top of input`, () => {
     const headers =[`X`, `Y`];
     expect(string2csv(fixtures, headers)).toEqual(`${headers.join(`,`)}\n${fixtures}`);
-  })
+  });
+});
 
+describe(`core::toCSV`, () =>{
+  let fixtures;
+  beforeEach(() => {
+   fixtures = {string:'Xy', arrays:[[],[]],jsons:[{}, {}]};
+  });
+  it(`requires one argument at least`, () => {
+     expect(() => toCSV()).toThrow();
+   });
+
+   it(`accepts data as "Array" of jsons `, () => {
+      expect(() => toCSV(fixtures.jsons)).toNotThrow();
+   });
+
+   it(`accepts data as "Array" of arrays `, () => {
+      expect(() => toCSV(fixtures.arrays)).toNotThrow();
+   });
+
+   it(`accepts data as "string" `, () => {
+      expect(() => toCSV(fixtures.string)).toNotThrow();
+   });
+
+});
+
+describe(`core::buildURI`, () =>{
+  let fixtures;
+  beforeEach(() => {
+   fixtures = {string:'Xy', arrays:[[],[]],jsons:[{}, {}]};
+  });
+
+  it(`generates URI to download data in CSV format`,() => {
+    const prefixCsvURI= `data:text/csv;`;
+    expect(buildURI(fixtures.jsons).startsWith(prefixCsvURI)).toBeTruthy();
+    expect(buildURI(fixtures.arrays).startsWith(prefixCsvURI)).toBeTruthy();
+    expect(buildURI(fixtures.string).startsWith(prefixCsvURI)).toBeTruthy();
+
+  });
 });
