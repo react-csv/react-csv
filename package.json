@@ -1,0 +1,51 @@
+{
+  "name": "react-csv",
+  "version": "0.0.1",
+  "description": "Build CSV files on the fly basing on Array/literal object of data ",
+  "main": "index.js",
+  "scripts": {
+    "compile": "babel --presets es2015,stage-0 -d lib/ src/",
+    "prepublish": "npm run compile",
+    "test": "node_modules/.bin/_mocha test",
+    "test2": "node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- test/*.js",
+    "coverage": "istanbul cover _mocha -- --ui bdd -R spec -t 5000;open ./coverage/lcov-report/index.html",
+    "cover": "node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdennour/react-csv.git"
+  },
+  "keywords": [
+    "csv",
+    "excel",
+    "react",
+    "file",
+    "IO",
+    "download",
+    "hyperlink",
+    "component",
+    "reuse",
+    "ES7",
+    "babel"
+  ],
+  "author": "Abdennour TOUMI <http://abdennoor.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abdennour/react-csv/issues"
+  },
+  "homepage": "https://github.com/abdennour/react-csv#readme",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "enzyme": "^2.6.0",
+    "react": "^15.4.1"
+  },
+  "dependencies": {
+    "x-object": "^1.0.10"
+  }
+}
