@@ -4,7 +4,7 @@
   "description": "Build CSV files on the fly basing on Array/literal object of data ",
   "main": "index.js",
   "scripts": {
-    "compile": "babel --presets es2015,stage-0 -d lib/ src/",
+    "compile": "babel --presets es2015,stage-0,react -d lib/ src/",
     "prepublish": "npm run compile",
     "pretest": "npm run compile",
     "test2": "node_modules/.bin/_mocha test",
