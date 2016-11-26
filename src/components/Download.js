@@ -8,13 +8,19 @@ const defaultProps = {
 class CSVDownload extends React.Component {
   constructor(props) {
     super(props);
+    this.state={};
   }
+
+  buildURI() {
+    return buildURI(...arguments);
+  }
+
   componentDidMount(){
-    this.page = window.open(buildURI(this.props.data, this.props.headers), this.props.target, this.props.specs, this.props.replace);
+    this.state.page = window.open(this.buildURI(this.props.data, this.props.headers), this.props.target, this.props.specs, this.props.replace);
   }
 
   getWindow() {
-    return this.page;
+    return this.state.page;
   }
 
   render(){

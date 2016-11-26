@@ -1,3 +1,4 @@
+
 # Overview :
 Generate CSV document  according to given data.
 
@@ -35,7 +36,7 @@ This data can be *array of arrays*, *array of literal objects* or *string*.
 **.i.e (array of arrays)**
 ```js
 //array of arrays : each item is rendered as csv line
-data = =[
+data = [
   ['firstname', 'lastname', 'email'] ,
   ['Ahmed', 'Tomi' , 'ah@smthing.co.com'] ,
   ['Raed', 'Labes' , 'rl@smthing.co.com'] ,

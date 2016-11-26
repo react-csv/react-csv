@@ -6,12 +6,17 @@ import XObject from 'x-object/safe';
 class CSVLink extends React.Component {
   constructor(props) {
     super(props);
+    this.buildURI= this.buildURI.bind(this);
+  }
+
+  buildURI() {
+    return buildURI(...arguments);
   }
 
   render(){
     return (
       <a {...XObject.filter(this.props, (k, v) => !PropsNotForwarded.includes(k))}
-         href={buildURI(this.props.data, this.props.headers)}>
+         href={this.buildURI(this.props.data, this.props.headers)}>
         {this.props.children}
       </a>
     )
