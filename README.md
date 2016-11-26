@@ -28,7 +28,8 @@ This package includes actually two components: `CSVLink` and `CSVDownload`.
 
 The two components accepts the following `Props`:
 
-- **data** : a required property that represents the CSV data.
+### - **data** Props:
+a required property that represents the CSV data.
 This data can be *array of arrays*, *array of literal objects* or *string*.
 
 **.i.e (array of arrays)**
@@ -68,7 +69,9 @@ data = json2csv(arrayOfLiteralObjects);
 
 ```
 
-- **headers** : Specifying `headers` helps to define an order of CSV fields , so , the csv content will be generated accordingly.
+### - **headers** Props:
+
+ Specifying `headers` helps to define an order of CSV fields , so , the csv content will be generated accordingly.
 
 > Notes :
 >  - The meaning of headers with data of type `Array` is to order fields AND prepend those headers at the top of CSV content.
