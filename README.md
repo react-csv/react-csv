@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/abdennour/react-csv.svg?branch=master)](https://travis-ci.org/abdennour/react-csv)
 
 # Overview :
 Generate CSV document  according to given data.
