@@ -23,6 +23,12 @@ const csvData =[
 <CSVDownload data={csvData} target="_blank" />
 ```
 
+# Install :
+
+```
+npm install react-csv --save;
+```
+
 # Components:
 
 This package includes actually two components: `CSVLink` and `CSVDownload`.
