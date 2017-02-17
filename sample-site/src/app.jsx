@@ -13,7 +13,7 @@ class App extends React.Component {
   render() {
     return (
       <div style={{padding: 10}}>
-        <h1>react-csv</h1>
+        <h3><code>react-csv/sample-site/src/app.jsx</code></h3>
         <hr />
         <div>
 

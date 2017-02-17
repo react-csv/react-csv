@@ -163,7 +163,7 @@ import {CSVDownload} from 'react-csv';
 For non-node developers, they have to use CDN version :
 
 ```html
- <script src="https://cdn.rawgit.com/abdennour/react-csv/7918cadc/cdn/react-csv-latest.js" type="text/javascript"></script>
+ <script src="https://cdn.rawgit.com/abdennour/react-csv/6424b500/cdn/react-csv-latest.min.js" type="text/javascript"></script>
 
  <script type="text/babel">
    const {CSVDownload, CSVLink} = ReactCSV;// or window.ReactCSV

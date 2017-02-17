@@ -1,8 +1,14 @@
 import React from 'react';
 import {buildURI} from '../core';
-import {defaultProps, PropTypes} from '../metaProps';
+import {
+   defaultProps as commonDefaultProps,
+   propTypes as commonPropTypes} from '../metaProps';
 
 class CSVLink extends React.Component {
+
+  static defaultProps = commonDefaultProps;
+  static propTypes = commonPropTypes;
+
   constructor(props) {
     super(props);
     this.buildURI= this.buildURI.bind(this);
@@ -22,7 +28,5 @@ class CSVLink extends React.Component {
     )
   }
 }
-CSVLink.defaultProps = defaultProps;
-CSVLink.PropTypes = PropTypes;
 
 export default CSVLink;

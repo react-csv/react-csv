@@ -34,10 +34,16 @@ describe('CSVLink', () => {
      ]
     };
    });
+
    it(`renders without error if required props are passed`, () => {
      const wrapper = shallow( <CSVLink {...minProps} > Click here </CSVLink>);
       expect(wrapper.length).toEqual(1);
-     });
+   });
+
+   it(`has comma as default separator `, () => {
+     const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
+     expect(wrapper.props().separator).toEqual(',');
+   })
 
     it(`renders anchor tag`, () => {
       const wrapper = shallow( <CSVLink {...minProps} > Click here </CSVLink>);

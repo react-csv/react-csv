@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export const PropTypes = {
+export const propTypes = {
   data: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.array
