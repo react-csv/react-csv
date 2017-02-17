@@ -27,7 +27,7 @@ const csvData =[
 <CSVDownload data={csvData} target="_blank" />
 ```
 
-# Install :
+# Install
 
 ```
 npm install react-csv --save;
@@ -156,6 +156,21 @@ Thus, `target`, `specs` and `replace` Props are available .
 import {CSVDownload} from 'react-csv';
 
 <CSVDownload data={data} target="_blank" />
+```
+
+For non-node developers, they have to use CDN version :
+
+```html
+ <script src="https://cdn.rawgit.com/abdennour/react-csv/7918cadc/cdn/react-csv-latest.js" type="text/javascript"></script>
+
+ <script type="text/babel">
+   const {CSVDownload, CSVLink} = ReactCSV;// or window.ReactCSV
+
+   const element= (<CSVDownload data={data} target="_blank" />);
+
+   ReactDOM.render(element, document.querySelector('#app'));
+ </script>
+
 ```
 
 # Contribution :
