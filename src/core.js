@@ -18,30 +18,30 @@ export const jsons2arrays = (jsons, headers) => {
    object[header] ? object[header] : ''))]
 };
 
-export const joiner = ((data) =>
- data.map((row, index) => row.join(',')).join(`\n`)
+export const joiner = ((data,separator = ',') =>
+ data.map((row, index) => row.join(separator)).join(`\n`)
 );
 
-export const arrays2csv = ((data, headers) =>
- joiner(headers ? [headers, ...data] : data)
+export const arrays2csv = ((data, headers, separator) =>
+ joiner(headers ? [headers, ...data] : data, separator)
 );
 
-export const jsons2csv = ((data, headers) =>
- joiner(jsons2arrays(data, headers))
+export const jsons2csv = ((data, headers, separator) =>
+ joiner(jsons2arrays(data, headers), separator)
 );
 
-export const string2csv = ((data, headers) =>
-  (headers) ? `${headers.join(`,`)}\n${data}`: data
+export const string2csv = ((data, headers, separator) =>
+  (headers) ? `${headers.join(separator)}\n${data}`: data
 )
 
-export const toCSV = (data, headers) => {
- if (isJsons(data)) return jsons2csv(data, headers);
- if (isArrays(data)) return arrays2csv(data, headers);
- if (typeof data ==='string') return string2csv(data, headers);
+export const toCSV = (data, headers, separator) => {
+ if (isJsons(data)) return jsons2csv(data, headers, separator);
+ if (isArrays(data)) return arrays2csv(data, headers, separator);
+ if (typeof data ==='string') return string2csv(data, headers, separator);
  throw new TypeError(`Data should be a "String", "Array of arrays" OR "Array of objects" `);
 };
 
-export const buildURI = ((data, headers) => encodeURI(
-  `data:text/csv;charset=utf-8,${toCSV(data, headers)}`
+export const buildURI = ((data, headers, separator) => encodeURI(
+  `data:text/csv;charset=utf-8,${toCSV(data, headers, separator)}`
  )
 );

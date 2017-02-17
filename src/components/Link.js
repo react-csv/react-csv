@@ -1,6 +1,6 @@
 import React from 'react';
 import {buildURI} from '../core';
-import {defaultProps, PropTypes, PropsNotForwarded} from '../metaProps';
+import {defaultProps, PropTypes} from '../metaProps';
 
 class CSVLink extends React.Component {
   constructor(props) {
@@ -13,10 +13,10 @@ class CSVLink extends React.Component {
   }
 
   render(){
-    const {data, headers, children , ...rest} = this.props;
+    const {data, headers, separator, children , ...rest} = this.props;
     return (
       <a {...rest}
-         href={this.buildURI(data, headers)}>
+         href={this.buildURI(data, headers, separator)}>
         {children}
       </a>
     )

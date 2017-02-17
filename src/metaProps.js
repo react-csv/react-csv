@@ -7,11 +7,12 @@ export const PropTypes = {
     React.PropTypes.array
   ]).isRequired,
   headers: React.PropTypes.array,
-  target: React.PropTypes.string
+  target: React.PropTypes.string,
+  separator: React.PropTypes.string
 };
 
 export const defaultProps = {
-
+  separator: ','
 };
 
 export const PropsNotForwarded = [

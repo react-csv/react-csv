@@ -14,9 +14,16 @@ class App extends React.Component {
     return (
       <div style={{padding: 10}}>
         <h1>react-csv</h1>
+        <hr />
         <div>
 
           Download CSV <CSVLink data={csvData}> here </CSVLink>.
+        </div>
+        <hr />
+
+        <div>
+
+          Download CSV  with <code>;</code> as separator : <CSVLink data={csvData} separator=";"> here </CSVLink>.
         </div>
       </div>
     );

@@ -33,6 +33,12 @@ const csvData =[
 npm install react-csv --save;
 ```
 
+or , for non-node developers , you can use CDN directly :
+
+```html
+<script src="" type="text/javascript"></script>
+```
+
 # Components:
 
 This package includes actually two components: `CSVLink` and `CSVDownload`.
@@ -91,6 +97,25 @@ data = json2csv(arrayOfLiteralObjects);
 >  - The meaning of headers  with data of type `String` data is only  prepending those headers as the first line of CSV content.
 
 
+### - **separator** Props:
+
+Following a request to add [this feature](https://github.com/abdennour/react-csv/issues/3) , from `1.0.1` release, `react-csv` supports `separator` props which is equals by default a comma `,` .
+
+
+```js
+import {CSVLink} from 'react-csv';
+
+<CSVLink data={array} separator={";"}>
+    Download me
+</CSVLink>
+/*
+  This will generate CSV with ";" as delimiter (separator)
+
+ */
+
+```
+
+
 
 
 ## 1. CSVLink Component:
@@ -136,15 +161,14 @@ import {CSVDownload} from 'react-csv';
 # Contribution :
 
 
-### Run the sample   :
+- Unit-tests must cover at least 90 % of code .
 
+- Write documentation of the new class, function , method , attribute ..so on.. following JSDoc syntax.
 
-- `cd react-csv/`
+- Add an example for the new feature to `sample-site`.
 
-then :
+- `npm start` runs the [`sample-site`](sample-site/)
 
-- `npm install`.
+- `npm docgen` generates documentation in HTML output.
 
-- `npm start`
-
-- browse : `http://localhost:8008`.
+- `npm cdn` generate a bundle to be used as CDN
