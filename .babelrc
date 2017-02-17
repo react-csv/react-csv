@@ -1,3 +1,11 @@
 {
-  "presets": ["es2015", "stage-0", "react"]
+  "presets": ["es2015", "stage-3", "react"],
+  "env": {},
+  "plugins": [
+      "transform-decorators-legacy",
+      "react-html-attrs",
+      "syntax-decorators",
+      "transform-es2015-modules-commonjs",
+      "transform-class-properties"
+  ]
 }

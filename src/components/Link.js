@@ -1,7 +1,6 @@
 import React from 'react';
 import {buildURI} from '../core';
 import {defaultProps, PropTypes, PropsNotForwarded} from '../metaProps';
-import XObject from 'x-object/safe';
 
 class CSVLink extends React.Component {
   constructor(props) {
@@ -14,10 +13,11 @@ class CSVLink extends React.Component {
   }
 
   render(){
+    const {data, headers, children , ...rest} = this.props;
     return (
-      <a {...XObject.filter(this.props, (k, v) => !PropsNotForwarded.includes(k))}
-         href={this.buildURI(this.props.data, this.props.headers)}>
-        {this.props.children}
+      <a {...rest}
+         href={this.buildURI(data, headers)}>
+        {children}
       </a>
     )
   }

@@ -132,3 +132,19 @@ import {CSVDownload} from 'react-csv';
 
 <CSVDownload data={data} target="_blank" />
 ```
+
+# Contribution :
+
+
+### Run the sample   :
+
+
+- `cd react-csv/`
+
+then :
+
+- `npm install`.
+
+- `npm start`
+
+- browse : `http://localhost:8008`.
