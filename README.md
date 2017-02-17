@@ -36,7 +36,7 @@ npm install react-csv --save;
 or , for non-node developers , you can use CDN directly :
 
 ```html
-<script src="" type="text/javascript"></script>
+<script src="https://cdn.rawgit.com/abdennour/react-csv/7918cadc/cdn/react-csv-latest.js" type="text/javascript"></script>
 ```
 
 # Components:
