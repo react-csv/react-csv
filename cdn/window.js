@@ -1,3 +1,3 @@
-const {CSVLink, CSVDownload} = require('../lib/index');
+const ReactCSV = require('../lib/index');
 
-window.ReactCSV = {CSVLink, CSVDownload};
+window.ReactCSV = {CSVLink : ReactCSV.CSVLink, CSVDownload: ReactCSV.CSVDownload};
