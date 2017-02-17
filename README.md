@@ -126,12 +126,16 @@ It renders a hyperlink , and  clicking on it will trigger the download action of
 
 It does not accept only `data` and `headers` props , but also , it rendered all props of `HTMLAnchor` tag. (className, target,....)
 
+### - **filename** Props:
+`filename` is another props restricted to `CSVLink`. It specifies the filename of the downloaded CSV .  
+
 **example**
 
 ```js
 import {CSVLink} from 'react-csv';
 
 <CSVLink data={data}
+  filename={"my-file.csv"}
   className="btn btn-primary"
   target="_blank">
     Download me

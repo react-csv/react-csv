@@ -19,9 +19,9 @@ class CSVLink extends React.Component {
   }
 
   render(){
-    const {data, headers, separator, children , ...rest} = this.props;
+    const {data, headers, separator, filename, children , ...rest} = this.props;
     return (
-      <a {...rest}
+      <a download={filename} {...rest}
          href={this.buildURI(data, headers, separator)}>
         {children}
       </a>

@@ -45,10 +45,18 @@ describe('CSVLink', () => {
      expect(wrapper.props().separator).toEqual(',');
    })
 
+   it(`assigns a download filename`, () => {
+     const filename= "persons.csv";
+     const wrapper = mount( <CSVLink {...minProps} filename={filename} > here </CSVLink>);
+     expect(wrapper.find('a').get(0).getAttribute('download')).toEqual(filename);  
+   });
+
     it(`renders anchor tag`, () => {
       const wrapper = shallow( <CSVLink {...minProps} > Click here </CSVLink>);
        expect(wrapper.find('a').length).toEqual(1);
      });
+
+
 
     it(`calls "buildURI" method on mounting`, () => {
       const dataURI = `data:text/csv;some,thing`

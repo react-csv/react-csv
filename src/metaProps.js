@@ -8,11 +8,13 @@ export const propTypes = {
   ]).isRequired,
   headers: React.PropTypes.array,
   target: React.PropTypes.string,
-  separator: React.PropTypes.string
+  separator: React.PropTypes.string,
+  filename: React.PropTypes.string
 };
 
 export const defaultProps = {
-  separator: ','
+  separator: ',',
+  filename: 'generatedBy_react-csv.csv'
 };
 
 export const PropsNotForwarded = [
