@@ -4,6 +4,10 @@ import {
    defaultProps as commonDefaultProps,
    propTypes as commonPropTypes} from '../metaProps';
 
+/**
+ *
+ * @example ../../sample-site/csvlink.example.md
+ */
 class CSVLink extends React.Component {
 
   static defaultProps = commonDefaultProps;

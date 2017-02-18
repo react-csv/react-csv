@@ -5,3 +5,4 @@ docs/
 docs-site/
 server.js
 webpack.sample.config.js
+styleguide.config.js

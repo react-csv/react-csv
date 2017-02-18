@@ -6,6 +6,11 @@ import {
 const defaultProps = {
   target: '_blank'
 };
+
+/**
+ *
+ * @example ../../sample-site/csvdownload.example.md
+ */
 class CSVDownload extends React.Component {
 
   static defaultProps = Object.assign(
