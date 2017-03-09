@@ -206,20 +206,7 @@ describe(`core::string2csv`, () =>{
 describe(`core::toCSV`, () =>{
   let fixtures;
   beforeEach(() => {
-   fixtures = {string:'
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               y', arrays:[[],[]],jsons:[{}, {}]};
+   fixtures = {string:'Xy', arrays:[[],[]],jsons:[{}, {}]};
   });
   it(`requires one argument at least`, () => {
      expect(() => toCSV()).toThrow();
