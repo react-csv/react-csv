@@ -152,7 +152,7 @@ describe(`core::arrays2csv`, () => {
   it(`renders  CSV headers whenever it was given `, () => {
     const headers = [`X`, `Y`];
     const firstLineOfCSV = arrays2csv(fixtures, headers).split(`\n`)[0];
-    expect(firstLineOfCSV).toEqual(headers.join(`,`));
+    expect(firstLineOfCSV).toEqual("X","Y");
   });
 });
 
@@ -181,8 +181,8 @@ describe(`core::jsons2csv`, () => {
    let fixtures =[{X:'12', Y:'bb'}, {Y:'ee', X:'55'}]
    const headers = ['Y', 'X', 'Z'];
    const actual = jsons2csv(fixtures, headers);
-   expect(actual.startsWith(headers.join(`,`))).toBeTruthy();
-   expect(actual.endsWith(`ee,55,`)).toBeTruthy();
+   expect(actual.startsWith("Y","X","Z")).toBeTruthy();
+   expect(actual.endsWith(`"ee","55",""`)).toBeTruthy();
 
  });
 
