@@ -146,13 +146,13 @@ describe(`core::arrays2csv`, () => {
   it(`converts Array of arrays to string in CSV format`, () => {
     const actual = arrays2csv(fixtures);
     expect(actual).toBeA('string');
-    expect(actual.split(`\n`).join(`|`)).toEqual(`a,b|c,d`);
+    expect(actual.split(`\n`).join(`|`)).toEqual(`"a","b"|"c","d"`);
   });
 
   it(`renders  CSV headers whenever it was given `, () => {
     const headers = [`X`, `Y`];
     const firstLineOfCSV = arrays2csv(fixtures, headers).split(`\n`)[0];
-    expect(firstLineOfCSV).toEqual(headers.join(`,`));
+    expect(firstLineOfCSV).toEqual(`"X","Y"`);
   });
 });
 
@@ -173,7 +173,7 @@ describe(`core::jsons2csv`, () => {
 
             const actual = jsons2csv(fixtures);
             const expectedHeaders = ['X', 'Y'];
-            const expected = `${expectedHeaders.join(`,`)}|88,97|77,99`;
+            const expected = `"X","Y"|"88","97"|"77","99"`;
    expect(actual).toBeA('string');
    expect(actual.split(`\n`).join(`|`)).toEqual(expected);
  });
@@ -181,8 +181,8 @@ describe(`core::jsons2csv`, () => {
    let fixtures =[{X:'12', Y:'bb'}, {Y:'ee', X:'55'}]
    const headers = ['Y', 'X', 'Z'];
    const actual = jsons2csv(fixtures, headers);
-   expect(actual.startsWith(headers.join(`,`))).toBeTruthy();
-   expect(actual.endsWith(`ee,55,`)).toBeTruthy();
+   expect(actual.startsWith(`"Y","X","Z"`)).toBeTruthy();
+   expect(actual.endsWith(`"ee","55",""`)).toBeTruthy();
 
  });
 
@@ -199,7 +199,7 @@ describe(`core::string2csv`, () =>{
 
   it(`prepends headers at the top of input`, () => {
     const headers =[`X`, `Y`];
-    expect(string2csv(fixtures, headers)).toEqual(`${headers.join(`,`)}\n${fixtures}`);
+    expect(string2csv(fixtures, headers)).toEqual(`X,Y\n${fixtures}`);
   });
 });
 

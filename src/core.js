@@ -19,7 +19,7 @@ export const jsons2arrays = (jsons, headers) => {
 };
 
 export const joiner = ((data,separator = ',') =>
- data.map((row, index) => row.join(separator)).join(`\n`)
+ data.map((row, index) => row.map((element) => "\"" + element + "\"").join(separator)).join(`\n`)
 );
 
 export const arrays2csv = ((data, headers, separator) =>
