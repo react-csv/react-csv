@@ -12,10 +12,9 @@ export const jsonsHeaders = ((array) => Array.from(
 ));
 
 export const jsons2arrays = (jsons, headers) => {
- headers = headers || jsonsHeaders(jsons);
- return [headers, ...jsons.map((object) =>
-  headers.map((header) =>
-   object[header] ? object[header] : ''))]
+  headers = headers || jsonsHeaders(jsons);
+  const data = jsons.map((object) => headers.map((header) => (header in object) ? object[header] : ''));
+  return [headers, ...data];
 };
 
 export const joiner = ((data,separator = ',') =>
