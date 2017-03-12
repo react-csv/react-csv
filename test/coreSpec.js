@@ -100,7 +100,7 @@ describe(`core::jsons2arrays`, () => {
       sport: '97'
     }, {
       maths: '77',
-      sport: '99'
+      sport: 0
     }]
   });
   it(`converts an Array of literal objects to Array of arrays`, () => {
@@ -109,7 +109,7 @@ describe(`core::jsons2arrays`, () => {
       ['maths', 'sport'],
       ['90', ''],
       ['', '97'],
-      ['77', '99']
+      ['77', 0]
     ];
     expect(actual).toEqual(expected);
   });
@@ -117,7 +117,7 @@ describe(`core::jsons2arrays`, () => {
   it(`converts to Array of arrays following the order of headers`, () => {
     const actual = jsons2arrays(fixtures, ['sport', 'maths']);
     const expected = [
-      ['maths', 'sport'].reverse(), ['90', ''].reverse(), ['', '97'].reverse(), ['77', '99'].reverse()
+      ['maths', 'sport'].reverse(), ['90', ''].reverse(), ['', '97'].reverse(), ['77', 0].reverse()
     ];
     expect(actual).toEqual(expected);
   });
@@ -127,7 +127,7 @@ describe(`core::jsons2arrays`, () => {
     const expected = [
       headers, ['90', '', '', ''],
       ['', '97', '', ''],
-      ['77', '99', '', '']
+      ['77', 0, '', '']
     ];
     expect(actual).toEqual(expected);
   });
