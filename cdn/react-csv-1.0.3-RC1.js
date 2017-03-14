@@ -217,7 +217,9 @@ var toCSV = exports.toCSV = function toCSV(data, headers, separator) {
 };
 
 var buildURI = exports.buildURI = function buildURI(data, headers, separator) {
-  return encodeURI('data:text/csv;charset=utf-8,' + toCSV(data, headers, separator));
+  var link = window.document.createElement("a");
+  link.setAttribute("href","data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(toCSV(data, headers, separator)))
+  return link;
 };
 },{}],5:[function(require,module,exports){
 'use strict';
