@@ -8,8 +8,24 @@ const data = [
 ];
 <CSVDownload data={data} />
 ```
-## Note:
-> We avoid to make live examples for `CSVDownload` component, since mounting
-> this component triggers the download directly.
 
-> Please, check the next component since you can test it directly.
+Another example of `CSVDownload`
+
+```example
+const headers  = ['firstname', 'lastname', 'email'] ;
+const data = [
+  ['Ahmed', 'Tomi' , 'ah@smthing.co.com'] ,
+  ['Raed', 'Labes' , 'rl@smthing.co.com'] ,
+  ['Yezzi','Min l3b', 'ymin@cocococo.com']
+];
+const iWantToDownload = false; // <--- double click on "false", and change it to "true"
+if (iWantToDownload) {
+   <CSVDownload data={data} headers={headers} />  
+} else {
+   <div>Click on "Show Code" below right, and try to change the value of "iWantToDownload" from "false" to true , then, a new window will be opened to trigger the download of CSV file</div>
+}
+
+```
+
+## Note:
+> This component triggers the download directly once it is mounted, So , be careful to choose the suitable time to mount it.
