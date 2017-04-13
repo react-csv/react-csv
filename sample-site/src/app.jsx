@@ -3,16 +3,16 @@ import {CSVLink, CSVDownload} from 'react-csv';
 import Table from './Table.jsx';
 
 const csvHeaders = [
-"Company","Contact","Country"
+"Company","جهة الإتصال ","王玉普"
 ]
 const csvData =[
   ['Alfreds Futterkiste'	,'Maria Anders',	'Germany'] ,
-  ['Rathath IT', 'Abdennour TM' , 'Tunisia'] ,
-  ['Laughing Bacchus Winecellars', 'Yoshi Tannamuri' , 'Canada'],
+  ['Rathath IT', 'Abdennour TM' , 'تونس'] ,
+  ['Sinopec', '王玉普' , '中国'],
   ['Auto1', 'Petter' , 'Germany'] ,
-  ['Estifeda', 'Yousri K' , 'Tunisia'] ,
-  ['Nine 10ᵗʰ', 'Amjed Idris' , 'Saudi Arabia'] ,
-  ['Tamkeen', 'Mohamed Alshibi' , 'Saudi Arabia'] ,
+  ['Estifeda', 'Yousri K' , 'تونس'] ,
+  ['Nine 10ᵗʰ', 'Amjed Idris' , 'المملكة العربية السعودية '] ,
+  ['Tamkeen', 'Mohamed Alshibi' , 'المملكة العربية السعودية'] ,
   ['Packet Publishing', 'David Become' , 'UK'] ,
   ['Software hourse', 'Soro' , 'Poland']
 ];

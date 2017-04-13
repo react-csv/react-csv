@@ -41,6 +41,6 @@ export const toCSV = (data, headers, separator) => {
 };
 
 export const buildURI = ((data, headers, separator) => encodeURI(
-  `data:text/csv;charset=utf-8,${toCSV(data, headers, separator)}`
+  `data:text/csv;charset=utf-8,\uFEFF,${toCSV(data, headers, separator)}`
  )
 );
