@@ -241,19 +241,19 @@ describe(`core::buildURI`, () =>{
   });
 
   it(`generates CSV string according to "separator"`, () => {
-    const prefixCsvURI= `data:text/csv;charset=utf-8,`;
+    const prefixCsvURI= `data:text/csv;charset=utf-8,\uFEFF,`;
     const expectedSepartorCount = fixtures.arrays.map(row => row.length -1).reduce((total, next) =>total + next, 0);
     let separator = ';';
-    let fullURI = buildURI(fixtures.arrays,null , separator);
+    let fullURI = buildURI(fixtures.arrays, null , separator);
 
     expect(
       fullURI.slice(prefixCsvURI.length).match(/;/g).length
     ).toEqual(expectedSepartorCount);
 
-    separator = ',';
-    fullURI = buildURI(fixtures.arrays,null , separator);
+    separator = ':'; // any separator
+    fullURI = buildURI(fixtures.arrays, null , separator);
     expect(
-      fullURI.slice(prefixCsvURI.length).match(/,/g).length
+      fullURI.slice(prefixCsvURI.length).match(/:/g).length
     ).toEqual(expectedSepartorCount);
 
   });
