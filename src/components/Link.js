@@ -29,14 +29,12 @@ class CSVLink extends React.Component {
   }
 
   render(){
-    const {children } = this.props;
+    const {data, headers, separator, filename, children , ...rest} = this.props;
     if (window.navigator.msSaveOrOpenBlob) {
       return (
         <a onClick={this.clickLink.bind(this)}>{children}</a>
       )
     }
-
-    const {data, headers, separator, filename, children , ...rest} = this.props;
 
     return (
       <a download={filename} {...rest}
