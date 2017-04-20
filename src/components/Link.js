@@ -1,5 +1,5 @@
 import React from 'react';
-import {buildURI} from '../core';
+import {buildURI, toCSV} from '../core';
 import {
    defaultProps as commonDefaultProps,
    propTypes as commonPropTypes} from '../metaProps';
@@ -22,8 +22,22 @@ class CSVLink extends React.Component {
     return buildURI(...arguments);
   }
 
-  render(){
+  clickLink() {
     const {data, headers, separator, filename, children , ...rest} = this.props;
+    let blob = new Blob(toCSV(data, headers, separator))
+    window.navigator.msSaveBlob(blob, filename)
+  }
+
+  render(){
+    const {children } = this.props;
+    if (window.navigator.msSaveOrOpenBlob) {
+      return (
+        <a onClick={this.clickLink.bind(this)}>{children}</a>
+      )
+    }
+
+    const {data, headers, separator, filename, children , ...rest} = this.props;
+
     return (
       <a download={filename} {...rest}
          href={this.buildURI(data, headers, separator)}>
