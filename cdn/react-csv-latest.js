@@ -128,8 +128,22 @@ var CSVLink = (_temp = _class = function (_React$Component) {
       return _core.buildURI.apply(undefined, arguments);
     }
   }, {
-    key: 'clickLink',
-    value: function clickLink() {
+    key: 'handleLegacy',
+    value: function handleLegacy(evt, data, headers, separator, filename) {
+      if (window.navigator.msSaveOrOpenBlob) {
+        evt.preventDefault();
+
+        var blob = new Blob([(0, _core.toCSV)(data, headers, separator)]);
+        window.navigator.msSaveBlob(blob, filename);
+
+        return false;
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
       var _props = this.props,
           data = _props.data,
           headers = _props.headers,
@@ -138,32 +152,13 @@ var CSVLink = (_temp = _class = function (_React$Component) {
           children = _props.children,
           rest = _objectWithoutProperties(_props, ['data', 'headers', 'separator', 'filename', 'children']);
 
-      var blob = new Blob([(0, _core.toCSV)(data, headers, separator)]);
-      window.navigator.msSaveBlob(blob, filename);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props2 = this.props,
-          data = _props2.data,
-          headers = _props2.headers,
-          separator = _props2.separator,
-          filename = _props2.filename,
-          children = _props2.children,
-          rest = _objectWithoutProperties(_props2, ['data', 'headers', 'separator', 'filename', 'children']);
-
-      if (window.navigator.msSaveOrOpenBlob) {
-        return _react2.default.createElement(
-          'a',
-          { onClick: this.clickLink.bind(this) },
-          children
-        );
-      }
-
       return _react2.default.createElement(
         'a',
         _extends({ download: filename }, rest, {
-          href: this.buildURI(data, headers, separator) }),
+          href: this.buildURI(data, headers, separator),
+          onClick: function onClick(evt) {
+            return _this2.handleLegacy(evt, data, headers, separator, filename);
+          } }),
         children
       );
     }

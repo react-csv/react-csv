@@ -22,23 +22,26 @@ class CSVLink extends React.Component {
     return buildURI(...arguments);
   }
 
-  clickLink() {
-    const {data, headers, separator, filename, children , ...rest} = this.props;
-    let blob = new Blob([toCSV(data, headers, separator)])
-    window.navigator.msSaveBlob(blob, filename)
+  handleLegacy(evt, data, headers, separator, filename) {
+    // If this browser is IE 11, it does not support the `download` attribute
+    if (window.navigator.msSaveOrOpenBlob) {
+      // Stop the click propigation
+      evt.preventDefault()
+
+      let blob = new Blob([toCSV(data, headers, separator)])
+      window.navigator.msSaveBlob(blob, filename)
+
+      return false
+    }
   }
 
   render(){
     const {data, headers, separator, filename, children , ...rest} = this.props;
-    if (window.navigator.msSaveOrOpenBlob) {
-      return (
-        <a onClick={this.clickLink.bind(this)}>{children}</a>
-      )
-    }
 
     return (
       <a download={filename} {...rest}
-         href={this.buildURI(data, headers, separator)}>
+        href={this.buildURI(data, headers, separator)}
+        onClick={evt => this.handleLegacy(evt, data, headers, separator, filename)}>
         {children}
       </a>
     )
