@@ -22,6 +22,9 @@ class CSVLink extends React.Component {
     return buildURI(...arguments);
   }
 
+  /**
+   * In IE11 this method will trigger the file download
+   */
   handleLegacy(evt, data, headers, separator, filename) {
     // If this browser is IE 11, it does not support the `download` attribute
     if (window.navigator.msSaveOrOpenBlob) {
