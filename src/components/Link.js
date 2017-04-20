@@ -24,7 +24,7 @@ class CSVLink extends React.Component {
 
   clickLink() {
     const {data, headers, separator, filename, children , ...rest} = this.props;
-    let blob = new Blob(toCSV(data, headers, separator))
+    let blob = new Blob([toCSV(data, headers, separator)])
     window.navigator.msSaveBlob(blob, filename)
   }
 
