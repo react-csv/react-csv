@@ -31,7 +31,7 @@ export const jsons2csv = ((data, headers, separator) =>
 
 export const string2csv = ((data, headers, separator) =>
   (headers) ? `${headers.join(separator)}\n${data}`: data
-)
+);
 
 export const toCSV = (data, headers, separator) => {
  if (isJsons(data)) return jsons2csv(data, headers, separator);
@@ -41,6 +41,6 @@ export const toCSV = (data, headers, separator) => {
 };
 
 export const buildURI = ((data, headers, separator) => encodeURI(
-  `data:text/csv;charset=utf-8,\uFEFF,${toCSV(data, headers, separator)}`
+  `data:text/csv;charset=utf-8,\uFEFF${toCSV(data, headers, separator)}`
  )
 );

@@ -44,7 +44,8 @@ class CSVLink extends React.Component {
     return (
       <a download={filename} {...rest}
         href={this.buildURI(data, headers, separator)}
-        onClick={evt => this.handleLegacy(evt, data, headers, separator, filename)}>
+        ref={link => (this.link = link)}
+	onClick={evt => this.handleLegacy(evt, data, headers, separator, filename)}>
         {children}
       </a>
     )
