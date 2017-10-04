@@ -192,9 +192,9 @@ For non-node developers, they have to use CDN version :
 
 - `npm start` runs the [`sample-site`](sample-site/)
 
-- `npm docgen` generates documentation in HTML output.
+- `npm run docgen` generates documentation in HTML output.
 
-- `npm cdn` generate a bundle to be used as CDN
+- `npm run cdn` generate a bundle to be used as CDN
 
 
 # Donation
