@@ -89,3 +89,17 @@ const headers =['Rando-🍌', 'Rando-🍑', 'Rando-🌺', 'Rando-🍀'];
 
 <CSVLink data={randomData} headers={headers}>Download with Headers </CSVLink>
 ```
+
+Suppress \uFEFF with prop
+
+```html
+const data = [
+  ['name', 'age'],
+  ['Ahmed', 12],
+  ['John', 8]
+];
+<CSVLink data={data} uFEFF={false}>Download without \uFEFF</CSVLink>
+```
+
+## Note:
+> the uFEFF prop defaults to true
