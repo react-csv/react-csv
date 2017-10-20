@@ -154,86 +154,97 @@ describe(`core::arrays2csv`, () => {
     const firstLineOfCSV = arrays2csv(fixtures, headers).split(`\n`)[0];
     expect(firstLineOfCSV).toEqual(`"X","Y"`);
   });
+  it(`escape double quote and comma for both data and header`, () => {
+    const actual = arrays2csv([[`"a,"`,`b"`]],['X,','"Y']);
+    expect(actual).toBeA('string');
+    expect(actual.split(`\n`).join(`|`)).toEqual(`"X",","""Y"|"""a",""","b"""`);
+  });
 });
 
 
 describe(`core::jsons2csv`, () => {
-      let fixtures;
-      beforeEach(() => {
-        fixtures = [{
-          X: '88',
-          Y: '97'
-        }, {
-          X: '77',
-          Y: '99'
-        }]
-      });
+  let fixtures;
+  beforeEach(() => {
+    fixtures = [{
+      X: '88',
+      Y: '97'
+    }, {
+      X: '77',
+      Y: '99'
+    }]
+  });
 
-      it(`converts Array of literal objects to string in CSV format including headers`, () => {
+  it(`converts Array of literal objects to string in CSV format including headers`, () => {
 
-            const actual = jsons2csv(fixtures);
-            const expectedHeaders = ['X', 'Y'];
-            const expected = `"X","Y"|"88","97"|"77","99"`;
-   expect(actual).toBeA('string');
-   expect(actual.split(`\n`).join(`|`)).toEqual(expected);
- });
- it(`renders CSV string according to order of given headers`, () => {
-   let fixtures =[{X:'12', Y:'bb'}, {Y:'ee', X:'55'}]
-   const headers = ['Y', 'X', 'Z'];
-   const actual = jsons2csv(fixtures, headers);
-   expect(actual.startsWith(`"Y","X","Z"`)).toBeTruthy();
-   expect(actual.endsWith(`"ee","55",""`)).toBeTruthy();
+    const actual = jsons2csv(fixtures);
+    const expectedHeaders = ['X', 'Y'];
+    const expected = `"X","Y"|"88","97"|"77","99"`;
+    expect(actual).toBeA('string');
+    expect(actual.split(`\n`).join(`|`)).toEqual(expected);
+  });
+  it(`renders CSV string according to order of given headers`, () => {
+    let fixtures = [{ X: '12', Y: 'bb' }, { Y: 'ee', X: '55' }]
+    const headers = ['Y', 'X', 'Z'];
+    const actual = jsons2csv(fixtures, headers);
+    expect(actual.startsWith(`"Y","X","Z"`)).toBeTruthy();
+    expect(actual.endsWith(`"ee","55",""`)).toBeTruthy();
 
- });
+  });
 
 });
 
-describe(`core::string2csv`, () =>{
+describe(`core::string2csv`, () => {
   let fixtures;
   beforeEach(() => {
-   fixtures = `33,44\n55,66`;
+    fixtures = `33,44\n55,66`;
   });
   it(`returns the same string if no header given`, () => {
     expect(string2csv(fixtures)).toEqual(fixtures);
-   });
+  });
 
   it(`prepends headers at the top of input`, () => {
-    const headers =[`X`, `Y`];
+    const headers = [`X`, `Y`];
     expect(string2csv(fixtures, headers)).toEqual(`X,Y\n${fixtures}`);
   });
 });
 
-describe(`core::toCSV`, () =>{
+describe(`core::toCSV`, () => {
   let fixtures;
   beforeEach(() => {
-   fixtures = {string:'Xy', arrays:[[],[]],jsons:[{}, {}]};
+    fixtures = { string: 'Xy', arrays: [
+        [],
+        []
+      ], jsons: [{}, {}] };
   });
   it(`requires one argument at least`, () => {
-     expect(() => toCSV()).toThrow();
-   });
+    expect(() => toCSV()).toThrow();
+  });
 
-   it(`accepts data as "Array" of jsons `, () => {
-      expect(() => toCSV(fixtures.jsons)).toNotThrow();
-   });
+  it(`accepts data as "Array" of jsons `, () => {
+    expect(() => toCSV(fixtures.jsons)).toNotThrow();
+  });
 
-   it(`accepts data as "Array" of arrays `, () => {
-      expect(() => toCSV(fixtures.arrays)).toNotThrow();
-   });
+  it(`accepts data as "Array" of arrays `, () => {
+    expect(() => toCSV(fixtures.arrays)).toNotThrow();
+  });
 
-   it(`accepts data as "string" `, () => {
-      expect(() => toCSV(fixtures.string)).toNotThrow();
-   });
+  it(`accepts data as "string" `, () => {
+    expect(() => toCSV(fixtures.string)).toNotThrow();
+  });
 
 });
 
-describe(`core::buildURI`, () =>{
+describe(`core::buildURI`, () => {
   let fixtures;
   beforeEach(() => {
-   fixtures = {string:'Xy', arrays:[['a', 'b'],['c', 'd']],jsons:[{}, {}]};
+    fixtures = { string: 'Xy', arrays: [
+        ['a', 'b'],
+        ['c', 'd']
+      ], jsons: [{}, {}] };
   });
 
-  it(`generates URI to download data in CSV format`,() => {
-    const prefixCsvURI= `data:text/csv;`;
+  it(`generates URI to download data in CSV format`, () => {
+    const prefixCsvURI = `data:text/csv;`;
     expect(buildURI(fixtures.jsons).startsWith(prefixCsvURI)).toBeTruthy();
     expect(buildURI(fixtures.arrays).startsWith(prefixCsvURI)).toBeTruthy();
     expect(buildURI(fixtures.string).startsWith(prefixCsvURI)).toBeTruthy();
@@ -241,17 +252,18 @@ describe(`core::buildURI`, () =>{
   });
 
   it(`generates CSV string according to "separator"`, () => {
-    const prefixCsvURI= `data:text/csv;charset=utf-8,\uFEFF,`;
-    const expectedSepartorCount = fixtures.arrays.map(row => row.length -1).reduce((total, next) =>total + next, 0);
+    const prefixCsvURI = `data:text/csv;charset=utf-8,\uFEFF,`;
+    const expectedSepartorCount = fixtures.arrays.map(row => row.length - 1).reduce((total, next) =>
+      total + next, 0);
     let separator = ';';
-    let fullURI = buildURI(fixtures.arrays, null , separator);
+    let fullURI = buildURI(fixtures.arrays, null, separator);
 
     expect(
       fullURI.slice(prefixCsvURI.length).match(/;/g).length
     ).toEqual(expectedSepartorCount);
 
     separator = ':'; // any separator
-    fullURI = buildURI(fixtures.arrays, null , separator);
+    fullURI = buildURI(fixtures.arrays, null, separator);
     expect(
       fullURI.slice(prefixCsvURI.length).match(/:/g).length
     ).toEqual(expectedSepartorCount);
