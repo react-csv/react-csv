@@ -154,6 +154,12 @@ describe(`core::arrays2csv`, () => {
     const firstLineOfCSV = arrays2csv(fixtures, headers).split(`\n`)[0];
     expect(firstLineOfCSV).toEqual(`"X","Y"`);
   });
+
+  it(`escape double quote and comma for both data and header`, () => {
+    const actual = arrays2csv([[`"a,"`,`b"`]],['X,','"Y']);
+    expect(actual).toBeA('string');
+    expect(actual.split(`\n`).join(`|`)).toEqual(`"X",","""Y"|"""a",""","b"""`);
+  });
 });
 
 
