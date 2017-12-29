@@ -42,8 +42,8 @@ export const toCSV = (data, headers, separator) => {
 
 export const buildURI = ((data, headers, separator) => {
  var ua = navigator.userAgent.toLowerCase(); // https://github.com/abdennour/react-csv/issues/24
-  if (ua.indexOf('safari') != -1 && ua.indexOf('chrome') == -1) {// Safari 
-   encodeURI(`data:application/csv;charset=utf-8,\uFEFF${toCSV(data, headers, separator)}`);
-  }
- encodeURI(`data:text/csv;charset=utf-8,\uFEFF${toCSV(data, headers, separator)}`)；
+ if (ua.indexOf('safari') != -1 && ua.indexOf('chrome') == -1) {// Safari 
+  encodeURI(`data:application/csv;charset=utf-8,\uFEFF${toCSV(data, headers, separator)}`);
+ }
+ encodeURI(`data:text/csv;charset=utf-8,\uFEFF${toCSV(data, headers, separator)}`);
 });
