@@ -48,7 +48,7 @@ describe('CSVLink', () => {
    it(`assigns a download filename`, () => {
      const filename= "persons.csv";
      const wrapper = mount( <CSVLink {...minProps} filename={filename} > here </CSVLink>);
-     expect(wrapper.find('a').get(0).getAttribute('download')).toEqual(filename);  
+     expect(wrapper.find('a').get(0).getAttribute('download')).toEqual(filename);
    });
 
     it(`renders anchor tag`, () => {
