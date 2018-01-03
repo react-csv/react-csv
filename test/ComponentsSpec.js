@@ -81,7 +81,13 @@ describe('CSVLink', () => {
       const actualAnchorAttrs =getAttrs(wrapper.find(`a`).get(0));
      expect(actualAnchorAttrs).toInclude(extraProps);
 
-     })
+    })
+    
+    it(`generates "onClick" event for IE11 support`, () => {
+      const wrapper = shallow( <CSVLink {...minProps}> here </CSVLink>);
+      wrapper.find(`a`).simulate(`click`, { preventDefault() {}})
+      expect(wrapper.find(`a`).get(0).props).toContainKey('onClick');
+    });
 
    });
 
