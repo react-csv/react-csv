@@ -13,8 +13,17 @@ export const jsonsHeaders = ((array) => Array.from(
 
 export const jsons2arrays = (jsons, headers) => {
   headers = headers || jsonsHeaders(jsons);
-  const data = jsons.map((object) => headers.map((header) => (header in object) ? object[header] : ''));
-  return [headers, ...data];
+
+  // allow headers to have custom labels, defaulting to having the header data key be the label
+  let headerLabels = headers;
+  let headerKeys = headers;
+  if (isJsons(headers)) {
+    headerLabels = headers.map((header) => header.label);
+    headerKeys = headers.map((header) => header.key);
+  }
+
+  const data = jsons.map((object) => headerKeys.map((header) => (header in object) ? object[header] : ''));
+  return [headerLabels, ...data];
 };
 
 export const joiner = ((data,separator = ',') =>
@@ -40,7 +49,7 @@ export const toCSV = (data, headers, separator) => {
  throw new TypeError(`Data should be a "String", "Array of arrays" OR "Array of objects" `);
 };
 
-export const buildURI = ((data, headers, separator) => encodeURI(
-  `data:text/csv;charset=utf-8,\uFEFF${toCSV(data, headers, separator)}`
+export const buildURI = ((data, uFEFF, headers, separator) => encodeURI(
+  `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${toCSV(data, headers, separator)}`
  )
 );

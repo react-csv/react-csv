@@ -158,25 +158,27 @@ describe(`core::arrays2csv`, () => {
 
 
 describe(`core::jsons2csv`, () => {
-      let fixtures;
-      beforeEach(() => {
-        fixtures = [{
-          X: '88',
-          Y: '97'
-        }, {
-          X: '77',
-          Y: '99'
-        }]
-      });
+  let fixtures;
 
-      it(`converts Array of literal objects to string in CSV format including headers`, () => {
+  beforeEach(() => {
+    fixtures = [{
+      X: '88',
+      Y: '97'
+    }, {
+      X: '77',
+      Y: '99'
+    }]
+  });
 
-            const actual = jsons2csv(fixtures);
-            const expectedHeaders = ['X', 'Y'];
-            const expected = `"X","Y"|"88","97"|"77","99"`;
-   expect(actual).toBeA('string');
-   expect(actual.split(`\n`).join(`|`)).toEqual(expected);
- });
+  it(`converts Array of literal objects to string in CSV format including headers`, () => {
+    const actual = jsons2csv(fixtures);
+    const expectedHeaders = ['X', 'Y'];
+    const expected = `"X","Y"|"88","97"|"77","99"`;
+
+    expect(actual).toBeA('string');
+    expect(actual.split(`\n`).join(`|`)).toEqual(expected);
+  });
+
  it(`renders CSV string according to order of given headers`, () => {
    let fixtures =[{X:'12', Y:'bb'}, {Y:'ee', X:'55'}]
    const headers = ['Y', 'X', 'Z'];
@@ -185,6 +187,19 @@ describe(`core::jsons2csv`, () => {
    expect(actual.endsWith(`"ee","55",""`)).toBeTruthy();
 
  });
+
+  it(`converts Array of literal objects to string in CSV format including custom header labels`, () => {
+    const customHeaders = [
+      {label: 'Letter X', key: 'X'},
+      {label: 'Letter Y', key: 'Y'}
+    ];
+
+    const actual = jsons2csv(fixtures, customHeaders);
+
+    expect(actual).toBeA('string');
+    expect(actual.startsWith(`"Letter X","Letter Y"`)).toBeTruthy();
+    expect(actual.endsWith(`"77","99"`)).toBeTruthy();
+  });
 
 });
 
@@ -234,7 +249,7 @@ describe(`core::buildURI`, () =>{
 
   it(`generates URI to download data in CSV format`,() => {
     const prefixCsvURI= `data:text/csv;`;
-    expect(buildURI(fixtures.jsons).startsWith(prefixCsvURI)).toBeTruthy();
+    expect(buildURI(fixtures.jsons, false).startsWith(prefixCsvURI)).toBeTruthy();
     expect(buildURI(fixtures.arrays).startsWith(prefixCsvURI)).toBeTruthy();
     expect(buildURI(fixtures.string).startsWith(prefixCsvURI)).toBeTruthy();
 
@@ -244,14 +259,14 @@ describe(`core::buildURI`, () =>{
     const prefixCsvURI= `data:text/csv;charset=utf-8,\uFEFF,`;
     const expectedSepartorCount = fixtures.arrays.map(row => row.length -1).reduce((total, next) =>total + next, 0);
     let separator = ';';
-    let fullURI = buildURI(fixtures.arrays, null , separator);
+    let fullURI = buildURI(fixtures.arrays, true, null , separator);
 
     expect(
       fullURI.slice(prefixCsvURI.length).match(/;/g).length
     ).toEqual(expectedSepartorCount);
 
     separator = ':'; // any separator
-    fullURI = buildURI(fixtures.arrays, null , separator);
+    fullURI = buildURI(fixtures.arrays, true, null, separator);
     expect(
       fullURI.slice(prefixCsvURI.length).match(/:/g).length
     ).toEqual(expectedSepartorCount);

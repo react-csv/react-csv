@@ -94,7 +94,8 @@ describe('CSVLink', () => {
        ['X', 'Y'],
        ['1', '2'],
        ['3', '4']
-      ]
+      ],
+      uFEFF: true
      };
      manyProps= Object.assign(minProps, {
       target: '_blank',
@@ -119,7 +120,7 @@ describe('CSVLink', () => {
          focus: ()=> {}
        });
        const wrapper = mount( <CSVDownload {...manyProps} />);
-       expect(openCallback.calledWith(buildURI(manyProps.data), manyProps.target, manyProps.specs, manyProps.replace)).toBeTruthy();
+       expect(openCallback.calledWith(buildURI(manyProps.data, manyProps.uFEFF), manyProps.target, manyProps.specs, manyProps.replace)).toBeTruthy();
        expect(openCallback.calledOnce).toBeTruthy();
        openCallback.restore();
       });

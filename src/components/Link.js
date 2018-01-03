@@ -28,7 +28,7 @@ class CSVLink extends React.Component {
   handleLegacy(evt, data, headers, separator, filename) {
     // If this browser is IE 11, it does not support the `download` attribute
     if (window.navigator.msSaveOrOpenBlob) {
-      // Stop the click propigation
+      // Stop the click propagation
       evt.preventDefault()
 
       let blob = new Blob([toCSV(data, headers, separator)])
@@ -39,13 +39,12 @@ class CSVLink extends React.Component {
   }
 
   render(){
-    const {data, headers, separator, filename, children , ...rest} = this.props;
-
+    const {data, headers, separator, filename, uFEFF, children , ...rest} = this.props;
     return (
       <a download={filename} {...rest}
-        href={this.buildURI(data, headers, separator)}
-        ref={link => (this.link = link)}
-	onClick={evt => this.handleLegacy(evt, data, headers, separator, filename)}>
+         ref={link => (this.link = link)}
+         href={this.buildURI(data, uFEFF, headers, separator)}
+         onClick={evt => this.handleLegacy(evt, data, headers, separator, filename)}>
         {children}
       </a>
     )
