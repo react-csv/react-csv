@@ -249,7 +249,7 @@ describe(`core::buildURI`, () =>{
 
   it(`generates URI to download data in CSV format`,() => {
     const prefixCsvURI= `data:text/csv;`;
-    expect(buildURI(fixtures.jsons).startsWith(prefixCsvURI)).toBeTruthy();
+    expect(buildURI(fixtures.jsons, false).startsWith(prefixCsvURI)).toBeTruthy();
     expect(buildURI(fixtures.arrays).startsWith(prefixCsvURI)).toBeTruthy();
     expect(buildURI(fixtures.string).startsWith(prefixCsvURI)).toBeTruthy();
 
@@ -259,14 +259,14 @@ describe(`core::buildURI`, () =>{
     const prefixCsvURI= `data:text/csv;charset=utf-8,\uFEFF,`;
     const expectedSepartorCount = fixtures.arrays.map(row => row.length -1).reduce((total, next) =>total + next, 0);
     let separator = ';';
-    let fullURI = buildURI(fixtures.arrays, null , separator);
+    let fullURI = buildURI(fixtures.arrays, true, null , separator);
 
     expect(
       fullURI.slice(prefixCsvURI.length).match(/;/g).length
     ).toEqual(expectedSepartorCount);
 
     separator = ':'; // any separator
-    fullURI = buildURI(fixtures.arrays, null , separator);
+    fullURI = buildURI(fixtures.arrays, true, null, separator);
     expect(
       fullURI.slice(prefixCsvURI.length).match(/:/g).length
     ).toEqual(expectedSepartorCount);

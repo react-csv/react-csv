@@ -49,7 +49,7 @@ export const toCSV = (data, headers, separator) => {
  throw new TypeError(`Data should be a "String", "Array of arrays" OR "Array of objects" `);
 };
 
-export const buildURI = ((data, headers, separator) => encodeURI(
-  `data:text/csv;charset=utf-8,\uFEFF${toCSV(data, headers, separator)}`
+export const buildURI = ((data, uFEFF, headers, separator) => encodeURI(
+  `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${toCSV(data, headers, separator)}`
  )
 );

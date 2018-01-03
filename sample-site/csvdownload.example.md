@@ -29,3 +29,17 @@ if (iWantToDownload) {
 
 ## Note:
 > This component triggers the download directly once it is mounted, So , be careful to choose the suitable time to mount it.
+
+Suppress \uFEFF with prop
+
+```html
+const data = [
+  ['name', 'age'],
+  ['Ahmed', 12],
+  ['John', 8]
+];
+<CSVDownload data={data} uFEFF={ false } />
+```
+
+## Note:
+> the uFEFF prop defaults to true
