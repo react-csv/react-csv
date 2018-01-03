@@ -22,7 +22,21 @@ const data = [
 <CSVLink data={data} >Click here to download CSV file</CSVLink>
 ```
 
+**Custom Headers** for "Array of literal (json) objects" :
+```
+const headers = [
+  { label: 'First Name', key: 'firstname'},
+  { label: 'Last Name', key: 'lastname'},
+  { label: 'Email Address', key: 'email'},
+];
 
+const data = [
+  {firstname: 'Ahmed', lastname: 'Tomi' , email: 'ah@smthing.co.com'},
+  {firstname:'Raed', lastname:'Labes' , email:'rl@smthing.co.com'} ,
+  {firstname:'Yezzi', lastname:'Min l3b', email:'ymin@cocococo.com'}
+];
+<CSVLink data={data} headers={headers}>Download with custom headers</CSVLink>
+```
 
 Add styling to your link via **style props** or **className props** :
 
@@ -89,3 +103,17 @@ const headers =['Rando-🍌', 'Rando-🍑', 'Rando-🌺', 'Rando-🍀'];
 
 <CSVLink data={randomData} headers={headers}>Download with Headers </CSVLink>
 ```
+
+Suppress \uFEFF with prop
+
+```html
+const data = [
+  ['name', 'age'],
+  ['Ahmed', 12],
+  ['John', 8]
+];
+<CSVLink data={data} uFEFF={false}>Download without \uFEFF</CSVLink>
+```
+
+## Note:
+> the uFEFF prop defaults to true

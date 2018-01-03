@@ -100,6 +100,35 @@ data = json2csv(arrayOfLiteralObjects);
 >  - The meaning of headers with data of type `Array` is to order fields AND prepend those headers at the top of CSV content.
 >  - The meaning of headers  with data of type `String` data is only  prepending those headers as the first line of CSV content.
 
+##### Custom Header Labels
+ Custom header labels can be used when converting data of type `Object` to CSV by having the header array itself be an array of literal objects of the form:
+ ```js
+{ label: /* Label to display at the top of the CSV */, key: /* Key to the data */ }
+ ```
+If the header array is an array of strings, the header labels will be the same as the keys used to index the data objects.
+
+ Example:
+
+```js
+import {CSVLink} from 'react-csv';
+
+headers = [
+  {label: 'First Name', key: 'firstname'},
+  {label: 'Last Name', key: 'lastname'},
+  {label: 'Email', key: 'email'},
+];
+
+data = [
+  {firstname: 'Ahmed', lastname: 'Tomi' , email: 'ah@smthing.co.com'},
+  {firstname:'Raed', lastname:'Labes' , email:'rl@smthing.co.com'} ,
+  {firstname:'Yezzi', lastname:'Min l3b', email:'ymin@cocococo.com'}
+];
+
+<CSVLink data={data} headers={headers}>
+    Download me
+</CSVLink>
+```
+
 
 ### - **separator** Props:
 
@@ -192,9 +221,9 @@ For non-node developers, they have to use CDN version :
 
 - `npm start` runs the [`sample-site`](sample-site/)
 
-- `npm docgen` generates documentation in HTML output.
+- `npm run docgen` generates documentation in HTML output.
 
-- `npm cdn` generate a bundle to be used as CDN
+- `npm run cdn` generate a bundle to be used as CDN
 
 
 # Donation

@@ -58,11 +58,12 @@ var CSVDownload = (_temp = _class = function (_React$Component) {
           data = _props.data,
           headers = _props.headers,
           separator = _props.separator,
+          uFEFF = _props.uFEFF,
           target = _props.target,
           specs = _props.specs,
           replace = _props.replace;
 
-      this.state.page = window.open(this.buildURI(data, headers, separator), target, specs, replace);
+      this.state.page = window.open(this.buildURI(data, headers, separator, uFEFF), target, specs, replace);
     }
   }, {
     key: 'getWindow',
@@ -128,18 +129,6 @@ var CSVLink = (_temp = _class = function (_React$Component) {
       return _core.buildURI.apply(undefined, arguments);
     }
   }, {
-    key: 'handleLegacy',
-    value: function handleLegacy(evt, data, headers, separator, filename) {
-      if (window.navigator.msSaveOrOpenBlob) {
-        evt.preventDefault();
-
-        var blob = new Blob([(0, _core.toCSV)(data, headers, separator)]);
-        window.navigator.msSaveBlob(blob, filename);
-
-        return false;
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -149,19 +138,17 @@ var CSVLink = (_temp = _class = function (_React$Component) {
           headers = _props.headers,
           separator = _props.separator,
           filename = _props.filename,
+          uFEFF = _props.uFEFF,
           children = _props.children,
-          rest = _objectWithoutProperties(_props, ['data', 'headers', 'separator', 'filename', 'children']);
+          rest = _objectWithoutProperties(_props, ['data', 'headers', 'separator', 'filename', 'uFEFF', 'children']);
 
       return _react2.default.createElement(
         'a',
         _extends({ download: filename }, rest, {
-          href: this.buildURI(data, headers, separator),
           ref: function ref(link) {
             return _this2.link = link;
           },
-          onClick: function onClick(evt) {
-            return _this2.handleLegacy(evt, data, headers, separator, filename);
-          } }),
+          href: this.buildURI(data, headers, separator, uFEFF) }),
         children
       );
     }
@@ -239,8 +226,8 @@ var toCSV = exports.toCSV = function toCSV(data, headers, separator) {
   throw new TypeError('Data should be a "String", "Array of arrays" OR "Array of objects" ');
 };
 
-var buildURI = exports.buildURI = function buildURI(data, headers, separator) {
-  return encodeURI('data:text/csv;charset=utf-8,\uFEFF' + toCSV(data, headers, separator));
+var buildURI = exports.buildURI = function buildURI(data, headers, separator, uFEFF) {
+  return encodeURI('data:text/csv;charset=utf-8,' + (uFEFF ? '\uFEFF' : '') + toCSV(data, headers, separator));
 };
 },{}],5:[function(require,module,exports){
 'use strict';
@@ -283,12 +270,14 @@ var propTypes = exports.propTypes = {
   headers: _propTypes.array,
   target: _propTypes.string,
   separator: _propTypes.string,
-  filename: _propTypes.string
+  filename: _propTypes.string,
+  uFEFF: _propTypes.bool
 };
 
 var defaultProps = exports.defaultProps = {
   separator: ',',
-  filename: 'generatedBy_react-csv.csv'
+  filename: 'generatedBy_react-csv.csv',
+  uFEFF: true
 };
 
 var PropsNotForwarded = exports.PropsNotForwarded = ['data', 'headers'];
