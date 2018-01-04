@@ -1,6 +1,6 @@
 {
   "name": "react-csv",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Build CSV files on the fly basing on Array/literal object of data ",
   "main": "index.js",
   "jsnext:main": "src/index.js",
@@ -33,7 +33,8 @@
     "component",
     "reuse",
     "ES7",
-    "babel"
+    "babel",
+    "IE11"
   ],
   "author": "Abdennour TOUMI <http://abdennoor.com>",
   "license": "MIT",
