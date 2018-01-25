@@ -49,7 +49,13 @@ export const toCSV = (data, headers, separator) => {
  throw new TypeError(`Data should be a "String", "Array of arrays" OR "Array of objects" `);
 };
 
+// Thanks StackOverflow: https://stackoverflow.com/questions/29166479/encoding-special-characters-to-base64-in-javascript-and-decoding-using-base64-de
+// MDN Article: https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+const b64EncodeUnicode = (str) => btoa(
+  encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1))
+);
+
 export const buildURI = ((data, uFEFF, headers, separator) => encodeURI(
-  `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${toCSV(data, headers, separator)}`
+  `data:text/csv;charset=utf-8;base64,${b64EncodeUnicode(`${uFEFF ? '\uFEFF' : ''}${toCSV(data, headers, separator)}`)}`
  )
 );
