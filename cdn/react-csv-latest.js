@@ -80,21 +80,15 @@
           };
         })();
 
-        var _react = require("react");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
         var _react2 = _interopRequireDefault(_react);
 
         var _index = require("../index");
 
-        function _interopRequireDefault(obj) {
-          return obj && obj.__esModule ? obj : { default: obj };
-        }
-
-        function _classCallCheck(instance, Constructor) {
-          if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-          }
-        }
+var _index = require('../index');
 
         function _possibleConstructorReturn(self, call) {
           if (!self) {
@@ -138,90 +132,33 @@
           function CSVDownload() {
             _classCallCheck(this, CSVDownload);
 
-            return _possibleConstructorReturn(
-              this,
-              (
-                CSVDownload.__proto__ || Object.getPrototypeOf(CSVDownload)
-              ).apply(this, arguments)
-            );
-          }
+var CSVDownload = function (_React$Component) {
+  _inherits(CSVDownload, _React$Component);
 
-          _createClass(CSVDownload, [
-            {
-              key: "handleRef",
-              value: function handleRef(ref) {
-                ref.link.click();
-                ref.link.remove();
-              },
-            },
-            {
-              key: "render",
-              value: function render() {
-                return _react2.default.createElement(
-                  _index.CSVLink,
-                  _extends({ ref: this.handleRef }, this.props)
-                );
-              },
-            },
-          ]);
+  function CSVDownload() {
+    _classCallCheck(this, CSVDownload);
 
-          return CSVDownload;
-        })(_react2.default.Component);
+    return _possibleConstructorReturn(this, (CSVDownload.__proto__ || Object.getPrototypeOf(CSVDownload)).apply(this, arguments));
+  }
 
-        exports.default = CSVDownload;
-      },
-      { "../index": 5, react: 44 },
-    ],
-    3: [
-      function(require, module, exports) {
-        "use strict";
-
-        Object.defineProperty(exports, "__esModule", {
-          value: true,
-        });
-
-        var _extends =
-          Object.assign ||
-          function(target) {
-            for (var i = 1; i < arguments.length; i++) {
-              var source = arguments[i];
-              for (var key in source) {
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                  target[key] = source[key];
-                }
-              }
-            }
-            return target;
-          };
-
-        var _createClass = (function() {
-          function defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-              var descriptor = props[i];
-              descriptor.enumerable = descriptor.enumerable || false;
-              descriptor.configurable = true;
-              if ("value" in descriptor) descriptor.writable = true;
-              Object.defineProperty(target, descriptor.key, descriptor);
-            }
-          }
-          return function(Constructor, protoProps, staticProps) {
-            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) defineProperties(Constructor, staticProps);
-            return Constructor;
-          };
-        })();
-
-        var _react = require("react");
-
-        var _react2 = _interopRequireDefault(_react);
-
-        var _core = require("../core");
+  _createClass(CSVDownload, [{
+    key: 'handleRef',
+    value: function handleRef(ref) {
+      ref.link.click();
+      ref.link.remove();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(_index.CSVLink, _extends({ ref: this.handleRef }, this.props));
+    }
+  }]);
 
         var _metaProps = require("../metaProps");
 
-        function _interopRequireDefault(obj) {
-          return obj && obj.__esModule ? obj : { default: obj };
-        }
+exports.default = CSVDownload;
+},{"../index":5,"react":44}],3:[function(require,module,exports){
+'use strict';
 
         function _objectWithoutProperties(obj, keys) {
           var target = {};
