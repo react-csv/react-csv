@@ -51,5 +51,7 @@ export const toCSV = (data, headers, separator) => {
 
 export const buildURI = ((data, uFEFF, headers, separator) => {
   const blob = new Blob(['\uFEFF', toCSV(data, headers, separator)], {type: 'text/csv'});
+  // todo: check if window.URL.createObjectURL exists
+  // todo: mock it in tests to allow for effective testing (mock just returns a UUID)
   return window.URL.createObjectURL(blob);
 });
