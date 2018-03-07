@@ -51,12 +51,12 @@ export const toCSV = (data, headers, separator) => {
 
 export const buildURI = ((data, uFEFF, headers, separator) => {
   const csv = toCSV(data, headers, separator);
+  const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type: 'text/csv'});
+  const dataURI = `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
 
   const URL = window.URL || window.webkitURL;
-  if (!URL.createObjectURL) {
-    return `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
-  } else {
-    const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type: 'text/csv'});
-    return URL.createObjectURL(blob);
-  }
+
+  return (typeof URL.createObjectURL === 'undefined')
+    ? dataURI
+    : URL.createObjectURL(blob);
 });
