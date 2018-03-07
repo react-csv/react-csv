@@ -51,7 +51,14 @@ export const toCSV = (data, headers, separator) => {
  throw new TypeError(`Data should be a "String", "Array of arrays" OR "Array of objects" `);
 };
 
-export const buildURI = ((data, uFEFF, headers, separator) => encodeURI(
-  `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${toCSV(data, headers, separator)}`
- )
-);
+export const buildURI = ((data, uFEFF, headers, separator) => {
+  const csv = toCSV(data, headers, separator);
+  const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type: 'text/csv'});
+  const dataURI = `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
+
+  const URL = window.URL || window.webkitURL;
+
+  return (typeof URL.createObjectURL === 'undefined')
+    ? dataURI
+    : URL.createObjectURL(blob);
+});
