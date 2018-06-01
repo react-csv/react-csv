@@ -18,28 +18,31 @@ export const jsonsHeaders = ((array) => Array.from(
  * @return {Object|Array}
  */
 export const escapeInCSV = (data) => {
+  let result = [];
+
+  const hasDoubleQuotes = (value) => typeof value === 'string' && value.includes('"');
   const escapeDoubleQuotes = (value) => value.replace(/"/g, '""');
-  // is array
+
+  // array of arrays
   if (Array.isArray(data)) {
-    data.forEach((row) => {
-      Array.isArray(row) && row.forEach((value, i) => {
-        if (typeof value === 'string' && value.includes('"')) {
-          row[i] = escapeDoubleQuotes(value);
-        }
+    data.map((row, i) => {
+      result[i] = row;
+      Array.isArray(row) && row.map((value, j) => {
+        result[i][j] = hasDoubleQuotes(value) ? escapeDoubleQuotes(value) : value;
       })
     });
   }
-  // is object
+
+  // object
   if (typeof data === 'object' && !(Array.isArray(data))) {
-    Object.keys(data).forEach((key) => {
+    result = {};
+    Object.keys(data).map((key) => {
       const value = data[key];
-      if (typeof value === 'string' && value.includes('"')) {
-        data[key] = escapeDoubleQuotes(value);
-      }
+      result[key] = hasDoubleQuotes(value) ? escapeDoubleQuotes(value) : value;
     });
   }
 
-  return data;
+  return result;
 }
 
 export const jsons2arrays = (jsons, headers) => {
