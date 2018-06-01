@@ -11,6 +11,37 @@ export const jsonsHeaders = ((array) => Array.from(
  .reduce((a, b) => new Set([...a, ...b]), [])
 ));
 
+/**
+ * Replace double quotes with preceding double quotes as per RFC-4180
+ * @link https://www.ietf.org/rfc/rfc4180.txt
+ * @param {Object|Array} data
+ * @return {Object|Array}
+ */
+export const escapeInCSV = (data) => {
+  const escapeDoubleQuotes = (value) => value.replace(/"/g, '""');
+  // is array
+  if (Array.isArray(data)) {
+    data.forEach((row) => {
+      Array.isArray(row) && row.forEach((value, i) => {
+        if (typeof value === 'string' && value.includes('"')) {
+          row[i] = escapeDoubleQuotes(value);
+        }
+      })
+    });
+  }
+  // is object
+  if (typeof data === 'object' && !(Array.isArray(data))) {
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
+      if (typeof value === 'string' && value.includes('"')) {
+        data[key] = escapeDoubleQuotes(value);
+      }
+    });
+  }
+
+  return data;
+}
+
 export const jsons2arrays = (jsons, headers) => {
   headers = headers || jsonsHeaders(jsons);
 
@@ -21,8 +52,10 @@ export const jsons2arrays = (jsons, headers) => {
     headerLabels = headers.map((header) => header.label);
     headerKeys = headers.map((header) => header.key);
   }
-
-  const data = jsons.map((object) => headerKeys.map((header) => (header in object) ? object[header] : ''));
+  const data = jsons.map((object) => {
+    const escapedObject = escapeInCSV(object)
+    return headerKeys.map((header) => (header in escapedObject) ? escapedObject[header] : '')
+  });
   return [headerLabels, ...data];
 };
 
@@ -32,9 +65,10 @@ export const joiner = ((data,separator = ',') =>
  data.map((row, index) => row.map((element) => "\"" + elementOrEmpty(element) + "\"").join(separator)).join(`\n`)
 );
 
-export const arrays2csv = ((data, headers, separator) =>
- joiner(headers ? [headers, ...data] : data, separator)
-);
+export const arrays2csv = ((data, headers, separator) => {
+  const escapedData = escapeInCSV(data)
+  return joiner(headers ? [headers, ...escapedData] : escapedData, separator)
+});
 
 export const jsons2csv = ((data, headers, separator) =>
  joiner(jsons2arrays(data, headers), separator)
