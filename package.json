@@ -63,7 +63,7 @@
     "jsdom-global": "2.1.0",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.2.0",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.9.0",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-docgen": "^2.13.0",
