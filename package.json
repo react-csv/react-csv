@@ -7,6 +7,7 @@
   "scripts": {
     "cdn": "node cdn/generator.js",
     "compile": "babel ./src --out-dir ./lib --no-comments",
+    "preinstall": "babel ./src --out-dir ./lib --no-comments",
     "prepublish": "npm run compile && npm run cdn",
     "pretest": "npm run compile",
     "test2": "node_modules/.bin/_mocha test",
