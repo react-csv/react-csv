@@ -1,4 +1,4 @@
-var _ = require('lodash');
+var _get = require('lodash/get');
 
 export const isJsons = ((array) => Array.isArray(array) && array.every(
  row => (typeof row === 'object' && !(row instanceof Array))
@@ -24,7 +24,7 @@ export const jsons2arrays = (jsons, headers) => {
     headerKeys = headers.map((header) => header.key);
   }
 
-  const data = jsons.map((object) => headerKeys.map((header) => _.get(object, header, '')));
+  const data = jsons.map((object) => headerKeys.map((header) => _get(object, header, '')));
   return [headerLabels, ...data];
 };
 
