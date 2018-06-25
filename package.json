@@ -6,7 +6,7 @@
   "jsnext:main": "src/index.js",
   "scripts": {
     "cdn": "node cdn/generator.js",
-    "compile": "babel -d lib/ src/ --no-comments",
+    "compile": "babel ./src --out-dir ./lib --no-comments",
     "prepublish": "npm run compile && npm run cdn",
     "pretest": "npm run compile",
     "test2": "node_modules/.bin/_mocha test",
