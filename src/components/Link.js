@@ -16,13 +16,19 @@ class CSVLink extends React.Component {
   constructor(props) {
     super(props);
     this.buildURI= this.buildURI.bind(this);
+    this.state = { href: '' };
+  }
+
+  componentDidMount() {
+    const {data, headers, separator, uFEFF} = this.props;
+    this.setState({ href: this.buildURI(data, uFEFF, headers, separator) })
   }
 
   buildURI() {
     return buildURI(...arguments);
   }
 
-/**
+  /**
    * In IE11 this method will trigger the file download
    */
   handleLegacy(evt, data, headers, separator, filename) {
@@ -40,10 +46,11 @@ class CSVLink extends React.Component {
 
   render(){
     const {data, headers, separator, filename, uFEFF, children , ...rest} = this.props;
+    const {href} = this.state;
     return (
       <a download={filename} {...rest}
          ref={link => (this.link = link)}
-         href={this.buildURI(data, uFEFF, headers, separator)}
+         href={href}
          onClick={evt => this.handleLegacy(evt, data, headers, separator, filename)}>
         {children}
       </a>
