@@ -1,9 +1,9 @@
-import React from 'react';
-import { buildURI, toCSV } from '../core';
+import React from "react";
+import { buildURI, toCSV } from "../core";
 import {
   defaultProps as commonDefaultProps,
-  propTypes as commonPropTypes
-} from '../metaProps';
+  propTypes as commonPropTypes,
+} from "../metaProps";
 
 /**
  *
@@ -67,7 +67,7 @@ class CSVLink extends React.Component {
 
   handleClick(...args) {
     return event => {
-      if (typeof this.props.onClick === 'function') {
+      if (typeof this.props.onClick === "function") {
         return this.props.asyncOnClick
           ? this.handleAsyncClick(event, ...args)
           : this.handleSyncClick(event, ...args);
