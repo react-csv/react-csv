@@ -1,6 +1,5 @@
-import React from 'react';
-import {string, array, oneOfType, bool} from 'prop-types';
-
+import React from "react";
+import { string, array, oneOfType, bool } from "prop-types";
 
 export const propTypes = {
   data: oneOfType([string, array]).isRequired,
@@ -8,19 +7,18 @@ export const propTypes = {
   target: string,
   separator: string,
   filename: string,
-  uFEFF: bool
+  uFEFF: bool,
+  newLine: string
 };
 
 export const defaultProps = {
-  separator: ',',
-  filename: 'generatedBy_react-csv.csv',
-  uFEFF: true
+  separator: ",",
+  filename: "generatedBy_react-csv.csv",
+  uFEFF: true,
+  newLine: `\n`
 };
 
-export const PropsNotForwarded = [
-  `data`,
-  `headers`
-];
+export const PropsNotForwarded = [`data`, `headers`];
 
 // export const DownloadPropTypes = Object.assign(
 //   {},
