@@ -50,6 +50,15 @@ describe('CSVLink', () => {
      const wrapper = mount( <CSVLink {...minProps} filename={filename} > here </CSVLink>);
      expect(wrapper.find('a').get(0).getAttribute('download')).toEqual(filename);  
    });
+   it(`has '\\n' as default new line `, () => {
+    const wrapper = mount(<CSVLink {...minProps}> Click here </CSVLink>);
+    expect(wrapper.props().newLine).toEqual(`\n`);
+    });
+    it(`has newLine props set to value sent `, () => {
+      const props = { ...minProps, ...{ newLine: `$` } };
+      const wrapper = mount(<CSVLink {...props}> Click here </CSVLink>);
+      expect(wrapper.props().newLine).toEqual(`$`);
+    });
 
     it(`renders anchor tag`, () => {
       const wrapper = shallow( <CSVLink {...minProps} > Click here </CSVLink>);

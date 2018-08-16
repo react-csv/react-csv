@@ -28,31 +28,31 @@ export const jsons2arrays = (jsons, headers) => {
 
 export const elementOrEmpty = (element) => element || element === 0 ? element : '';
 
-export const joiner = ((data,separator = ',') =>
- data.map((row, index) => row.map((element) => "\"" + elementOrEmpty(element) + "\"").join(separator)).join(`\n`)
+export const joiner = ((data,separator = ',',newLine=`\n`) =>
+ data.map((row, index) => row.map((element) => "\"" + elementOrEmpty(element) + "\"").join(separator)).join(newLine)
 );
 
-export const arrays2csv = ((data, headers, separator) =>
- joiner(headers ? [headers, ...data] : data, separator)
+export const arrays2csv = ((data, headers, separator,newLine) =>
+ joiner(headers ? [headers, ...data] : data, separator,newLine)
 );
 
-export const jsons2csv = ((data, headers, separator) =>
- joiner(jsons2arrays(data, headers), separator)
+export const jsons2csv = ((data, headers, separator,newLine) =>
+ joiner(jsons2arrays(data, headers), separator,newLine)
 );
 
-export const string2csv = ((data, headers, separator) =>
-  (headers) ? `${headers.join(separator)}\n${data}`: data
+export const string2csv = ((data, headers, separator,newLine=`\n`) =>
+  (headers) ? `${headers.join(separator)}${newLine}${data}`: data
 );
 
-export const toCSV = (data, headers, separator) => {
- if (isJsons(data)) return jsons2csv(data, headers, separator);
- if (isArrays(data)) return arrays2csv(data, headers, separator);
- if (typeof data ==='string') return string2csv(data, headers, separator);
+export const toCSV = (data, headers, separator,newLine) => {
+ if (isJsons(data)) return jsons2csv(data, headers, separator,newLine);
+ if (isArrays(data)) return arrays2csv(data, headers, separator,newLine);
+ if (typeof data ==='string') return string2csv(data, headers, separator,newLine);
  throw new TypeError(`Data should be a "String", "Array of arrays" OR "Array of objects" `);
 };
 
-export const buildURI = ((data, uFEFF, headers, separator) => {
-  const csv = toCSV(data, headers, separator);
+export const buildURI = ((data, uFEFF, headers, separator,newLine) => {
+  const csv = toCSV(data, headers, separator,newLine);
   const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type: 'text/csv'});
   const dataURI = `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
 

@@ -272,4 +272,15 @@ describe(`core::buildURI`, () =>{
     ).toEqual(expectedSepartorCount);
 
   });
+  it(`generates CSV string according to "newline character"`, () => {
+    const prefixCsvURI= `data:text/csv;charset=utf-8,\uFEFF,`;
+    const expectedNewLineCount = fixtures.arrays.length -1; //last row will not have newline ending
+    let separator = ',';
+    const newLine=':';
+    let fullURI = buildURI(fixtures.arrays, true, null , separator, newLine);
+
+    expect(
+      fullURI.slice(prefixCsvURI.length).match(/:/g).length
+    ).toEqual(expectedNewLineCount);
+  });
 });

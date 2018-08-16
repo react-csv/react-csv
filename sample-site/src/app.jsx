@@ -19,7 +19,9 @@ const csvData =[
 
 class App extends React.Component {
 
-  state= {};
+  state= {
+    newLine:`\n`
+  };
   getFileName() {
     if (!this.state.filename) return undefined;
     if (!this.state.filename.endsWith('.csv')) return this.state.filename + '.csv';
@@ -38,12 +40,16 @@ class App extends React.Component {
                   <input
                     onKeyUp={(e) => this.setState({filename: e.target.value})}
                     type="text" placeholder="File name"/>
+                    <input
+                    onKeyUp={(e) => {this.setState({newLine: e.target.value})}}
+                    type="text" placeholder='NewLine Character. Default:\n'/>
               </div>
               <div className="large-2 columns">
                   <CSVLink
                     headers={csvHeaders}
                     data={csvData}
                     filename={this.getFileName()}
+                    newLine={this.state.newLine}
                     className="btn">Export to CSV ⬇</CSVLink>
               </div>
           </div>
