@@ -8,13 +8,15 @@ export const propTypes = {
   target: string,
   separator: string,
   filename: string,
-  uFEFF: bool
+  uFEFF: bool,
+  newLine:string
 };
 
 export const defaultProps = {
   separator: ',',
   filename: 'generatedBy_react-csv.csv',
-  uFEFF: true
+  uFEFF: true,
+  newLine: `\n`
 };
 
 export const PropsNotForwarded = [

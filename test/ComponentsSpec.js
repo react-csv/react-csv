@@ -44,7 +44,16 @@ describe('CSVLink', () => {
      const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
      expect(wrapper.props().separator).toEqual(',');
    })
-
+   it(`has '\\n' as default new line `, () => {
+    const wrapper = mount(<CSVLink {...minProps}> Click here </CSVLink>);
+    expect(wrapper.props().newLine).toEqual(`\n`);
+  });
+  it(`has newLine props set to value sent `, () => {
+    const props = { ...minProps, ...{ newLine: `$` } };
+    const wrapper = mount(<CSVLink {...props}> Click here </CSVLink>);
+    expect(wrapper.props().newLine).toEqual(`$`);
+  });
+  
    it(`assigns a download filename`, () => {
      const filename= "persons.csv";
      const wrapper = mount( <CSVLink {...minProps} filename={filename} > here </CSVLink>);
