@@ -41,7 +41,7 @@ class App extends React.Component {
                     onKeyUp={(e) => this.setState({filename: e.target.value})}
                     type="text" placeholder="File name"/>
                     <input
-                    onKeyUp={(e) => {console.log(e.target.value);this.setState({newLine: e.target.value})}}
+                    onKeyUp={(e) => {this.setState({newLine: e.target.value})}}
                     type="text" placeholder='NewLine Character. Default:\n'/>
               </div>
               <div className="large-2 columns">
