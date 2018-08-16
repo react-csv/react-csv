@@ -80,7 +80,28 @@ Download <CSVLink data={data} separator={";"}>CSV ⬇</CSVLink>
 
 ```
 
+Set the new line for rows via **newLine props**:
+```example
 
+const data = [
+  ['firstname', 'lastname', 'email'] ,
+  ['Ahmed', 'Tomi' , 'ah@smthing.co.com'] ,
+  ['Raed', 'Labes' , 'rl@smthing.co.com'] ,
+  ['Yezzi','Min l3b', 'ymin@cocococo.com']
+];
+
+<span>
+Download <CSVLink data={data} newLine={`\r\n`} separator={";"}>CSV ⬇</CSVLink>
+</span>
+<span>
+Download <CSVLink data={data} newLine={`$`} separator={";"}>CSV ⬇</CSVLink>
+</span>
+
+```
+## Note:
+> the newLine props defaults to \n
+
+```
 Set the default **filename** of the downloaded CSV file :
 
 ```
