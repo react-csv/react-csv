@@ -174,6 +174,83 @@ import {CSVLink} from 'react-csv';
 
 ```
 
+### - **onClick** Props:
+`onClick` is another props restricted to `CSVLink`.
+
+If it is defined, it means 3 things:
+
+1 - It will run at the top of the click handling logic.
+2 - [Sync] If it returns an explicit `false`, the return will be interpreted  as a claim to stop the click handling, then, the next logic will not be executed if so.
+3 - [Async] If it is async, "done" argument must be called if you want to invoke the handling of the component. (check examples below)
+4 - [Async] If it is async (includes api call, timeout,... ) and it calls done with `false` will be interpreted  as a claim to stop the click handling, then, the next logic will not be executed if so.
+
+
+**examples**
+
+- 🔬 Sync + Proceed
+
+```js
+import {CSVLink} from 'react-csv';
+
+<CSVLink data={data}
+  onClick={() => {
+    console.log('You click the link') ; // 👍🏻 Your click handling logic
+  }}>
+    Download me
+</CSVLink>
+
+```
+
+- 🔬 Sync + Don't Proceed
+
+```js
+import {CSVLink} from 'react-csv';
+
+<CSVLink data={data}
+  onClick={(event) => {
+    console.log('You click the link') ;
+    return false;  // 👍🏻 You are stopping the handling of component
+  }}>
+    Download me
+</CSVLink>
+
+```
+
+- 🔬 ASync + Proceed
+
+```js
+import {CSVLink} from 'react-csv';
+
+<CSVLink data={data}
+  asyncOnClick={true}
+  onClick={(event, done) => {
+      axios.post('/spy/user').then(() => {
+        done(); // REQUIRED to invoke the logic of component
+      });
+  }}>
+    Download me
+</CSVLink>
+
+```
+
+- 🔬 Async + Don't Proceed
+
+```js
+import {CSVLink} from 'react-csv';
+
+<CSVLink data={data}
+  asyncOnClick={true}
+  onClick={(event, done) => {
+      axios.post('/spy/user').then(() => {
+        done(false); // Don't Proceed
+      });
+  }}>
+    Download me
+</CSVLink>
+
+```
+
+
 
 ## 2. CSVDownload Component:
 
