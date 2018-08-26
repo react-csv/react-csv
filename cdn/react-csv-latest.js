@@ -80,15 +80,21 @@
           };
         })();
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+        var _react = require("react");
 
         var _react2 = _interopRequireDefault(_react);
 
         var _index = require("../index");
 
-var _index = require('../index');
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
+
+        function _classCallCheck(instance, Constructor) {
+          if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+          }
+        }
 
         function _possibleConstructorReturn(self, call) {
           if (!self) {
@@ -132,33 +138,90 @@ var _index = require('../index');
           function CSVDownload() {
             _classCallCheck(this, CSVDownload);
 
-var CSVDownload = function (_React$Component) {
-  _inherits(CSVDownload, _React$Component);
+            return _possibleConstructorReturn(
+              this,
+              (
+                CSVDownload.__proto__ || Object.getPrototypeOf(CSVDownload)
+              ).apply(this, arguments)
+            );
+          }
 
-  function CSVDownload() {
-    _classCallCheck(this, CSVDownload);
+          _createClass(CSVDownload, [
+            {
+              key: "handleRef",
+              value: function handleRef(ref) {
+                ref.link.click();
+                ref.link.remove();
+              },
+            },
+            {
+              key: "render",
+              value: function render() {
+                return _react2.default.createElement(
+                  _index.CSVLink,
+                  _extends({ ref: this.handleRef }, this.props)
+                );
+              },
+            },
+          ]);
 
-    return _possibleConstructorReturn(this, (CSVDownload.__proto__ || Object.getPrototypeOf(CSVDownload)).apply(this, arguments));
-  }
+          return CSVDownload;
+        })(_react2.default.Component);
 
-  _createClass(CSVDownload, [{
-    key: 'handleRef',
-    value: function handleRef(ref) {
-      ref.link.click();
-      ref.link.remove();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(_index.CSVLink, _extends({ ref: this.handleRef }, this.props));
-    }
-  }]);
+        exports.default = CSVDownload;
+      },
+      { "../index": 5, react: 44 },
+    ],
+    3: [
+      function(require, module, exports) {
+        "use strict";
+
+        Object.defineProperty(exports, "__esModule", {
+          value: true,
+        });
+
+        var _extends =
+          Object.assign ||
+          function(target) {
+            for (var i = 1; i < arguments.length; i++) {
+              var source = arguments[i];
+              for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                  target[key] = source[key];
+                }
+              }
+            }
+            return target;
+          };
+
+        var _createClass = (function() {
+          function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+              var descriptor = props[i];
+              descriptor.enumerable = descriptor.enumerable || false;
+              descriptor.configurable = true;
+              if ("value" in descriptor) descriptor.writable = true;
+              Object.defineProperty(target, descriptor.key, descriptor);
+            }
+          }
+          return function(Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+          };
+        })();
+
+        var _react = require("react");
+
+        var _react2 = _interopRequireDefault(_react);
+
+        var _core = require("../core");
 
         var _metaProps = require("../metaProps");
 
-exports.default = CSVDownload;
-},{"../index":5,"react":44}],3:[function(require,module,exports){
-'use strict';
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
 
         function _objectWithoutProperties(obj, keys) {
           var target = {};
@@ -337,14 +400,8 @@ exports.default = CSVDownload;
                 return function(event) {
                   if (typeof _this3.props.onClick === "function") {
                     return _this3.props.asyncOnClick
-                      ? _this3.handleAsyncClick.apply(
-                          _this3,
-                          [event].concat(args)
-                        )
-                      : _this3.handleSyncClick.apply(
-                          _this3,
-                          [event].concat(args)
-                        );
+                      ? handleAsyncClick.apply(undefined, [event].concat(args))
+                      : handleSyncClick.apply(undefined, [event].concat(args));
                   }
                   _this3.handleLegacy.apply(_this3, [event].concat(args));
                 };
@@ -355,16 +412,15 @@ exports.default = CSVDownload;
               value: function render() {
                 var _this4 = this;
 
-                var _props2 = this.props,
-                  data = _props2.data,
-                  headers = _props2.headers,
-                  separator = _props2.separator,
-                  filename = _props2.filename,
-                  uFEFF = _props2.uFEFF,
-                  children = _props2.children,
-                  onClick = _props2.onClick,
-                  asyncOnClick = _props2.asyncOnClick,
-                  rest = _objectWithoutProperties(_props2, [
+                var _props = this.props,
+                  data = _props.data,
+                  headers = _props.headers,
+                  separator = _props.separator,
+                  filename = _props.filename,
+                  uFEFF = _props.uFEFF,
+                  children = _props.children,
+                  onClick = _props.onClick,
+                  rest = _objectWithoutProperties(_props, [
                     "data",
                     "headers",
                     "separator",
@@ -372,10 +428,7 @@ exports.default = CSVDownload;
                     "uFEFF",
                     "children",
                     "onClick",
-                    "asyncOnClick",
                   ]);
-
-                var href = this.state.href;
 
                 return _react2.default.createElement(
                   "a",
@@ -388,7 +441,7 @@ exports.default = CSVDownload;
                       ref: function ref(link) {
                         return (_this4.link = link);
                       },
-                      href: href,
+                      href: this.buildURI(data, uFEFF, headers, separator),
                       onClick: this.handleClick(
                         data,
                         headers,
@@ -505,28 +558,10 @@ exports.default = CSVDownload;
 
           var data = jsons.map(function(object) {
             return headerKeys.map(function(header) {
-              return getHeaderValue(header, object);
+              return header in object ? object[header] : "";
             });
           });
           return [headerLabels].concat(_toConsumableArray(data));
-        });
-
-        var getHeaderValue = (exports.getHeaderValue = function getHeaderValue(
-          property,
-          obj
-        ) {
-          var foundValue = property
-            .replace(/\[([^\]]+)]/g, ".$1")
-            .split(".")
-            .reduce(function(o, p, i, arr) {
-              if (o[p] === undefined) {
-                arr.splice(1);
-              } else {
-                return o[p];
-              }
-            }, obj);
-
-          return foundValue === undefined ? "" : foundValue;
         });
 
         var elementOrEmpty = (exports.elementOrEmpty = function elementOrEmpty(
@@ -595,15 +630,12 @@ exports.default = CSVDownload;
           separator
         ) {
           var csv = toCSV(data, headers, separator);
-          var blob = new Blob([uFEFF ? "\uFEFF" : "", csv], {
-            type: "text/csv",
-          });
+          var type = isSafari() ? "application/csv" : "text/csv";
+          var blob = new Blob([uFEFF ? "\uFEFF" : "", csv], { type: type });
           var dataURI =
-            "data:text/csv;charset=utf-8," + (uFEFF ? "\uFEFF" : "") + csv;
+            "data:" + type + ";charset=utf-8," + (uFEFF ? "\uFEFF" : "") + csv;
 
           var URL = window.URL || window.webkitURL;
-
-          debugger;
 
           return typeof URL.createObjectURL === "undefined"
             ? dataURI
@@ -2125,24 +2157,11 @@ object-assign
 
           "use strict";
 
-          var printWarning = function() {};
-
           if (process.env.NODE_ENV !== "production") {
+            var invariant = require("fbjs/lib/invariant");
+            var warning = require("fbjs/lib/warning");
             var ReactPropTypesSecret = require("./lib/ReactPropTypesSecret");
             var loggedTypeFailures = {};
-
-            printWarning = function(text) {
-              var message = "Warning: " + text;
-              if (typeof console !== "undefined") {
-                console.error(message);
-              }
-              try {
-                // --- Welcome to debugging React ---
-                // This error was thrown as a convenience so that you can use this stack
-                // to find the callsite that caused this warning to fire.
-                throw new Error(message);
-              } catch (x) {}
-            };
           }
 
           /**
@@ -2173,21 +2192,15 @@ object-assign
                   try {
                     // This is intentionally an invariant that gets caught. It's the same
                     // behavior as without this statement except with a better message.
-                    if (typeof typeSpecs[typeSpecName] !== "function") {
-                      var err = Error(
-                        (componentName || "React class") +
-                          ": " +
-                          location +
-                          " type `" +
-                          typeSpecName +
-                          "` is invalid; " +
-                          "it must be a function, usually from the `prop-types` package, but received `" +
-                          typeof typeSpecs[typeSpecName] +
-                          "`."
-                      );
-                      err.name = "Invariant Violation";
-                      throw err;
-                    }
+                    invariant(
+                      typeof typeSpecs[typeSpecName] === "function",
+                      "%s: %s type `%s` is invalid; it must be a function, usually from " +
+                        "the `prop-types` package, but received `%s`.",
+                      componentName || "React class",
+                      location,
+                      typeSpecName,
+                      typeof typeSpecs[typeSpecName]
+                    );
                     error = typeSpecs[typeSpecName](
                       values,
                       typeSpecName,
@@ -2199,22 +2212,18 @@ object-assign
                   } catch (ex) {
                     error = ex;
                   }
-                  if (error && !(error instanceof Error)) {
-                    printWarning(
-                      (componentName || "React class") +
-                        ": type specification of " +
-                        location +
-                        " `" +
-                        typeSpecName +
-                        "` is invalid; the type checker " +
-                        "function must return `null` or an `Error` but returned a " +
-                        typeof error +
-                        ". " +
-                        "You may have forgotten to pass an argument to the type checker " +
-                        "creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and " +
-                        "shape all require an argument)."
-                    );
-                  }
+                  warning(
+                    !error || error instanceof Error,
+                    "%s: type specification of %s `%s` is invalid; the type checker " +
+                      "function must return `null` or an `Error` but returned a %s. " +
+                      "You may have forgotten to pass an argument to the type checker " +
+                      "creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and " +
+                      "shape all require an argument).",
+                    componentName || "React class",
+                    location,
+                    typeSpecName,
+                    typeof error
+                  );
                   if (
                     error instanceof Error &&
                     !(error.message in loggedTypeFailures)
@@ -2225,12 +2234,12 @@ object-assign
 
                     var stack = getStack ? getStack() : "";
 
-                    printWarning(
-                      "Failed " +
-                        location +
-                        " type: " +
-                        error.message +
-                        (stack != null ? stack : "")
+                    warning(
+                      false,
+                      "Failed %s type: %s%s",
+                      location,
+                      error.message,
+                      stack != null ? stack : ""
                     );
                   }
                 }
@@ -2241,7 +2250,12 @@ object-assign
           module.exports = checkPropTypes;
         }.call(this, require("_process")));
       },
-      { "./lib/ReactPropTypesSecret": 19, _process: 13 },
+      {
+        "./lib/ReactPropTypesSecret": 19,
+        _process: 13,
+        "fbjs/lib/invariant": 10,
+        "fbjs/lib/warning": 11,
+      },
     ],
     15: [
       function(require, module, exports) {
@@ -2278,9 +2292,9 @@ object-assign
 
         "use strict";
 
+        var emptyFunction = require("fbjs/lib/emptyFunction");
+        var invariant = require("fbjs/lib/invariant");
         var ReactPropTypesSecret = require("./lib/ReactPropTypesSecret");
-
-        function emptyFunction() {}
 
         module.exports = function() {
           function shim(
@@ -2295,13 +2309,12 @@ object-assign
               // It is still safe when called from React.
               return;
             }
-            var err = new Error(
+            invariant(
+              false,
               "Calling PropTypes validators directly is not supported by the `prop-types` package. " +
                 "Use PropTypes.checkPropTypes() to call them. " +
                 "Read more at http://fb.me/use-check-prop-types"
             );
-            err.name = "Invariant Violation";
-            throw err;
           }
           shim.isRequired = shim;
           function getShim() {
@@ -2336,7 +2349,11 @@ object-assign
           return ReactPropTypes;
         };
       },
-      { "./lib/ReactPropTypesSecret": 19 },
+      {
+        "./lib/ReactPropTypesSecret": 19,
+        "fbjs/lib/emptyFunction": 8,
+        "fbjs/lib/invariant": 10,
+      },
     ],
     17: [
       function(require, module, exports) {
@@ -2350,31 +2367,13 @@ object-assign
 
           "use strict";
 
+          var emptyFunction = require("fbjs/lib/emptyFunction");
+          var invariant = require("fbjs/lib/invariant");
+          var warning = require("fbjs/lib/warning");
           var assign = require("object-assign");
 
           var ReactPropTypesSecret = require("./lib/ReactPropTypesSecret");
           var checkPropTypes = require("./checkPropTypes");
-
-          var printWarning = function() {};
-
-          if (process.env.NODE_ENV !== "production") {
-            printWarning = function(text) {
-              var message = "Warning: " + text;
-              if (typeof console !== "undefined") {
-                console.error(message);
-              }
-              try {
-                // --- Welcome to debugging React ---
-                // This error was thrown as a convenience so that you can use this stack
-                // to find the callsite that caused this warning to fire.
-                throw new Error(message);
-              } catch (x) {}
-            };
-          }
-
-          function emptyFunctionThatReturnsNull() {
-            return null;
-          }
 
           module.exports = function(isValidElement, throwOnDirectAccess) {
             /* global Symbol */
@@ -2530,13 +2529,12 @@ object-assign
                 if (secret !== ReactPropTypesSecret) {
                   if (throwOnDirectAccess) {
                     // New behavior only for users of `prop-types` package
-                    var err = new Error(
+                    invariant(
+                      false,
                       "Calling PropTypes validators directly is not supported by the `prop-types` package. " +
                         "Use `PropTypes.checkPropTypes()` to call them. " +
                         "Read more at http://fb.me/use-check-prop-types"
                     );
-                    err.name = "Invariant Violation";
-                    throw err;
                   } else if (
                     process.env.NODE_ENV !== "production" &&
                     typeof console !== "undefined"
@@ -2548,17 +2546,16 @@ object-assign
                       // Avoid spamming the console because they are often not actionable except for lib authors
                       manualPropTypeWarningCount < 3
                     ) {
-                      printWarning(
+                      warning(
+                        false,
                         "You are manually calling a React.PropTypes validation " +
-                          "function for the `" +
-                          propFullName +
-                          "` prop on `" +
-                          componentName +
-                          "`. This is deprecated " +
+                          "function for the `%s` prop on `%s`. This is deprecated " +
                           "and will throw in the standalone `prop-types` package. " +
                           "You may be seeing this warning due to a third-party PropTypes " +
                           "library. See https://fb.me/react-warning-dont-call-proptypes " +
-                          "for details."
+                          "for details.",
+                        propFullName,
+                        componentName
                       );
                       manualPropTypeCallCache[cacheKey] = true;
                       manualPropTypeWarningCount++;
@@ -2645,7 +2642,7 @@ object-assign
             }
 
             function createAnyTypeChecker() {
-              return createChainableTypeChecker(emptyFunctionThatReturnsNull);
+              return createChainableTypeChecker(emptyFunction.thatReturnsNull);
             }
 
             function createArrayOfTypeChecker(typeChecker) {
@@ -2761,11 +2758,12 @@ object-assign
             function createEnumTypeChecker(expectedValues) {
               if (!Array.isArray(expectedValues)) {
                 process.env.NODE_ENV !== "production"
-                  ? printWarning(
+                  ? warning(
+                      false,
                       "Invalid argument supplied to oneOf, expected an instance of array."
                     )
                   : void 0;
-                return emptyFunctionThatReturnsNull;
+                return emptyFunction.thatReturnsNull;
               }
 
               function validate(
@@ -2857,25 +2855,25 @@ object-assign
             function createUnionTypeChecker(arrayOfTypeCheckers) {
               if (!Array.isArray(arrayOfTypeCheckers)) {
                 process.env.NODE_ENV !== "production"
-                  ? printWarning(
+                  ? warning(
+                      false,
                       "Invalid argument supplied to oneOfType, expected an instance of array."
                     )
                   : void 0;
-                return emptyFunctionThatReturnsNull;
+                return emptyFunction.thatReturnsNull;
               }
 
               for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
                 var checker = arrayOfTypeCheckers[i];
                 if (typeof checker !== "function") {
-                  printWarning(
+                  warning(
+                    false,
                     "Invalid argument supplied to oneOfType. Expected an array of check functions, but " +
-                      "received " +
-                      getPostfixForTypeWarning(checker) +
-                      " at index " +
-                      i +
-                      "."
+                      "received %s at index %s.",
+                    getPostfixForTypeWarning(checker),
+                    i
                   );
-                  return emptyFunctionThatReturnsNull;
+                  return emptyFunction.thatReturnsNull;
                 }
               }
 
@@ -3184,6 +3182,9 @@ object-assign
         "./checkPropTypes": 14,
         "./lib/ReactPropTypesSecret": 19,
         _process: 13,
+        "fbjs/lib/emptyFunction": 8,
+        "fbjs/lib/invariant": 10,
+        "fbjs/lib/warning": 11,
         "object-assign": 12,
       },
     ],
@@ -5383,6 +5384,8 @@ object-assign
                   )
                 : void 0;
             }
+            // Implicit key determined by the index in the set
+            return index.toString(36);
           }
 
           var ReactElementValidator = {
