@@ -79,6 +79,7 @@ class CSVLink extends React.Component {
       uFEFF,
       children,
       onClick,
+      asyncOnClick,
       ...rest
     } = this.props;
     return (
