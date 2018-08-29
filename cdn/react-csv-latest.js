@@ -570,21 +570,95 @@
           return element || element === 0 ? element : "";
         });
 
-        var joiner = (exports.joiner = function joiner(data) {
-          var separator =
-            arguments.length > 1 && arguments[1] !== undefined
-              ? arguments[1]
-              : ",";
-          return data
-            .map(function(row, index) {
-              return row
-                .map(function(element) {
-                  return '"' + elementOrEmpty(element) + '"';
-                })
-                .join(separator);
-            })
-            .join("\n");
-        });
+      return function (event) {
+        if (typeof _this3.props.onClick === 'function') {
+          return _this3.props.asyncOnClick ? handleAsyncClick.apply(undefined, [event].concat(args)) : handleSyncClick.apply(undefined, [event].concat(args));
+        }
+        _this3.handleLegacy.apply(_this3, [event].concat(args));
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this4 = this;
+
+      var _props = this.props,
+          data = _props.data,
+          headers = _props.headers,
+          separator = _props.separator,
+          filename = _props.filename,
+          uFEFF = _props.uFEFF,
+          children = _props.children,
+          onClick = _props.onClick,
+          asyncOnClick = _props.asyncOnClick,
+          rest = _objectWithoutProperties(_props, ['data', 'headers', 'separator', 'filename', 'uFEFF', 'children', 'onClick', 'asyncOnClick']);
+
+      return _react2.default.createElement(
+        'a',
+        _extends({
+          download: filename
+        }, rest, {
+          ref: function ref(link) {
+            return _this4.link = link;
+          },
+          href: this.buildURI(data, uFEFF, headers, separator),
+          onClick: this.handleClick(data, headers, separator, filename)
+        }),
+        children
+      );
+    }
+  }]);
+
+  return CSVLink;
+}(_react2.default.Component);
+
+CSVLink.defaultProps = _metaProps.defaultProps;
+CSVLink.propTypes = _metaProps.propTypes;
+exports.default = CSVLink;
+},{"../core":4,"../metaProps":6,"react":44}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var isJsons = exports.isJsons = function isJsons(array) {
+  return Array.isArray(array) && array.every(function (row) {
+    return (typeof row === 'undefined' ? 'undefined' : _typeof(row)) === 'object' && !(row instanceof Array);
+  });
+};
+
+var isArrays = exports.isArrays = function isArrays(array) {
+  return Array.isArray(array) && array.every(function (row) {
+    return Array.isArray(row);
+  });
+};
+
+var jsonsHeaders = exports.jsonsHeaders = function jsonsHeaders(array) {
+  return Array.from(array.map(function (json) {
+    return Object.keys(json);
+  }).reduce(function (a, b) {
+    return new Set([].concat(_toConsumableArray(a), _toConsumableArray(b)));
+  }, []));
+};
+
+var jsons2arrays = exports.jsons2arrays = function jsons2arrays(jsons, headers) {
+  headers = headers || jsonsHeaders(jsons);
+
+  var headerLabels = headers;
+  var headerKeys = headers;
+  if (isJsons(headers)) {
+    headerLabels = headers.map(function (header) {
+      return header.label;
+    });
+    headerKeys = headers.map(function (header) {
+      return header.key;
+    });
+  }
 
         var arrays2csv = (exports.arrays2csv = function arrays2csv(
           data,
