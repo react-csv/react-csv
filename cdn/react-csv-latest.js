@@ -572,7 +572,7 @@
 
       return function (event) {
         if (typeof _this3.props.onClick === 'function') {
-          return _this3.props.asyncOnClick ? handleAsyncClick.apply(undefined, [event].concat(args)) : handleSyncClick.apply(undefined, [event].concat(args));
+          return _this3.props.asyncOnClick ? _this3.handleAsyncClick.apply(_this3, [event].concat(args)) : _this3.handleSyncClick.apply(_this3, [event].concat(args));
         }
         _this3.handleLegacy.apply(_this3, [event].concat(args));
       };
