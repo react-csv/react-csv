@@ -1,6 +1,7 @@
 {
   "name": "react-csv",
   "version": "1.0.15-RC2",
+  "typings": "./src/react-csv.d.ts",
   "description": "Build CSV files on the fly basing on Array/literal object of data ",
   "main": "index.js",
   "jsnext:main": "src/index.js",
@@ -77,7 +78,6 @@
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-dev-server": "^1.16.2",
-    "webpack-hot-middleware": "^2.13.2",
-    "typings": "./src/react-csv.d.ts"
+    "webpack-hot-middleware": "^2.13.2"
   }
 }
