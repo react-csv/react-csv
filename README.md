@@ -21,7 +21,7 @@ const csvData = [
   ["firstname", "lastname", "email"],
   ["Ahmed", "Tomi", "ah@smthing.co.com"],
   ["Raed", "Labes", "rl@smthing.co.com"],
-  ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+  ["Yezzi", "Min l3b", "ymin@cocococo.com"],
 ];
 <CSVLink data={csvData}>Download me</CSVLink>;
 // or
@@ -63,7 +63,7 @@ data = [
   ["firstname", "lastname", "email"],
   ["Ahmed", "Tomi", "ah@smthing.co.com"],
   ["Raed", "Labes", "rl@smthing.co.com"],
-  ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+  ["Yezzi", "Min l3b", "ymin@cocococo.com"],
 ];
 ```
 
@@ -74,7 +74,7 @@ data = [
 data = [
   { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
   { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
-  { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
+  { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" },
 ];
 ```
 
@@ -121,13 +121,13 @@ import { CSVLink } from "react-csv";
 headers = [
   { label: "First Name", key: "firstname" },
   { label: "Last Name", key: "lastname" },
-  { label: "Email", key: "email" }
+  { label: "Email", key: "email" },
 ];
 
 data = [
   { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
   { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
-  { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
+  { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" },
 ];
 
 <CSVLink data={data} headers={headers}>
@@ -141,14 +141,14 @@ It is possible to reference nested strings in your data using dot notation
 
 ```js
 headers = [
-  { label: 'First Name', key: 'details.firstName' },
-  { label: 'Last Name', key: 'details.lastName' },
-  { label: 'Job', key: 'job' },
+  { label: "First Name", key: "details.firstName" },
+  { label: "Last Name", key: "details.lastName" },
+  { label: "Job", key: "job" },
 ];
 
 data = [
-  { details: { firstName: 'Ahmed', lastName: 'Tomi' }, job: 'manager'},
-  { details: { firstName: 'John', lastName: 'Jones' }, job: 'developer'},
+  { details: { firstName: "Ahmed", lastName: "Tomi" }, job: "manager" },
+  { details: { firstName: "John", lastName: "Jones" }, job: "developer" },
 ];
 ```
 

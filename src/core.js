@@ -30,9 +30,25 @@ export const jsons2arrays = (jsons, headers) => {
   }
 
   const data = jsons.map(object =>
-    headerKeys.map(header => (header in object ? object[header] : ""))
+    headerKeys.map(header => getHeaderValue(header, object))
   );
   return [headerLabels, ...data];
+};
+
+export const getHeaderValue = (property, obj) => {
+  const foundValue = property
+    .replace(/\[([^\]]+)]/g, ".$1")
+    .split(".")
+    .reduce(function(o, p, i, arr) {
+      // if at any point the nested keys passed do not exist, splice the array so it doesnt keep reducing
+      if (o[p] === undefined) {
+        arr.splice(1);
+      } else {
+        return o[p];
+      }
+    }, obj);
+
+  return foundValue === undefined ? "" : foundValue;
 };
 
 export const elementOrEmpty = element =>
