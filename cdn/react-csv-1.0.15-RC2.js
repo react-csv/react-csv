@@ -228,7 +228,7 @@ CSVLink.defaultProps = _metaProps.defaultProps;
 CSVLink.propTypes = _metaProps.propTypes;
 exports.default = CSVLink;
 },{"../core":4,"../metaProps":6,"react":44}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -240,7 +240,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var isJsons = exports.isJsons = function isJsons(array) {
   return Array.isArray(array) && array.every(function (row) {
-    return (typeof row === 'undefined' ? 'undefined' : _typeof(row)) === 'object' && !(row instanceof Array);
+    return (typeof row === "undefined" ? "undefined" : _typeof(row)) === 'object' && !(row instanceof Array);
   });
 };
 
@@ -274,10 +274,22 @@ var jsons2arrays = exports.jsons2arrays = function jsons2arrays(jsons, headers) 
 
   var data = jsons.map(function (object) {
     return headerKeys.map(function (header) {
-      return header in object ? object[header] : '';
+      return getHeaderValue(header, object);
     });
   });
   return [headerLabels].concat(_toConsumableArray(data));
+};
+
+var getHeaderValue = exports.getHeaderValue = function getHeaderValue(property, obj) {
+  var foundValue = property.replace(/\[([^\]]+)]/g, ".$1").split(".").reduce(function (o, p, i, arr) {
+    if (o[p] === undefined) {
+      arr.splice(1);
+    } else {
+      return o[p];
+    }
+  }, obj);
+
+  return foundValue === undefined ? '' : foundValue;
 };
 
 var elementOrEmpty = exports.elementOrEmpty = function elementOrEmpty(element) {
@@ -290,7 +302,7 @@ var joiner = exports.joiner = function joiner(data) {
     return row.map(function (element) {
       return "\"" + elementOrEmpty(element) + "\"";
     }).join(separator);
-  }).join('\n');
+  }).join("\n");
 };
 
 var arrays2csv = exports.arrays2csv = function arrays2csv(data, headers, separator) {
@@ -302,20 +314,20 @@ var jsons2csv = exports.jsons2csv = function jsons2csv(data, headers, separator)
 };
 
 var string2csv = exports.string2csv = function string2csv(data, headers, separator) {
-  return headers ? headers.join(separator) + '\n' + data : data;
+  return headers ? headers.join(separator) + "\n" + data : data;
 };
 
 var toCSV = exports.toCSV = function toCSV(data, headers, separator) {
   if (isJsons(data)) return jsons2csv(data, headers, separator);
   if (isArrays(data)) return arrays2csv(data, headers, separator);
   if (typeof data === 'string') return string2csv(data, headers, separator);
-  throw new TypeError('Data should be a "String", "Array of arrays" OR "Array of objects" ');
+  throw new TypeError("Data should be a \"String\", \"Array of arrays\" OR \"Array of objects\" ");
 };
 
 var buildURI = exports.buildURI = function buildURI(data, uFEFF, headers, separator) {
   var csv = toCSV(data, headers, separator);
-  var blob = new Blob([uFEFF ? '\uFEFF' : '', csv], { type: 'text/csv' });
-  var dataURI = 'data:text/csv;charset=utf-8,' + (uFEFF ? '\uFEFF' : '') + csv;
+  var blob = new Blob([uFEFF ? "\uFEFF" : '', csv], { type: 'text/csv' });
+  var dataURI = "data:text/csv;charset=utf-8," + (uFEFF ? "\uFEFF" : '') + csv;
 
   var URL = window.URL || window.webkitURL;
 
