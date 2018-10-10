@@ -314,8 +314,10 @@ var toCSV = exports.toCSV = function toCSV(data, headers, separator) {
 
 var buildURI = exports.buildURI = function buildURI(data, uFEFF, headers, separator) {
   var csv = toCSV(data, headers, separator);
-  var blob = new Blob([uFEFF ? '\uFEFF' : '', csv], { type: 'text/csv' });
-  var dataURI = 'data:text/csv;charset=utf-8,' + (uFEFF ? '\uFEFF' : '') + csv;
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var type = isSafari ? 'application/csv' : 'text/csv';
+  var blob = new Blob([uFEFF ? '\uFEFF' : '', csv], { type: type });
+  var dataURI = 'data:' + type + ';charset=utf-8,' + (uFEFF ? '\uFEFF' : '') + csv;
 
   var URL = window.URL || window.webkitURL;
 

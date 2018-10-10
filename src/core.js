@@ -1,3 +1,6 @@
+/**
+ * Simple safari detection based on user agent test
+ */
 export const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 export const isJsons = ((array) => Array.isArray(array) && array.every(
@@ -60,6 +63,8 @@ export const buildURI = ((data, uFEFF, headers, separator) => {
   const dataURI = `data:${type};charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
 
   const URL = window.URL || window.webkitURL;
+
+  debugger
 
   return (typeof URL.createObjectURL === 'undefined')
     ? dataURI
