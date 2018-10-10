@@ -727,7 +727,12 @@ var jsons2arrays = exports.jsons2arrays = function jsons2arrays(jsons, headers) 
         });
         exports.CSVLink = exports.CSVDownload = undefined;
 
-        var _Download = require("./components/Download");
+var buildURI = exports.buildURI = function buildURI(data, uFEFF, headers, separator) {
+  var csv = toCSV(data, headers, separator);
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var type = isSafari ? 'application/csv' : 'text/csv';
+  var blob = new Blob([uFEFF ? '\uFEFF' : '', csv], { type: type });
+  var dataURI = 'data:' + type + ';charset=utf-8,' + (uFEFF ? '\uFEFF' : '') + csv;
 
         var _Download2 = _interopRequireDefault(_Download);
 
