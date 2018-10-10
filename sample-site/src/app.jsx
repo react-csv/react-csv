@@ -3,10 +3,17 @@ import {CSVLink, CSVDownload} from 'react-csv';
 import Table from './Table.jsx';
 
 const csvHeaders = [
-"a", "b", "c"
+"Company","جهة الإتصال ","王玉普"
 ]
 const csvData =[
   ['Alfreds Futterkiste'	,'Maria Anders',	'Germany'] ,
+  ['Rathath IT', 'Abdennour TM' , 'تونس'] ,
+  ['Sinopec', '王玉普' , '中国'],
+  ['Auto1', 'Petter' , 'Germany'] ,
+  ['Estifeda', 'Yousri K' , 'تونس'] ,
+  ['Nine 10ᵗʰ', 'Amjed Idris' , 'المملكة العربية السعودية '] ,
+  ['Tamkeen', 'Mohamed Alshibi' , 'المملكة العربية السعودية'] ,
+  ['Packet Publishing', 'David Become' , 'UK'] ,
   ['Software hourse', 'Soro' , 'Poland']
 ];
 
@@ -34,7 +41,6 @@ class App extends React.Component {
               </div>
               <div className="large-2 columns">
                   <CSVLink
-                    target="_self"
                     headers={csvHeaders}
                     data={csvData}
                     filename={this.getFileName()}
