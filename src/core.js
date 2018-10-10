@@ -1,6 +1,3 @@
-/**
- * Simple safari detection based on user agent test
- */
 export const isSafari = () =>
   /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
@@ -30,25 +27,9 @@ export const jsons2arrays = (jsons, headers) => {
   }
 
   const data = jsons.map(object =>
-    headerKeys.map(header => getHeaderValue(header, object))
+    headerKeys.map(header => (header in object ? object[header] : ""))
   );
   return [headerLabels, ...data];
-};
-
-export const getHeaderValue = (property, obj) => {
-  const foundValue = property
-    .replace(/\[([^\]]+)]/g, ".$1")
-    .split(".")
-    .reduce(function(o, p, i, arr) {
-      // if at any point the nested keys passed do not exist, splice the array so it doesnt keep reducing
-      if (o[p] === undefined) {
-        arr.splice(1);
-      } else {
-        return o[p];
-      }
-    }, obj);
-
-  return foundValue === undefined ? "" : foundValue;
 };
 
 export const elementOrEmpty = element =>
@@ -86,8 +67,6 @@ export const buildURI = (data, uFEFF, headers, separator) => {
   const dataURI = `data:${type};charset=utf-8,${uFEFF ? "\uFEFF" : ""}${csv}`;
 
   const URL = window.URL || window.webkitURL;
-
-  debugger;
 
   return typeof URL.createObjectURL === "undefined"
     ? dataURI
