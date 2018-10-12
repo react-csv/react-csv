@@ -64,8 +64,6 @@ export const buildURI = ((data, uFEFF, headers, separator) => {
 
   const URL = window.URL || window.webkitURL;
 
-  debugger
-
   return (typeof URL.createObjectURL === 'undefined')
     ? dataURI
     : URL.createObjectURL(blob);
