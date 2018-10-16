@@ -57,7 +57,7 @@ describe('In browser environment', () => {
     it(`assigns a download filename`, () => {
       const filename= "persons.csv";
       const wrapper = mount( <CSVLink {...minProps} filename={filename} > here </CSVLink>);
-      expect(wrapper.find('a').get(0).getAttribute('download')).toEqual(filename);  
+      expect(wrapper.find('a').get(0).getAttribute('download')).toEqual(filename);
     });
  
      it(`renders anchor tag`, () => {
@@ -91,14 +91,17 @@ describe('In browser environment', () => {
       expect(actualAnchorAttrs).toInclude(extraProps);
  
      })
-     
+ 
      it(`generates "onClick" event for IE11 support`, () => {
        const wrapper = shallow( <CSVLink {...minProps}> here </CSVLink>);
        wrapper.find(`a`).simulate(`click`, { preventDefault() {}})
        expect(wrapper.find(`a`).get(0).props).toContainKey('onClick');
      });
+     // TODO write unit-tests for handleClick
+     // TODO write unit-tests for handleSyncClick
+     // TODO write unit-tests for handleAsyncClick
  
-    });
+    }); 
  
    describe('CSVDownload', () => {
      let minProps;

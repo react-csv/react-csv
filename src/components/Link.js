@@ -1,15 +1,15 @@
 import React from 'react';
-import {buildURI, toCSV} from '../core';
+import { buildURI, toCSV } from '../core';
 import {
-   defaultProps as commonDefaultProps,
-   propTypes as commonPropTypes} from '../metaProps';
+  defaultProps as commonDefaultProps,
+  propTypes as commonPropTypes
+} from '../metaProps';
 
 /**
  *
  * @example ../../sample-site/csvlink.example.md
  */
 class CSVLink extends React.Component {
-
   static defaultProps = commonDefaultProps;
   static propTypes = commonPropTypes;
 
@@ -21,7 +21,7 @@ class CSVLink extends React.Component {
 
   componentDidMount() {
     const {data, headers, separator, uFEFF} = this.props;
-    this.setState({ href: this.buildURI(data, uFEFF, headers, separator) })
+    this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
   }
 
   buildURI() {
@@ -31,30 +31,75 @@ class CSVLink extends React.Component {
   /**
    * In IE11 this method will trigger the file download
    */
-  handleLegacy(evt, data, headers, separator, filename) {
+  handleLegacy(event, data, headers, separator, filename) {
     // If this browser is IE 11, it does not support the `download` attribute
     if (window.navigator.msSaveOrOpenBlob) {
       // Stop the click propagation
-      evt.preventDefault()
+      event.preventDefault();
 
-      let blob = new Blob([toCSV(data, headers, separator)])
-      window.navigator.msSaveBlob(blob, filename)
+      let blob = new Blob([toCSV(data, headers, separator)]);
+      window.navigator.msSaveBlob(blob, filename);
 
-      return false
+      return false;
     }
   }
 
+  handleAsyncClick(event, ...args) {
+    const done = proceed => {
+      if (proceed === false) {
+        event.preventDefault();
+        return;
+      }
+      this.handleLegacy(event, ...args);
+    };
+
+    this.props.onClick(event, done);
+  }
+
+  handleSyncClick(event, ...args) {
+    const stopEvent = this.props.onClick(event) === false;
+    if (stopEvent) {
+      event.preventDefault();
+      return;
+    }
+    this.handleLegacy(event, ...args);
+  }
+
+  handleClick(...args) {
+    return event => {
+      if (typeof this.props.onClick === 'function') {
+        return this.props.asyncOnClick
+          ? this.handleAsyncClick(event, ...args)
+          : this.handleSyncClick(event, ...args);
+      }
+      this.handleLegacy(event, ...args);
+    };
+  }
+
   render(){
-    const {data, headers, separator, filename, uFEFF, children , ...rest} = this.props;
+    const {
+      data,
+      headers,
+      separator,
+      filename,
+      uFEFF,
+      children,
+      onClick,
+      asyncOnClick,
+      ...rest
+    } = this.props;
     const {href} = this.state;
     return (
-      <a download={filename} {...rest}
-         ref={link => (this.link = link)}
-         href={href}
-         onClick={evt => this.handleLegacy(evt, data, headers, separator, filename)}>
+      <a 
+        download={filename} 
+        {...rest}
+        ref={link => (this.link = link)}
+        href={href}
+        onClick={this.handleClick(data, headers, separator, filename)}
+      >
         {children}
       </a>
-    )
+    );
   }
 }
 

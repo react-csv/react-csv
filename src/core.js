@@ -1,3 +1,8 @@
+/**
+ * Simple safari detection based on user agent test
+ */
+export const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 export const isJsons = ((array) => Array.isArray(array) && array.every(
  row => (typeof row === 'object' && !(row instanceof Array))
 ));
@@ -53,8 +58,9 @@ export const toCSV = (data, headers, separator) => {
 
 export const buildURI = ((data, uFEFF, headers, separator) => {
   const csv = toCSV(data, headers, separator);
-  const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type: 'text/csv'});
-  const dataURI = `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
+  const type = isSafari() ? 'application/csv' : 'text/csv';
+  const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type});
+  const dataURI = `data:${type};charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
 
   const URL = window.URL || window.webkitURL;
 
@@ -62,3 +68,4 @@ export const buildURI = ((data, uFEFF, headers, separator) => {
     ? dataURI
     : URL.createObjectURL(blob);
 });
+
