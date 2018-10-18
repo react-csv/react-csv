@@ -397,106 +397,32 @@
                   args[_key3] = arguments[_key3];
                 }
 
-                return function(event) {
-                  if (typeof _this3.props.onClick === "function") {
-                    return _this3.props.asyncOnClick
-                      ? handleAsyncClick.apply(undefined, [event].concat(args))
-                      : handleSyncClick.apply(undefined, [event].concat(args));
-                  }
-                  _this3.handleLegacy.apply(_this3, [event].concat(args));
-                };
-              },
-            },
-            {
-              key: "render",
-              value: function render() {
-                var _this4 = this;
+    _this.buildURI = _this.buildURI.bind(_this);
+    _this.state = { href: '' };
+    return _this;
+  }
 
-                var _props = this.props,
-                  data = _props.data,
-                  headers = _props.headers,
-                  separator = _props.separator,
-                  filename = _props.filename,
-                  uFEFF = _props.uFEFF,
-                  children = _props.children,
-                  onClick = _props.onClick,
-                  rest = _objectWithoutProperties(_props, [
-                    "data",
-                    "headers",
-                    "separator",
-                    "filename",
-                    "uFEFF",
-                    "children",
-                    "onClick",
-                  ]);
+  _createClass(CSVLink, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _props = this.props,
+          data = _props.data,
+          headers = _props.headers,
+          separator = _props.separator,
+          uFEFF = _props.uFEFF;
 
-                return _react2.default.createElement(
-                  "a",
-                  _extends(
-                    {
-                      download: filename,
-                    },
-                    rest,
-                    {
-                      ref: function ref(link) {
-                        return (_this4.link = link);
-                      },
-                      href: this.buildURI(data, uFEFF, headers, separator),
-                      onClick: this.handleClick(
-                        data,
-                        headers,
-                        separator,
-                        filename
-                      ),
-                    }
-                  ),
-                  children
-                );
-              },
-            },
-          ]);
-
-          return CSVLink;
-        })(_react2.default.Component);
-
-        CSVLink.defaultProps = _metaProps.defaultProps;
-        CSVLink.propTypes = _metaProps.propTypes;
-        exports.default = CSVLink;
-      },
-      { "../core": 4, "../metaProps": 6, react: 44 },
-    ],
-    4: [
-      function(require, module, exports) {
-        "use strict";
-
-        Object.defineProperty(exports, "__esModule", {
-          value: true,
-        });
-
-        var _typeof =
-          typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
-            ? function(obj) {
-                return typeof obj;
-              }
-            : function(obj) {
-                return obj &&
-                  typeof Symbol === "function" &&
-                  obj.constructor === Symbol &&
-                  obj !== Symbol.prototype
-                  ? "symbol"
-                  : typeof obj;
-              };
-
-        function _toConsumableArray(arr) {
-          if (Array.isArray(arr)) {
-            for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-              arr2[i] = arr[i];
-            }
-            return arr2;
-          } else {
-            return Array.from(arr);
-          }
-        }
+      this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
+    }
+  }, {
+    key: 'buildURI',
+    value: function buildURI() {
+      return _core.buildURI.apply(undefined, arguments);
+    }
+  }, {
+    key: 'handleLegacy',
+    value: function handleLegacy(event, data, headers, separator, filename) {
+      if (window.navigator.msSaveOrOpenBlob) {
+        event.preventDefault();
 
         var isSafari = (exports.isSafari = function isSafari() {
           return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -582,16 +508,18 @@
     value: function render() {
       var _this4 = this;
 
-      var _props = this.props,
-          data = _props.data,
-          headers = _props.headers,
-          separator = _props.separator,
-          filename = _props.filename,
-          uFEFF = _props.uFEFF,
-          children = _props.children,
-          onClick = _props.onClick,
-          asyncOnClick = _props.asyncOnClick,
-          rest = _objectWithoutProperties(_props, ['data', 'headers', 'separator', 'filename', 'uFEFF', 'children', 'onClick', 'asyncOnClick']);
+      var _props2 = this.props,
+          data = _props2.data,
+          headers = _props2.headers,
+          separator = _props2.separator,
+          filename = _props2.filename,
+          uFEFF = _props2.uFEFF,
+          children = _props2.children,
+          onClick = _props2.onClick,
+          asyncOnClick = _props2.asyncOnClick,
+          rest = _objectWithoutProperties(_props2, ['data', 'headers', 'separator', 'filename', 'uFEFF', 'children', 'onClick', 'asyncOnClick']);
+
+      var href = this.state.href;
 
       return _react2.default.createElement(
         'a',
@@ -601,7 +529,7 @@
           ref: function ref(link) {
             return _this4.link = link;
           },
-          href: this.buildURI(data, uFEFF, headers, separator),
+          href: href,
           onClick: this.handleClick(data, headers, separator, filename)
         }),
         children
