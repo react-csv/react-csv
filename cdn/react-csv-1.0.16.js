@@ -238,6 +238,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+var isSafari = exports.isSafari = function isSafari() {
+  return (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+  );
+};
+
 var isJsons = exports.isJsons = function isJsons(array) {
   return Array.isArray(array) && array.every(function (row) {
     return (typeof row === 'undefined' ? 'undefined' : _typeof(row)) === 'object' && !(row instanceof Array);
@@ -314,8 +319,7 @@ var toCSV = exports.toCSV = function toCSV(data, headers, separator) {
 
 var buildURI = exports.buildURI = function buildURI(data, uFEFF, headers, separator) {
   var csv = toCSV(data, headers, separator);
-  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  var type = isSafari ? 'application/csv' : 'text/csv';
+  var type = isSafari() ? 'application/csv' : 'text/csv';
   var blob = new Blob([uFEFF ? '\uFEFF' : '', csv], { type: type });
   var dataURI = 'data:' + type + ';charset=utf-8,' + (uFEFF ? '\uFEFF' : '') + csv;
 
