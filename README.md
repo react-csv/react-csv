@@ -135,6 +135,23 @@ data = [
 </CSVLink>;
 ```
 
+##### Nested JSON data
+
+It is possible to reference nested strings in your data using dot notation
+
+```js
+headers = [
+  { label: 'First Name', key: 'details.firstName' },
+  { label: 'Last Name', key: 'details.lastName' },
+  { label: 'Job', key: 'job' },
+];
+
+data = [
+  { details: { firstName: 'Ahmed', lastName: 'Tomi' }, job: 'manager'},
+  { details: { firstName: 'John', lastName: 'Jones' }, job: 'developer'},
+];
+```
+
 ### - **separator** Props:
 
 Following a request to add [this feature](https://github.com/abdennour/react-csv/issues/3) , from `1.0.1` release, `react-csv` supports `separator` props which is equals by default a comma `,` .

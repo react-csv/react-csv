@@ -65,7 +65,7 @@ describe('In browser environment', () => {
       ];
       expect(isArrays(target)).toBeFalsy();
     });
-
+  
   });
 
 
@@ -140,7 +140,30 @@ describe('In browser environment', () => {
       ];
       expect(actual).toEqual(expected);
     });
-
+    it(`accepts dot notation in headers`, () => {
+      fixtures = [{
+        maths: '90'
+      }, {
+        sport: '97'
+      }, {
+        maths: '77',
+        sport: 0
+      }, {
+        people: { 
+          name: 'john', 
+          age: 12 
+        }
+      }]
+      const headers = ['maths', 'sport', 'phy', 'ch', 'people.name'];
+      const actual = jsons2arrays(fixtures, headers);
+      const expected = [
+        headers, ['90', '', '', '', ''],
+        ['', '97', '', '', ''],
+        ['77', 0, '', '', ''],
+        ['', '', '', '', 'john']
+      ];
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe(`core::arrays2csv`, () => {
