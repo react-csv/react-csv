@@ -1,32 +1,34 @@
-var express = require('express')
-var webpack = require('webpack')
-var merge = require('lodash/merge')
-var config = merge({}, require('./webpack.sample.config'))
+var express = require("express");
+var webpack = require("webpack");
+var merge = require("lodash/merge");
+var config = merge({}, require("./webpack.sample.config"));
 
-config.devtool = 'cheap-module-eval-source-map'
-config.entry.unshift('webpack-hot-middleware/client')
+config.devtool = "cheap-module-eval-source-map";
+config.entry.unshift("webpack-hot-middleware/client");
 config.plugins.push(
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoErrorsPlugin()
-)
+);
 
-var app = express()
-var compiler = webpack(config)
+var app = express();
+var compiler = webpack(config);
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: config.output.publicPath
-}))
+app.use(
+  require("webpack-dev-middleware")(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath,
+  })
+);
 
-app.use(require('webpack-hot-middleware')(compiler))
+app.use(require("webpack-hot-middleware")(compiler));
 
-app.use(express.static('sample-site'))
+app.use(express.static("sample-site"));
 
-app.listen(8008, 'localhost', function (err) {
+app.listen(8008, "localhost", function(err) {
   if (err) {
-    console.log(err)
-    return
+    console.log(err);
+    return;
   }
   console.log(`...running 🏃🏿 🏃🏻 `);
-  console.log('🌏 Listening at http://localhost:8008  👏 👏 👌 ');
-})
+  console.log("🌏 Listening at http://localhost:8008  👏 👏 👌 ");
+});

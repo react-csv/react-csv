@@ -1,38 +1,45 @@
-var path = require('path')
-var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var path = require("path");
+var webpack = require("webpack");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: [
-    './sample-site/src/boot'
-  ],
+  entry: ["./sample-site/src/boot"],
   output: {
-    path: path.resolve('./sample-site/'),
-    filename: 'bundle.js',
-    publicPath: '/'
+    path: path.resolve("./sample-site/"),
+    filename: "bundle.js",
+    publicPath: "/",
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ["", ".js", ".jsx"],
 
     // Needed to direct the sample to the local version of the datepicker, this is not needed for
     // normal setup.
     alias: {
-      'react-csv': path.resolve('./src/index.js')
-    }
+      "react-csv": path.resolve("./src/index.js"),
+    },
   },
   module: {
     loaders: [
-      { test: /\.js/, loader: 'babel', exclude: /node_modules/ },
-      { test: /\.scss/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader') },
-      { test: /\.css/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') }
-    ]
+      { test: /\.js/, loader: "babel", exclude: /node_modules/ },
+      {
+        test: /\.scss/,
+        loader: ExtractTextPlugin.extract(
+          "style-loader",
+          "css-loader!sass-loader"
+        ),
+      },
+      {
+        test: /\.css/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader"),
+      },
+    ],
   },
   node: { Buffer: false },
   plugins: [
     new webpack.optimize.DedupePlugin(),
-    new ExtractTextPlugin('style.css', { allChunks: true }),
+    new ExtractTextPlugin("style.css", { allChunks: true }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    })
-  ]
-}
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    }),
+  ],
+};
