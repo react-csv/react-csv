@@ -318,7 +318,8 @@ var elementOrEmpty = exports.elementOrEmpty = function elementOrEmpty(element) {
 var joiner = exports.joiner = function joiner(data) {
   var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ',';
   return data.map(function (row, index) {
-    return row.map(function (element) {
+    if (row == null) return null;
+    row.map(function (element) {
       return "\"" + elementOrEmpty(element) + "\"";
     }).join(separator);
   }).join("\n");
