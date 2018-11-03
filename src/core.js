@@ -11,40 +11,6 @@ export const jsonsHeaders = ((array) => Array.from(
  .reduce((a, b) => new Set([...a, ...b]), [])
 ));
 
-/**
- * Replace double quotes with preceding double quotes as per RFC-4180
- * @link https://www.ietf.org/rfc/rfc4180.txt
- * @param {Object|Array} data
- * @return {Object|Array}
- */
-export const escapeInCSV = (data) => {
-  let result = [];
-
-  const hasDoubleQuotes = (value) => typeof value === 'string' && value.includes('"');
-  const escapeDoubleQuotes = (value) => value.replace(/"/g, '""');
-
-  // array of arrays
-  if (Array.isArray(data)) {
-    data.map((row, i) => {
-      result[i] = row;
-      Array.isArray(row) && row.map((value, j) => {
-        result[i][j] = hasDoubleQuotes(value) ? escapeDoubleQuotes(value) : value;
-      })
-    });
-  }
-
-  // object
-  if (typeof data === 'object' && !(Array.isArray(data))) {
-    result = {};
-    Object.keys(data).map((key) => {
-      const value = data[key];
-      result[key] = hasDoubleQuotes(value) ? escapeDoubleQuotes(value) : value;
-    });
-  }
-
-  return result;
-}
-
 export const jsons2arrays = (jsons, headers) => {
   headers = headers || jsonsHeaders(jsons);
 
@@ -55,23 +21,19 @@ export const jsons2arrays = (jsons, headers) => {
     headerLabels = headers.map((header) => header.label);
     headerKeys = headers.map((header) => header.key);
   }
-  const data = jsons.map((object) => {
-    const escapedObject = escapeInCSV(object)
-    return headerKeys.map((header) => (header in escapedObject) ? escapedObject[header] : '')
-  });
+  const data = jsons.map((object) => headerKeys.map((header) => (header in object) ? object[header] : ''));
   return [headerLabels, ...data];
 };
 
-export const elementOrEmpty = (element) => element || element === 0 ? element : '';
+export const elementOrEmpty = (element) => (element || element === 0 ? element : '').replace(/"/g, '""');
 
 export const joiner = ((data,separator = ',') =>
  data.map((row, index) => row.map((element) => "\"" + elementOrEmpty(element) + "\"").join(separator)).join(`\n`)
 );
 
-export const arrays2csv = ((data, headers, separator) => {
-  const escapedData = escapeInCSV(data)
-  return joiner(headers ? [headers, ...escapedData] : escapedData, separator)
-});
+export const arrays2csv = ((data, headers, separator) =>
+    joiner(headers ? [headers, ...data] : data, separator)
+);
 
 export const jsons2csv = ((data, headers, separator) =>
  joiner(jsons2arrays(data, headers), separator)
