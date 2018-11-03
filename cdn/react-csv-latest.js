@@ -205,36 +205,6 @@ var jsonsHeaders = exports.jsonsHeaders = function jsonsHeaders(array) {
   }, []));
 };
 
-var escapeInCSV = exports.escapeInCSV = function escapeInCSV(data) {
-  var result = [];
-
-  var hasDoubleQuotes = function hasDoubleQuotes(value) {
-    return typeof value === 'string' && value.includes('"');
-  };
-  var escapeDoubleQuotes = function escapeDoubleQuotes(value) {
-    return value.replace(/"/g, '""');
-  };
-
-  if (Array.isArray(data)) {
-    data.map(function (row, i) {
-      result[i] = row;
-      Array.isArray(row) && row.map(function (value, j) {
-        result[i][j] = hasDoubleQuotes(value) ? escapeDoubleQuotes(value) : value;
-      });
-    });
-  }
-
-  if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && !Array.isArray(data)) {
-    result = {};
-    Object.keys(data).map(function (key) {
-      var value = data[key];
-      result[key] = hasDoubleQuotes(value) ? escapeDoubleQuotes(value) : value;
-    });
-  }
-
-  return result;
-};
-
 var jsons2arrays = exports.jsons2arrays = function jsons2arrays(jsons, headers) {
   headers = headers || jsonsHeaders(jsons);
 
@@ -249,16 +219,15 @@ var jsons2arrays = exports.jsons2arrays = function jsons2arrays(jsons, headers) 
     });
   }
   var data = jsons.map(function (object) {
-    var escapedObject = escapeInCSV(object);
     return headerKeys.map(function (header) {
-      return header in escapedObject ? escapedObject[header] : '';
+      return header in object ? object[header] : '';
     });
   });
   return [headerLabels].concat(_toConsumableArray(data));
 };
 
 var elementOrEmpty = exports.elementOrEmpty = function elementOrEmpty(element) {
-  return element || element === 0 ? element : '';
+  return (element || element === 0 ? element : '').replace(/"/g, '""');
 };
 
 var joiner = exports.joiner = function joiner(data) {
@@ -271,8 +240,7 @@ var joiner = exports.joiner = function joiner(data) {
 };
 
 var arrays2csv = exports.arrays2csv = function arrays2csv(data, headers, separator) {
-  var escapedData = escapeInCSV(data);
-  return joiner(headers ? [headers].concat(_toConsumableArray(escapedData)) : escapedData, separator);
+  return joiner(headers ? [headers].concat(_toConsumableArray(data)) : data, separator);
 };
 
 var jsons2csv = exports.jsons2csv = function jsons2csv(data, headers, separator) {
