@@ -1,3 +1,8 @@
+/**
+ * Simple safari detection based on user agent test
+ */
+export const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 export const isJsons = ((array) => Array.isArray(array) && array.every(
  row => (typeof row === 'object' && !(row instanceof Array))
 ));
@@ -21,9 +26,26 @@ export const jsons2arrays = (jsons, headers) => {
     headerLabels = headers.map((header) => header.label);
     headerKeys = headers.map((header) => header.key);
   }
-  const data = jsons.map((object) => headerKeys.map((header) => (header in object) ? object[header] : ''));
+
+  const data = jsons.map((object) => headerKeys.map((header) => getHeaderValue(header, object)));
   return [headerLabels, ...data];
 };
+
+export const getHeaderValue = (property, obj) => {
+  const foundValue = property
+    .replace(/\[([^\]]+)]/g, ".$1")
+    .split(".")
+    .reduce(function(o, p, i, arr) {
+      // if at any point the nested keys passed do not exist, splice the array so it doesnt keep reducing
+      if (o[p] === undefined) {
+        arr.splice(1);
+      } else {
+        return o[p];
+      }
+    }, obj);
+
+  return (foundValue === undefined) ? '' : foundValue;
+}
 
 export const elementOrEmpty = (element) => (element || element === 0 ? element : '').replace(/"/g, '""');
 
@@ -52,8 +74,9 @@ export const toCSV = (data, headers, separator) => {
 
 export const buildURI = ((data, uFEFF, headers, separator) => {
   const csv = toCSV(data, headers, separator);
-  const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type: 'text/csv'});
-  const dataURI = `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
+  const type = isSafari() ? 'application/csv' : 'text/csv';
+  const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type});
+  const dataURI = `data:${type};charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
 
   const URL = window.URL || window.webkitURL;
 
