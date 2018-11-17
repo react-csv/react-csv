@@ -56,6 +56,7 @@ export const elementOrEmpty = element =>
 
 export const joiner = (data, separator = ',') => {
   const filteredData = data.filter(e => e);
+  console.log(filteredData);
   return filteredData
     .map(row =>
       row.map(element => '"' + elementOrEmpty(element) + '"').join(separator)
