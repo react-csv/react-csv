@@ -309,11 +309,11 @@ describe('In browser environment', () => {
   describe('core::joiner', () => {
     const data = [null, undefined, [1, 2, 3, 5], ["hello hello"]];
     it('does not throw upon receiving empty (null / undefined) indices in the data array', () => {
-      expect(joiner).toNotThrow(data)
-    })
+      expect(joiner).toNotThrow(data);
+    });
     it('does return the valid data contained between null and undefined values', () => {
-      expect(joiner(data)).toMatch('\n\n"1","2","3","5"\n"hello hello"')
-    })
-  })
+      expect(joiner(data)).toMatch('\n\n"1","2","3","5"\n"hello hello"');
+    });
+  });
   
 });

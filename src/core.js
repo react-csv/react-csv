@@ -49,11 +49,11 @@ export const getHeaderValue = (property, obj) => {
 
 export const elementOrEmpty = (element) => element || element === 0 ? element : '';
 
-export const joiner = ((data,separator = ',') =>
- data.map((row, index) => {
-  if(row == null) return null
-  return row.map((element) => "\"" + elementOrEmpty(element) + "\"").join(separator)
-  }).join(`\n`)
+export const joiner = ((data,separator = ',') => {
+  const filteredData = data.filter(e=>e);
+  return filteredData.map((row, index) => row.map((element) => "\"" + elementOrEmpty(element) + "\"").join(separator)
+  ).join(`\n`);
+}
 );
 
 export const arrays2csv = ((data, headers, separator) =>
@@ -87,4 +87,3 @@ export const buildURI = ((data, uFEFF, headers, separator) => {
     ? dataURI
     : URL.createObjectURL(blob);
 });
-
