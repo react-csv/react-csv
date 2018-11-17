@@ -312,7 +312,7 @@ describe('In browser environment', () => {
       expect(joiner).toNotThrow(data);
     });
     it('does return the valid data contained between null and undefined values', () => {
-      expect(joiner(data)).toMatch('\n\n"1","2","3","5"\n"hello hello"');
+      expect(joiner(data)).toMatch('"1","2","3","5"\n"hello hello"');
     });
   });
   
