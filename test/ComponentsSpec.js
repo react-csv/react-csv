@@ -93,9 +93,23 @@ describe('In browser environment', () => {
      })
  
      it(`generates "onClick" event for IE11 support`, () => {
-       const wrapper = shallow( <CSVLink {...minProps}> here </CSVLink>);
+       const wrapper = mount( <CSVLink {...minProps}> here </CSVLink>);
        wrapper.find(`a`).simulate(`click`, { preventDefault() {}})
-       expect(wrapper.find(`a`).get(0).props).toContainKey('onClick');
+       expect(wrapper.find(`a`).props()).toContainKey('onClick');
+     });
+
+     it(`should set state.allowDownload to true when click link`, () => {
+        const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
+        wrapper.find(`a`).simulate(`click`);
+        expect(wrapper.state(`allowDownload`)).toBeTruthy();
+     });
+
+     it(`should set state.allowDownload to false after csv file has been downloaded`, () => {
+        const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
+        wrapper.setState({ allowDownload: true });
+        wrapper.update();
+        wrapper.find(`a`).simulate(`click`);
+        expect(wrapper.state(`allowDownload`)).toBeFalsy();
      });
      // TODO write unit-tests for handleClick
      // TODO write unit-tests for handleSyncClick

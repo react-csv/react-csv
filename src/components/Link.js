@@ -16,7 +16,10 @@ class CSVLink extends React.Component {
   constructor(props) {
     super(props);
     this.buildURI= this.buildURI.bind(this);
-    this.state = { href: '' };
+    this.state = {
+      href: '',
+      allowDownload: false
+    };
   }
 
   componentDidMount() {
@@ -67,6 +70,20 @@ class CSVLink extends React.Component {
 
   handleClick(...args) {
     return event => {
+      if (!this.state.allowDownload) {
+        // build URI when user click on link.
+        event.preventDefault();
+        const {data, headers, separator, uFEFF} = this.props;
+        this.setState({ href: this.buildURI(data, uFEFF, headers, separator) }, function() {
+          this.setState({ allowDownload: true }, function() {
+            // trigger click event again after URI has been build.
+            this.link.click();
+          })
+        })
+        return;
+      }
+      // after csv file has been downloaded, reset state to false.
+      this.setState({ allowDownload: false });
       if (typeof this.props.onClick === 'function') {
         return this.props.asyncOnClick
           ? this.handleAsyncClick(event, ...args)

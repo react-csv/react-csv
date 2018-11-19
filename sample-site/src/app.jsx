@@ -16,10 +16,28 @@ const csvData =[
   ['Packet Publishing', 'David Become' , 'UK'] ,
   ['Software hourse', 'Soro' , 'Poland']
 ];
+const csvData2 =[
+  ['Alfreds Futterkiste'	,'Maria Anders',	'Germany'] ,
+  ['Sinopec', '王玉普' , '中国'],
+  ['Auto1', 'Petter' , 'Germany'] ,
+  ['Estifeda', 'Yousri K' , 'تونس'] ,
+  ['Tamkeen', 'Mohamed Alshibi' , 'المملكة العربية السعودية'] ,
+  ['Packet Publishing', 'David Become' , 'UK']
+];
 
 class App extends React.Component {
 
-  state= {};
+  state= {
+    data: csvData,
+    selected: "data1"
+  };
+  handleRadioChange = event => {
+    const { value } = event.target;
+    this.setState({
+      data: value === "data1" ? csvData : csvData2,
+      selected: value
+    });
+  }
   getFileName() {
     if (!this.state.filename) return undefined;
     if (!this.state.filename.endsWith('.csv')) return this.state.filename + '.csv';
@@ -30,7 +48,13 @@ class App extends React.Component {
       <div>
           <div ><h1>Pretty Example "React-csv"</h1></div>
           <div>
-              <Table headers={csvHeaders} data={csvData} />
+              <input type="radio" id="data1" name="selectedData" value="data1" checked={this.state.selected === "data1"} onChange={this.handleRadioChange} />
+              <label htmlFor="data1">Data1</label>
+              <input type="radio" id="data2" name="selectedData" value="data2" checked={this.state.selected === "data2"} onChange={this.handleRadioChange} />
+              <label htmlFor="data2">Data2</label>
+          </div>
+          <div>
+              <Table headers={csvHeaders} data={this.state.data} />
           </div>
           <div className="row">
               <div className="large-6 columns"></div>
@@ -42,7 +66,7 @@ class App extends React.Component {
               <div className="large-2 columns">
                   <CSVLink
                     headers={csvHeaders}
-                    data={csvData}
+                    data={this.state.data}
                     filename={this.getFileName()}
                     className="btn">Export to CSV ⬇</CSVLink>
               </div>
