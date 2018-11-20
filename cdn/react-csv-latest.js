@@ -135,6 +135,16 @@ var CSVLink = function (_React$Component) {
       this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
     }
   }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var data = nextProps.data,
+          headers = nextProps.headers,
+          separator = nextProps.separator,
+          uFEFF = nextProps.uFEFF;
+
+      this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
+    }
+  }, {
     key: 'buildURI',
     value: function buildURI() {
       return _core.buildURI.apply(undefined, arguments);

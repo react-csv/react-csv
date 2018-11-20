@@ -28,7 +28,7 @@ const csvData = [
 <CSVDownload data={csvData} target="_blank" />;
 ```
 
-For more examples, see [here 👈🏼](http://elegance.abdennoor.com/react-csv)
+For more examples, see [here 👈🏼](http://react-csv.github.io/react-csv/)
 
 # Install
 
