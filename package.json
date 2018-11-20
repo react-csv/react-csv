@@ -1,6 +1,6 @@
 {
   "name": "react-csv",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Build CSV files on the fly basing on Array/literal object of data ",
   "main": "index.js",
   "jsnext:main": "src/index.js",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abdennour/react-csv.git"
+    "url": "git+https://github.com/react-csv/react-csv.git"
   },
   "keywords": [
     "csv",
@@ -39,9 +39,9 @@
   "author": "Abdennour TOUMI <http://abdennoor.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/abdennour/react-csv/issues"
+    "url": "https://github.com/react-csv/react-csv/issues"
   },
-  "homepage": "https://github.com/abdennour/react-csv#readme",
+  "homepage": "https://github.com/react-csv/react-csv#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.18.2",
