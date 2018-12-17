@@ -15,22 +15,20 @@ class CSVLink extends React.Component {
 
   constructor(props) {
     super(props);
-    this.buildURI= this.buildURI.bind(this);
-    this.state = { href: '' };
+    this.getURI = this.getURI.bind(this);
   }
 
-  componentDidMount() {
+  // Caches a single value of the built data URI.
+  getURI() {
     const {data, headers, separator, uFEFF} = this.props;
-    this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {data, headers, separator, uFEFF} = nextProps;
-    this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
-  }
-
-  buildURI() {
-    return buildURI(...arguments);
+    if (this._data !== data || this._headers !== headers || this._separator !== separator || this._uFEFF == uFEFF) {
+      this._uri = buildURI(data, uFEFF, headers, separator);
+      this._data = data;
+      this._headers = headers;
+      this._separator = separator;
+      this._uFEFF = uFEFF;
+    }
+    return this._uri;
   }
 
   /**
@@ -93,7 +91,7 @@ class CSVLink extends React.Component {
       asyncOnClick,
       ...rest
     } = this.props;
-    const {href} = this.state;
+    const href = this.getURI();
     return (
       <a
         download={filename}
