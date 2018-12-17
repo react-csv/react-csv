@@ -32,20 +32,28 @@ var CSVDownload = function (_React$Component) {
   _inherits(CSVDownload, _React$Component);
 
   function CSVDownload() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, CSVDownload);
 
-    return _possibleConstructorReturn(this, (CSVDownload.__proto__ || Object.getPrototypeOf(CSVDownload)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CSVDownload.__proto__ || Object.getPrototypeOf(CSVDownload)).call.apply(_ref, [this].concat(args))), _this), _this.state = { hasTriggered: false }, _this.handleRef = function (ref) {
+      if (ref) {
+        ref.link.click();
+        _this.setState({ hasTriggered: true });
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(CSVDownload, [{
-    key: 'handleRef',
-    value: function handleRef(ref) {
-      ref.link.click();
-      ref.link.remove();
-    }
-  }, {
     key: 'render',
     value: function render() {
+      if (this.state.hasTriggered) return null;
       return _react2.default.createElement(_index.CSVLink, _extends({ ref: this.handleRef }, this.props));
     }
   }]);
@@ -91,36 +99,27 @@ var CSVLink = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (CSVLink.__proto__ || Object.getPrototypeOf(CSVLink)).call(this, props));
 
-    _this.buildURI = _this.buildURI.bind(_this);
-    _this.state = { href: '' };
+    _this.getURI = _this.getURI.bind(_this);
     return _this;
   }
 
   _createClass(CSVLink, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "getURI",
+    value: function getURI() {
       var _props = this.props,
           data = _props.data,
           headers = _props.headers,
           separator = _props.separator,
           uFEFF = _props.uFEFF;
 
-      this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
-    }
-  }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
-      var data = nextProps.data,
-          headers = nextProps.headers,
-          separator = nextProps.separator,
-          uFEFF = nextProps.uFEFF;
-
-      this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
-    }
-  }, {
-    key: "buildURI",
-    value: function buildURI() {
-      return _core.buildURI.apply(undefined, arguments);
+      if (this._data !== data || this._headers !== headers || this._separator !== separator || this._uFEFF == uFEFF) {
+        this._uri = (0, _core.buildURI)(data, uFEFF, headers, separator);
+        this._data = data;
+        this._headers = headers;
+        this._separator = separator;
+        this._uFEFF = uFEFF;
+      }
+      return this._uri;
     }
   }, {
     key: "handleLegacy",
@@ -200,8 +199,7 @@ var CSVLink = function (_React$Component) {
           asyncOnClick = _props2.asyncOnClick,
           rest = _objectWithoutProperties(_props2, ["data", "headers", "separator", "filename", "uFEFF", "children", "onClick", "asyncOnClick"]);
 
-      var href = this.state.href;
-
+      var href = this.getURI();
       return _react2.default.createElement(
         "a",
         _extends({
