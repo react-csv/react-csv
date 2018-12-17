@@ -10,15 +10,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _index = require('../index');
+var _core = require('../core');
+
+var _metaProps = require('../metaProps');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,34 +28,61 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var defaultProps = {
+  target: '_blank'
+};
+
 var CSVDownload = function (_React$Component) {
   _inherits(CSVDownload, _React$Component);
 
-  function CSVDownload() {
+  function CSVDownload(props) {
     _classCallCheck(this, CSVDownload);
 
-    return _possibleConstructorReturn(this, (CSVDownload.__proto__ || Object.getPrototypeOf(CSVDownload)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (CSVDownload.__proto__ || Object.getPrototypeOf(CSVDownload)).call(this, props));
+
+    _this.state = {};
+    return _this;
   }
 
   _createClass(CSVDownload, [{
-    key: 'handleRef',
-    value: function handleRef(ref) {
-      ref.link.click();
-      ref.link.remove();
+    key: 'buildURI',
+    value: function buildURI() {
+      return _core.buildURI.apply(undefined, arguments);
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _props = this.props,
+          data = _props.data,
+          headers = _props.headers,
+          separator = _props.separator,
+          uFEFF = _props.uFEFF,
+          target = _props.target,
+          specs = _props.specs,
+          replace = _props.replace;
+
+      this.state.page = window.open(this.buildURI(data, uFEFF, headers, separator), target, specs, replace);
+    }
+  }, {
+    key: 'getWindow',
+    value: function getWindow() {
+      return this.state.page;
     }
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_index.CSVLink, _extends({ ref: this.handleRef }, this.props));
+      return null;
     }
   }]);
 
   return CSVDownload;
 }(_react2.default.Component);
 
+CSVDownload.defaultProps = Object.assign(_metaProps.defaultProps, defaultProps);
+CSVDownload.propTypes = _metaProps.propTypes;
 exports.default = CSVDownload;
-},{"../index":5,"react":44}],3:[function(require,module,exports){
-"use strict";
+},{"../core":4,"../metaProps":6,"react":44}],3:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -65,13 +92,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _core = require("../core");
+var _core = require('../core');
 
-var _metaProps = require("../metaProps");
+var _metaProps = require('../metaProps');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -97,7 +124,7 @@ var CSVLink = function (_React$Component) {
   }
 
   _createClass(CSVLink, [{
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
       var _props = this.props,
           data = _props.data,
@@ -108,7 +135,7 @@ var CSVLink = function (_React$Component) {
       this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
     }
   }, {
-    key: "componentWillReceiveProps",
+    key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var data = nextProps.data,
           headers = nextProps.headers,
@@ -118,12 +145,12 @@ var CSVLink = function (_React$Component) {
       this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
     }
   }, {
-    key: "buildURI",
+    key: 'buildURI',
     value: function buildURI() {
       return _core.buildURI.apply(undefined, arguments);
     }
   }, {
-    key: "handleLegacy",
+    key: 'handleLegacy',
     value: function handleLegacy(event, data, headers, separator, filename) {
       if (window.navigator.msSaveOrOpenBlob) {
         event.preventDefault();
@@ -135,7 +162,7 @@ var CSVLink = function (_React$Component) {
       }
     }
   }, {
-    key: "handleAsyncClick",
+    key: 'handleAsyncClick',
     value: function handleAsyncClick(event) {
       var _this2 = this;
 
@@ -154,7 +181,7 @@ var CSVLink = function (_React$Component) {
       this.props.onClick(event, done);
     }
   }, {
-    key: "handleSyncClick",
+    key: 'handleSyncClick',
     value: function handleSyncClick(event) {
       var stopEvent = this.props.onClick(event) === false;
       if (stopEvent) {
@@ -169,7 +196,7 @@ var CSVLink = function (_React$Component) {
       this.handleLegacy.apply(this, [event].concat(args));
     }
   }, {
-    key: "handleClick",
+    key: 'handleClick',
     value: function handleClick() {
       var _this3 = this;
 
@@ -178,14 +205,14 @@ var CSVLink = function (_React$Component) {
       }
 
       return function (event) {
-        if (typeof _this3.props.onClick === "function") {
+        if (typeof _this3.props.onClick === 'function') {
           return _this3.props.asyncOnClick ? _this3.handleAsyncClick.apply(_this3, [event].concat(args)) : _this3.handleSyncClick.apply(_this3, [event].concat(args));
         }
         _this3.handleLegacy.apply(_this3, [event].concat(args));
       };
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var _this4 = this;
 
@@ -198,12 +225,12 @@ var CSVLink = function (_React$Component) {
           children = _props2.children,
           onClick = _props2.onClick,
           asyncOnClick = _props2.asyncOnClick,
-          rest = _objectWithoutProperties(_props2, ["data", "headers", "separator", "filename", "uFEFF", "children", "onClick", "asyncOnClick"]);
+          rest = _objectWithoutProperties(_props2, ['data', 'headers', 'separator', 'filename', 'uFEFF', 'children', 'onClick', 'asyncOnClick']);
 
       var href = this.state.href;
 
       return _react2.default.createElement(
-        "a",
+        'a',
         _extends({
           download: filename
         }, rest, {
@@ -242,7 +269,7 @@ var isSafari = exports.isSafari = function isSafari() {
 
 var isJsons = exports.isJsons = function isJsons(array) {
   return Array.isArray(array) && array.every(function (row) {
-    return (typeof row === "undefined" ? "undefined" : _typeof(row)) === "object" && !(row instanceof Array);
+    return (typeof row === "undefined" ? "undefined" : _typeof(row)) === 'object' && !(row instanceof Array);
   });
 };
 
@@ -295,15 +322,18 @@ var getHeaderValue = exports.getHeaderValue = function getHeaderValue(property, 
 };
 
 var elementOrEmpty = exports.elementOrEmpty = function elementOrEmpty(element) {
-  return element || element === 0 ? element : "";
+  return element || element === 0 ? element : '';
 };
 
 var joiner = exports.joiner = function joiner(data) {
-  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ",";
-  return data.map(function (row, index) {
-    if (row == null) return null;
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ',';
+
+  var filteredData = data.filter(function (e) {
+    return e;
+  });
+  return filteredData.map(function (row, index) {
     return row.map(function (element) {
-      return '"' + elementOrEmpty(element) + '"';
+      return "\"" + elementOrEmpty(element) + "\"";
     }).join(separator);
   }).join("\n");
 };
@@ -323,19 +353,19 @@ var string2csv = exports.string2csv = function string2csv(data, headers, separat
 var toCSV = exports.toCSV = function toCSV(data, headers, separator) {
   if (isJsons(data)) return jsons2csv(data, headers, separator);
   if (isArrays(data)) return arrays2csv(data, headers, separator);
-  if (typeof data === "string") return string2csv(data, headers, separator);
+  if (typeof data === 'string') return string2csv(data, headers, separator);
   throw new TypeError("Data should be a \"String\", \"Array of arrays\" OR \"Array of objects\" ");
 };
 
 var buildURI = exports.buildURI = function buildURI(data, uFEFF, headers, separator) {
   var csv = toCSV(data, headers, separator);
-  var type = isSafari() ? "application/csv" : "text/csv";
-  var blob = new Blob([uFEFF ? "\uFEFF" : "", csv], { type: type });
-  var dataURI = "data:" + type + ";charset=utf-8," + (uFEFF ? "\uFEFF" : "") + csv;
+  var type = isSafari() ? 'application/csv' : 'text/csv';
+  var blob = new Blob([uFEFF ? "\uFEFF" : '', csv], { type: type });
+  var dataURI = "data:" + type + ";charset=utf-8," + (uFEFF ? "\uFEFF" : '') + csv;
 
   var URL = window.URL || window.webkitURL;
 
-  return typeof URL.createObjectURL === "undefined" ? dataURI : URL.createObjectURL(blob);
+  return typeof URL.createObjectURL === 'undefined' ? dataURI : URL.createObjectURL(blob);
 };
 },{}],5:[function(require,module,exports){
 'use strict';

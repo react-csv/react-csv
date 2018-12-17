@@ -135,6 +135,16 @@ var CSVLink = function (_React$Component) {
       this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
     }
   }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var data = nextProps.data,
+          headers = nextProps.headers,
+          separator = nextProps.separator,
+          uFEFF = nextProps.uFEFF;
+
+      this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
+    }
+  }, {
     key: 'buildURI',
     value: function buildURI() {
       return _core.buildURI.apply(undefined, arguments);
@@ -318,7 +328,8 @@ var elementOrEmpty = exports.elementOrEmpty = function elementOrEmpty(element) {
 var joiner = exports.joiner = function joiner(data) {
   var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ',';
   return data.map(function (row, index) {
-    return row.map(function (element) {
+    if (row == null) return null;
+    row.map(function (element) {
       return "\"" + elementOrEmpty(element) + "\"";
     }).join(separator);
   }).join("\n");
