@@ -7,7 +7,12 @@ import { CSVLink } from '../index';
  */
 class CSVDownload extends React.Component {
   state = { hasTriggered: false };
-  handleRef = ref => {
+  constructor(props) {
+    super(props)
+    this.handleRef = this.handleRef.bind(this)
+  }
+  
+  handleRef(ref) {
     if (ref) {
       ref.link.click();
       this.setState({ hasTriggered: true })
