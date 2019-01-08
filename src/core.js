@@ -83,7 +83,7 @@ export const buildURI = ((data, uFEFF, headers, separator) => {
 
   const URL = window.URL || window.webkitURL;
 
-  return (typeof URL.createObjectURL === 'undefined')
+  return (typeof URL.createObjectURL === 'undefined' || isSafari())
     ? dataURI
     : URL.createObjectURL(blob);
 });
