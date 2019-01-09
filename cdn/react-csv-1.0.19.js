@@ -359,13 +359,14 @@ var toCSV = exports.toCSV = function toCSV(data, headers, separator) {
 
 var buildURI = exports.buildURI = function buildURI(data, uFEFF, headers, separator) {
   var csv = toCSV(data, headers, separator);
-  var type = isSafari() ? 'application/csv' : 'text/csv';
-  var blob = new Blob([uFEFF ? "\uFEFF" : '', csv], { type: type });
-  var dataURI = "data:" + type + ";charset=utf-8," + (uFEFF ? "\uFEFF" : '') + csv;
-
   var URL = window.URL || window.webkitURL;
-
-  return typeof URL.createObjectURL === 'undefined' ? dataURI : URL.createObjectURL(blob);
+  if (typeof URL.createObjectURL === 'undefined' || isSafari()) {
+    var dataURI = "data:text/csv;charset=utf-8," + (uFEFF ? "\uFEFF" : '') + csv;
+    return dataURI;
+  } else {
+    var blob = new Blob([uFEFF ? "\uFEFF" : '', csv], 'application/csv');
+    return URL.createObjectURL(blob);
+  }
 };
 },{}],5:[function(require,module,exports){
 'use strict';

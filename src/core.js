@@ -77,13 +77,13 @@ export const toCSV = (data, headers, separator) => {
 
 export const buildURI = ((data, uFEFF, headers, separator) => {
   const csv = toCSV(data, headers, separator);
-  const type = isSafari() ? 'application/csv' : 'text/csv';
-  const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type});
-  const dataURI = `data:${type};charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
-
   const URL = window.URL || window.webkitURL;
-
-  return (typeof URL.createObjectURL === 'undefined' || isSafari())
-    ? dataURI
-    : URL.createObjectURL(blob);
+  if (typeof URL.createObjectURL === 'undefined' || isSafari()) {
+    const dataURI = `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
+    return dataURI;
+  }
+  else {
+    const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], 'application/csv');
+    return URL.createObjectURL(blob);
+  }
 });
