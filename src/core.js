@@ -82,8 +82,7 @@ export const buildURI = ((data, uFEFF, headers, separator) => {
     const dataURI = `data:text/csv;charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
     return dataURI;
   }
-  else {
-    const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], 'application/csv');
-    return URL.createObjectURL(blob);
-  }
+  const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], 'application/csv');
+  return URL.createObjectURL(blob);
+  
 });

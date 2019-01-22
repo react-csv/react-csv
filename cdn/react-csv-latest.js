@@ -363,10 +363,9 @@ var buildURI = exports.buildURI = function buildURI(data, uFEFF, headers, separa
   if (typeof URL.createObjectURL === 'undefined' || isSafari()) {
     var dataURI = "data:text/csv;charset=utf-8," + (uFEFF ? "\uFEFF" : '') + csv;
     return dataURI;
-  } else {
-    var blob = new Blob([uFEFF ? "\uFEFF" : '', csv], 'application/csv');
-    return URL.createObjectURL(blob);
   }
+  var blob = new Blob([uFEFF ? "\uFEFF" : '', csv], 'application/csv');
+  return URL.createObjectURL(blob);
 };
 },{}],5:[function(require,module,exports){
 'use strict';
