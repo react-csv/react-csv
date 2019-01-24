@@ -237,6 +237,7 @@ var CSVLink = function (_React$Component) {
           ref: function ref(link) {
             return _this4.link = link;
           },
+          target: '_self',
           href: href,
           onClick: this.handleClick(data, headers, separator, filename)
         }),
