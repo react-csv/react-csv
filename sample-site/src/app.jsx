@@ -44,7 +44,10 @@ class App extends React.Component {
                     headers={csvHeaders}
                     data={csvData}
                     filename={this.getFileName()}
-                    className="btn">Export to CSV ⬇</CSVLink>
+                    className="btn"
+                  >
+                    Export to CSV ⬇
+                  </CSVLink>
               </div>
           </div>
 
