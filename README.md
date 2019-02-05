@@ -154,7 +154,7 @@ data = [
 
 ### - **separator** Props:
 
-Following a request to add [this feature](https://github.com/abdennour/react-csv/issues/3) , from `1.0.1` release, `react-csv` supports `separator` props which is equals by default a comma `,` .
+Following a request to add [this feature](https://github.com/react-csv/react-csv/issues/3) , from `1.0.1` release, `react-csv` supports `separator` props which is equals by default a comma `,` .
 
 ```js
 import { CSVLink } from "react-csv";
@@ -171,7 +171,7 @@ import { CSVLink } from "react-csv";
 
 ### - **enclosingCharacter** Props:
 
-Following a request to add [this feature](https://github.com/abdennour/react-csv/issues/68), `react-csv` supports an `enclosingCharacter` prop which defaults to `"`.
+Following a request to add [this feature](https://github.com/react-csv/react-csv/issues/68), `react-csv` supports an `enclosingCharacter` prop which defaults to `"`.
 
 
 ```js
