@@ -50,7 +50,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "browserify": "^13.3.0",
+    "browserify": "^16.2.3",
     "console-info": "0.0.4",
     "coveralls": "^3.0.2",
     "cryptiles": ">=4.1.2",
