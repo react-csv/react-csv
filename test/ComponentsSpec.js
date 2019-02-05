@@ -2,7 +2,8 @@ import jsdom from 'jsdom-global';
 import React from 'react';
 import {
  mount,
- shallow
+ shallow,
+ render
 } from 'enzyme';
 import sinon from 'sinon';
 import expect from 'expect';
@@ -69,10 +70,10 @@ describe('In browser environment', () => {
  
      it(`calls "buildURI" method on mounting`, () => {
        const dataURI = `data:text/csv;some,thing`
-       const buildURI = sinon.stub(CSVLink.prototype, 'buildURI').returns(dataURI);
+       const getURI = sinon.stub(CSVLink.prototype, 'getURI').returns(dataURI);
        const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
-       expect(buildURI.calledOnce).toBeTruthy();
-       buildURI.restore();
+       expect(getURI.calledOnce).toBeTruthy();
+       getURI.restore();
      });
      it(`generates CSV download link and bind it to "href" of <a> element`, () => {
        const linkPrefix = `data:text/csv`
@@ -115,60 +116,25 @@ describe('In browser environment', () => {
        ],
        uFEFF: true
       };
-      manyProps= Object.assign(minProps, {
-       target: '_blank',
-       specs: 'fullscreen=yes&height=200&status=yes',
-       replace:'no'
-      });
      });
  
      it(`does not render anything by default`, () => {
        const wrapper = shallow( <CSVDownload {...minProps} />);
         expect(wrapper.props().children).toNotExist();
        });
-      it(`calls "buildURI" on mounting`, () => {
-        const dataURI = `data:text/csv;some,thing`
-        const buildURI = sinon.stub(CSVDownload.prototype, 'buildURI').returns(dataURI);
-        const wrapper = mount( <CSVDownload {...minProps} />);
-        expect(buildURI.calledOnce).toBeTruthy();
-        buildURI.restore();
+      it(`calls "handleRef" on mounting`, () => {
+        const handleRef = sinon.stub(CSVDownload.prototype, 'handleRef');
+        mount(<CSVDownload {...minProps} />);
+        expect(handleRef.calledOnce).toBeTruthy();
+        handleRef.restore();
       });
-      it(`redirects in different page on mounting`, () => {
-        const openCallback = sinon.stub(window,'open').returns({
-          focus: ()=> {}
-        });
-        const wrapper = mount( <CSVDownload {...manyProps} />);
-        expect(openCallback.calledWith(buildURI(manyProps.data, manyProps.uFEFF), manyProps.target, manyProps.specs, manyProps.replace)).toBeTruthy();
-        expect(openCallback.calledOnce).toBeTruthy();
-        openCallback.restore();
-       });
- 
-      it(`persists new opened window`, () => {
-        const openCallback = sinon.stub(window,'open').returns('newPage');
-        const wrapper = mount( <CSVDownload {...manyProps} />);
-        const actualNewWindow= wrapper.instance().getWindow();
-        expect(actualNewWindow).toEqual('newPage');
-        openCallback.restore();
- 
+      it(`includes no element in DOM on mounting`, () => {
+        const filename = 'persons.csv';
+        const handleRef = sinon.stub(CSVDownload.prototype, 'handleRef');
+        const wrapper = mount(<CSVDownload {...minProps} filename={filename} />)
+        expect(wrapper.find('a').get(0).getAttribute('download')).toEqual(filename);
+        handleRef.restore();
      });
   });
  
 })
-
-describe('In Node environment', () => {
-  it('does not call buildURI', () => {
-    const minProps = {
-      data: [
-       ['X', 'Y'],
-       ['1', '2'],
-       ['3', '4']
-      ]
-    };
-
-    const dataURI = `data:text/csv;some,thing`
-    const buildURI = sinon.stub(CSVLink.prototype, 'buildURI').returns(dataURI);
-    const wrapper = shallow( <CSVLink {...minProps} > Click here </CSVLink>);
-    expect(buildURI.notCalled).toBeTruthy();
-    buildURI.restore();
-  });
-});
