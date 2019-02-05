@@ -160,11 +160,32 @@ Following a request to add [this feature](https://github.com/abdennour/react-csv
 import { CSVLink } from "react-csv";
 
 <CSVLink data={array} separator={";"}>
-  Download me
-</CSVLink>;
+    Download me
+</CSVLink>
+
 /*
-  This will generate CSV with ";" as delimiter (separator)
+    "foo";"bar"
+    "a";"b"
  */
+```
+
+### - **enclosingCharacter** Props:
+
+Following a request to add [this feature](https://github.com/abdennour/react-csv/issues/68), `react-csv` supports an `enclosingCharacter` prop which defaults to `"`.
+
+
+```js
+import {CSVLink} from 'react-csv';
+
+<CSVLink data={array} enclosingCharacter={`'`}>
+    Download me
+</CSVLink>
+
+/*
+    'foo','bar'
+    'a','b'
+ */
+
 ```
 
 ## 1. CSVLink Component:
