@@ -50,12 +50,14 @@ class CSVLink extends React.Component {
   }
 
   handleAsyncClick(event, ...args) {
+    event.preventDefault();
+    event.stopPropagation();
+
     const done = proceed => {
-      if (proceed === false) {
-        event.preventDefault();
-        return;
+      if (proceed !== false) {
+        this.link.dispatchEvent(new CustomEvent('click'))
+        this.handleLegacy(event, ...args);
       }
-      this.handleLegacy(event, ...args);
     };
 
     this.props.onClick(event, done);
