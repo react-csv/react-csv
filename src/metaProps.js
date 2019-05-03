@@ -10,14 +10,16 @@ export const propTypes = {
   filename: string,
   uFEFF: bool,
   onClick: func,
-  asyncOnClick: bool
+  asyncOnClick: bool,
+  transform: func
 };
 
 export const defaultProps = {
   separator: ',',
   filename: 'generatedBy_react-csv.csv',
   uFEFF: true,
-  asyncOnClick: false
+  asyncOnClick: false,
+  transform: v => v,
 };
 
 export const PropsNotForwarded = [
