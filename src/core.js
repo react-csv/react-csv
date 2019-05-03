@@ -3,6 +3,8 @@
  */
 export const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
+const returnVal = v => v;
+
 export const isJsons = ((array) => Array.isArray(array) && array.every(
  row => (typeof row === 'object' && !(row instanceof Array))
 ));
@@ -49,7 +51,7 @@ export const getHeaderValue = (property, obj) => {
 
 export const elementOrEmpty = (element) => element || element === 0 ? element : '';
 
-export const joiner = ((data, separator = ',', enclosingCharacter = '"', transform) => {
+export const joiner = ((data, separator = ',', enclosingCharacter = '"', transform = returnVal) => {
   return data
     .filter(e => e)
     .map(
@@ -61,11 +63,11 @@ export const joiner = ((data, separator = ',', enclosingCharacter = '"', transfo
     .join(`\n`);
 });
 
-export const arrays2csv = ((data, headers, separator, enclosingCharacter, transform) =>
+export const arrays2csv = ((data, headers, separator, enclosingCharacter, transform = returnVal) =>
  joiner(headers ? [headers, ...data] : data, separator, enclosingCharacter, transform)
 );
 
-export const jsons2csv = ((data, headers, separator, enclosingCharacter, transform) =>
+export const jsons2csv = ((data, headers, separator, enclosingCharacter, transform = returnVal) =>
  joiner(jsons2arrays(data, headers), separator, enclosingCharacter, transform)
 );
 
@@ -73,14 +75,14 @@ export const string2csv = ((data, headers, separator, enclosingCharacter) =>
   (headers) ? `${headers.join(separator)}\n${data}`: data
 );
 
-export const toCSV = (data, headers, separator, enclosingCharacter, transform) => {
+export const toCSV = (data, headers, separator, enclosingCharacter, transform = returnVal) => {
  if (isJsons(data)) return jsons2csv(data, headers, separator, enclosingCharacter, transform);
  if (isArrays(data)) return arrays2csv(data, headers, separator, enclosingCharacter, transform);
  if (typeof data ==='string') return string2csv(data, headers, separator);
  throw new TypeError(`Data should be a "String", "Array of arrays" OR "Array of objects" `);
 };
 
-export const buildURI = ((data, uFEFF, headers, separator, enclosingCharacter, transform = v => v) => {
+export const buildURI = ((data, uFEFF, headers, separator, enclosingCharacter, transform = returnVal) => {
   const csv = toCSV(data, headers, separator, enclosingCharacter, transform);
   const type = isSafari() ? 'application/csv' : 'text/csv';
   const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type});
