@@ -20,13 +20,13 @@ class CSVLink extends React.Component {
   }
 
   componentDidMount() {
-    const {data, headers, separator, uFEFF, enclosingCharacter} = this.props;
-    this.setState({ href: this.buildURI(data, uFEFF, headers, separator, enclosingCharacter) });
+    const {data, headers, separator, uFEFF, enclosingCharacter, transform} = this.props;
+    this.setState({ href: this.buildURI(data, uFEFF, headers, separator, enclosingCharacter, transform) });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { data, headers, separator, uFEFF } = nextProps;
-    this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
+    const { data, headers, separator, transform, uFEFF, enclosingCharacter } = nextProps;
+    this.setState({ href: this.buildURI(data, uFEFF, headers, separator, enclosingCharacter, transform) });
   }
 
   buildURI() {
@@ -36,13 +36,13 @@ class CSVLink extends React.Component {
   /**
    * In IE11 this method will trigger the file download
    */
-  handleLegacy(event, data, headers, separator, filename, enclosingCharacter) {
+  handleLegacy(event, data, headers, separator, filename, enclosingCharacter, transform) {
     // If this browser is IE 11, it does not support the `download` attribute
     if (window.navigator.msSaveOrOpenBlob) {
       // Stop the click propagation
       event.preventDefault();
 
-      let blob = new Blob([toCSV(data, headers, separator, enclosingCharacter)]);
+      let blob = new Blob([toCSV(data, headers, separator, enclosingCharacter, transform)]);
       window.navigator.msSaveBlob(blob, filename);
 
       return false;
@@ -92,6 +92,7 @@ class CSVLink extends React.Component {
       onClick,
       asyncOnClick,
       enclosingCharacter,
+      transform,
       ...rest
     } = this.props;
 
@@ -102,7 +103,7 @@ class CSVLink extends React.Component {
         ref={link => (this.link = link)}
         target="_self"
         href={this.state.href}
-        onClick={this.handleClick(data, headers, separator, filename, enclosingCharacter)}
+        onClick={this.handleClick(data, headers, separator, filename, enclosingCharacter, transform)}
       >
         {children}
       </a>

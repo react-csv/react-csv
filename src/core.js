@@ -43,45 +43,45 @@ export const getHeaderValue = (property, obj) => {
         return o[p];
       }
     }, obj);
-  
+
   return (foundValue === undefined) ? '' : foundValue;
 }
 
 export const elementOrEmpty = (element) => element || element === 0 ? element : '';
 
-export const joiner = ((data, separator = ',', enclosingCharacter = '"') => {
+export const joiner = ((data, separator = ',', enclosingCharacter = '"', transform) => {
   return data
     .filter(e => e)
     .map(
       row => row
         .map((element) => elementOrEmpty(element))
-        .map(column => `${enclosingCharacter}${column}${enclosingCharacter}`)
+        .map(column => transform(`${enclosingCharacter}${column}${enclosingCharacter}`))
         .join(separator)
     )
     .join(`\n`);
 });
 
-export const arrays2csv = ((data, headers, separator, enclosingCharacter) =>
- joiner(headers ? [headers, ...data] : data, separator, enclosingCharacter)
+export const arrays2csv = ((data, headers, separator, enclosingCharacter, transform) =>
+ joiner(headers ? [headers, ...data] : data, separator, enclosingCharacter, transform)
 );
 
-export const jsons2csv = ((data, headers, separator, enclosingCharacter) =>
- joiner(jsons2arrays(data, headers), separator, enclosingCharacter)
+export const jsons2csv = ((data, headers, separator, enclosingCharacter, transform) =>
+ joiner(jsons2arrays(data, headers), separator, enclosingCharacter, transform)
 );
 
 export const string2csv = ((data, headers, separator, enclosingCharacter) =>
   (headers) ? `${headers.join(separator)}\n${data}`: data
 );
 
-export const toCSV = (data, headers, separator, enclosingCharacter) => {
- if (isJsons(data)) return jsons2csv(data, headers, separator, enclosingCharacter);
- if (isArrays(data)) return arrays2csv(data, headers, separator, enclosingCharacter);
+export const toCSV = (data, headers, separator, enclosingCharacter, transform) => {
+ if (isJsons(data)) return jsons2csv(data, headers, separator, enclosingCharacter, transform);
+ if (isArrays(data)) return arrays2csv(data, headers, separator, enclosingCharacter, transform);
  if (typeof data ==='string') return string2csv(data, headers, separator);
  throw new TypeError(`Data should be a "String", "Array of arrays" OR "Array of objects" `);
 };
 
-export const buildURI = ((data, uFEFF, headers, separator, enclosingCharacter) => {
-  const csv = toCSV(data, headers, separator, enclosingCharacter);
+export const buildURI = ((data, uFEFF, headers, separator, enclosingCharacter, transform = v => v) => {
+  const csv = toCSV(data, headers, separator, enclosingCharacter, transform);
   const type = isSafari() ? 'application/csv' : 'text/csv';
   const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], {type});
   const dataURI = `data:${type};charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
