@@ -47,7 +47,13 @@ export const getHeaderValue = (property, obj) => {
   return (foundValue === undefined) ? '' : foundValue;
 }
 
-export const elementOrEmpty = (element) => element || element === 0 ? element : '';
+export const elementOrEmpty = element => {
+  if (element == null) {
+    if (element === 0) return element
+    else return ''
+  }
+  else return element
+}
 
 export const joiner = ((data, separator = ',', enclosingCharacter = '"') => {
   return data
