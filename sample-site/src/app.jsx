@@ -2,10 +2,10 @@ import React from 'react';
 import {CSVLink, CSVDownload} from 'react-csv';
 import Table from './Table.jsx';
 
-const csvHeaders = [
+const csvHeaders1 = [
 "Company","جهة الإتصال ","王玉普"
 ]
-const csvData =[
+const csvData1 = [
   ['Alfreds Futterkiste'	,'Maria Anders',	'Germany'] ,
   ['Rathath IT', 'Abdennour TM' , 'تونس'] ,
   ['Sinopec', '王玉普' , '中国'],
@@ -17,9 +17,30 @@ const csvData =[
   ['Software hourse', 'Soro' , 'Poland']
 ];
 
+const csvHeaders2 = [
+  { label: 'First. Name', key: 'first.name' },
+  { label: 'Last Name.', key: 'lastname' },
+  { label: 'E.m.a.i.l.', key: 'email' }
+];
+
+const csvData2 = [
+  { first:{name: 'Ahm.ed'}, lastname: 'Tomi', email: 'ah@smthing.co.com' },
+  { first:{name: 'Raed'}, lastname: 'Lab.es', email: 'rl@smthing.co.com' },
+  { first:{name: 'Yezzi'}, lastname: 'Min l3b', email: 'ymin@cocococo.com' }
+];
+
+const csvData3 = [
+  { 'first.name': 'Ahm.ed', lastname: 'Tomi', email: 'ah@smthing.co.com' },
+  { 'first.name': 'Raed', lastname: 'Lab.es', email: 'rl@smthing.co.com' },
+  { 'first.name': 'Yezzi', lastname: 'Min l3b', email: 'ymin@cocococo.com' }
+];
+
 class App extends React.Component {
 
-  state= {};
+  state= {
+    csvHeaders: csvHeaders1,
+    csvData: csvData1
+  };
   getFileName() {
     if (!this.state.filename) return undefined;
     if (!this.state.filename.endsWith('.csv')) return this.state.filename + '.csv';
@@ -29,8 +50,28 @@ class App extends React.Component {
     return (
       <div>
           <div ><h1>Pretty Example "React-csv"</h1></div>
+          <div className="row">
+              <div className="large-3 columns">
+                  <a className="btn"
+                  onClick={() => this.setState({csvHeaders: csvHeaders1, csvData: csvData1})}>
+                      Sample Array Data
+                  </a>
+              </div>
+              <div className="large-3 columns">
+                  <a className="btn"
+                  onClick={() => this.setState({csvHeaders: csvHeaders2, csvData: csvData2})}>Sample Object Data1</a>
+              </div>
+              <div className="large-3 columns">
+                  <a className="btn"
+                  onClick={() => this.setState({csvHeaders: csvHeaders2, csvData: csvData3})}>Sample Object Data2</a>
+              </div>
+              <div className="large-3 columns">
+                  <a className="btn"
+                  onClick={() => this.setState({csvHeaders: csvHeaders1, csvData: csvData2})}>Sample Object Data3</a>
+              </div>
+          </div>
           <div>
-              <Table headers={csvHeaders} data={csvData} />
+              <Table headers={this.state.csvHeaders} data={this.state.csvData} />
           </div>
           <div className="row">
               <div className="large-6 columns"></div>
@@ -41,14 +82,20 @@ class App extends React.Component {
               </div>
               <div className="large-2 columns">
                   <CSVLink
-                    headers={csvHeaders}
-                    data={csvData}
+                    headers={this.state.csvHeaders}
+                    data={this.state.csvData}
                     filename={this.getFileName()}
                     className="btn"
                   >
                     Export to CSV ⬇
                   </CSVLink>
               </div>
+          </div>
+          <div>
+              <b>Header :</b>
+              <div><pre>{JSON.stringify(this.state.csvHeaders, null, 2) }</pre></div>
+              <b>Data : </b>
+              <div><pre>{JSON.stringify(this.state.csvData, null, 2) }</pre></div>
           </div>
 
       </div>

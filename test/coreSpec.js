@@ -165,6 +165,32 @@ describe('In browser environment', () => {
       ];
       expect(actual).toEqual(expected);
     });
+    it(`accepts dot notation in headers and map to key when nested keys are not found`, () => {
+      fixtures = [{
+        maths: '90'
+      }, {
+        sport: '97'
+      }, {
+        maths: '77',
+        sport: 0
+      }, {
+        people: {
+          name: 'john'
+        }
+      }, {
+        'people.age': '20'
+      }]
+      const headers = ['maths', 'sport', 'phy', 'ch', 'people.name', 'people.age'];
+      const actual = jsons2arrays(fixtures, headers);
+      const expected = [
+        headers, ['90', '', '', '', '', ''],
+        ['', '97', '', '', '', ''],
+        ['77', 0, '', '', '', ''],
+        ['', '', '', '', 'john', ''],
+        ['', '', '', '', '', '20']
+      ];
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe(`core::arrays2csv`, () => {
