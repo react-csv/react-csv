@@ -12,20 +12,20 @@ import {
 class CSVLink extends React.Component {
   static defaultProps = commonDefaultProps;
   static propTypes = commonPropTypes;
+
   static getDerivedStateFromProps(props) {
     const { data, headers, separator, uFEFF } = props;
-    return { href: this.buildURI(data, uFEFF, headers, separator) };
+    return { href: buildURI(data, uFEFF, headers, separator) };
   }
 
   constructor(props) {
     super(props);
-    this.buildURI = this.buildURI.bind(this);
     this.state = { href: '' };
   }
 
   componentDidMount() {
     const {data, headers, separator, uFEFF, enclosingCharacter} = this.props;
-    this.setState({ href: this.buildURI(data, uFEFF, headers, separator, enclosingCharacter) });
+    this.setState({ href: buildURI(data, uFEFF, headers, separator, enclosingCharacter) });
   }
 
   /**
