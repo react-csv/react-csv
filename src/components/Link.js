@@ -28,10 +28,6 @@ class CSVLink extends React.Component {
     this.setState({ href: this.buildURI(data, uFEFF, headers, separator, enclosingCharacter) });
   }
 
-  buildURI() {
-    return buildURI(...arguments);
-  }
-
   /**
    * In IE11 this method will trigger the file download
    */
