@@ -1,10 +1,12 @@
 import React from 'react';
-import {buildURI} from '../core';
+import { buildURI } from '../core';
 import {
-   defaultProps as commonDefaultProps,
-   propTypes as commonPropTypes} from '../metaProps';
+  defaultProps as commonDefaultProps,
+  propTypes as commonPropTypes,
+} from '../metaProps';
+
 const defaultProps = {
-  target: '_blank'
+  target: '_blank',
 };
 
 /**
@@ -12,36 +14,38 @@ const defaultProps = {
  * @example ../../sample-site/csvdownload.example.md
  */
 class CSVDownload extends React.Component {
+  static propTypes = commonPropTypes;
 
   static defaultProps = Object.assign(
     commonDefaultProps,
-    defaultProps
+    defaultProps,
   );
-
-  static propTypes = commonPropTypes;
 
   constructor(props) {
     super(props);
-    this.state={};
+    this.state = {};
   }
 
-  buildURI() {
-    return buildURI(...arguments);
-  }
-
-  componentDidMount(){
-    const {data, headers, separator, enclosingCharacter, uFEFF, target, specs, replace} = this.props;
+  componentDidMount() {
+    const {
+      data, headers, separator, enclosingCharacter, uFEFF, target, specs, replace,
+    } = this.props;
     this.state.page = window.open(
-        this.buildURI(data, uFEFF, headers, separator, enclosingCharacter), target, specs, replace
+      this.buildURI(data, uFEFF, headers, separator, enclosingCharacter), target, specs, replace,
     );
   }
 
   getWindow() {
-    return this.state.page;
+    const { page } = this.state;
+    return page;
   }
 
-  render(){
-    return (null)
+  buildURI(...rest) {
+    return buildURI(...rest);
+  }
+
+  render() {
+    return (null);
   }
 }
 
