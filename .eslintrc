@@ -1,0 +1,21 @@
+{
+    "env": {
+        "browser": true
+    },
+    "extends": "airbnb",
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "rules": {
+        "consistent-return": "off",
+        "array-callback-return": "off",
+        "class-methods-use-this": "off",
+        "react/static-property-placement": "off",
+        "react/jsx-filename-extension": "off",
+        "react/jsx-props-no-spreading": "off"
+    }
+  }
+  

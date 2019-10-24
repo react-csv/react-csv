@@ -16,7 +16,9 @@
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "docgen": "documentation build  src/** -f html -o docs",
     "styleguide-server": "styleguidist server",
-    "styleguide-build": "styleguidist build"
+    "styleguide-build": "styleguidist build",
+    "lint": "eslint \"src/**/*.js\"",
+    "lint-fix": "eslint \"src/**/*.js\" --fix"
   },
   "repository": {
     "type": "git",
@@ -42,9 +44,14 @@
     "url": "https://github.com/react-csv/react-csv/issues"
   },
   "homepage": "https://github.com/react-csv/react-csv#readme",
+  "dependencies": {
+    "react": "^15.5.4",
+    "prop-types": "15.7.2"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.18.2",
+    "babel-eslint": "^10.0.3",
     "babel-istanbul": "^0.11.0",
     "babel-loader": "^6.2.8",
     "babel-preset-env": "^1.6.1",
@@ -56,6 +63,11 @@
     "css-loader": "^0.26.1",
     "documentation": "^4.0.0-rc.1",
     "enzyme": "^2.8.2",
+    "eslint": "6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
     "expect": "^1.20.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "isparta-loader": "^2.0.0",
@@ -64,8 +76,7 @@
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.2.0",
     "node-sass": "^4.5.3",
-    "prop-types": "^15.5.8",
-    "react": "^15.5.4",
+    "prop-types": "^15.7.2",
     "react-docgen": "^2.13.0",
     "react-dom": "^15.5.4",
     "react-styleguidist": "^4.6.3",
