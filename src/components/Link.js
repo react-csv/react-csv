@@ -36,48 +36,57 @@ class CSVLink extends React.Component {
   /**
    * In IE11 this method will trigger the file download
    */
-  handleLegacy(event, data, headers, separator, filename, enclosingCharacter) {
+  handleLegacy(event) {
     // If this browser is IE 11, it does not support the `download` attribute
     if (window.navigator.msSaveOrOpenBlob) {
       // Stop the click propagation
       event.preventDefault();
 
-      let blob = new Blob([toCSV(data, headers, separator, enclosingCharacter)]);
+      const {
+        data,
+        headers,
+        separator,
+        filename,
+        enclosingCharacter,
+        uFEFF
+      } = this.props;
+
+      let blob = new Blob([uFEFF ? '\uFEFF' : '', toCSV(data, headers, separator, enclosingCharacter)]);
       window.navigator.msSaveBlob(blob, filename);
 
       return false;
     }
   }
 
-  handleAsyncClick(event, ...args) {
+  handleAsyncClick(event) {
     const done = proceed => {
       if (proceed === false) {
         event.preventDefault();
         return;
       }
-      this.handleLegacy(event, ...args);
+      this.handleLegacy(event);
     };
 
     this.props.onClick(event, done);
   }
 
-  handleSyncClick(event, ...args) {
+  handleSyncClick(event) {
     const stopEvent = this.props.onClick(event) === false;
     if (stopEvent) {
       event.preventDefault();
       return;
     }
-    this.handleLegacy(event, ...args);
+    this.handleLegacy(event);
   }
 
-  handleClick(...args) {
+  handleClick() {
     return event => {
       if (typeof this.props.onClick === 'function') {
         return this.props.asyncOnClick
-          ? this.handleAsyncClick(event, ...args)
-          : this.handleSyncClick(event, ...args);
+          ? this.handleAsyncClick(event)
+          : this.handleSyncClick(event);
       }
-      this.handleLegacy(event, ...args);
+      this.handleLegacy(event);
     };
   }
 
@@ -102,7 +111,7 @@ class CSVLink extends React.Component {
         ref={link => (this.link = link)}
         target="_self"
         href={this.state.href}
-        onClick={this.handleClick(data, headers, separator, filename, enclosingCharacter)}
+        onClick={this.handleClick()}
       >
         {children}
       </a>

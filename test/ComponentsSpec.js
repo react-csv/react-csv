@@ -11,7 +11,7 @@ import {
  CSVLink,
  CSVDownload
 } from '../src';
-import {buildURI} from '../src/core';
+import { buildURI, toCSV } from '../src/core';
 import 'console-info';
 
 
@@ -97,6 +97,33 @@ describe('In browser environment', () => {
        wrapper.find(`a`).simulate(`click`, { preventDefault() {}})
        expect(wrapper.find(`a`).get(0).props).toContainKey('onClick');
      });
+
+    describe('handleLegacy for IE11', () => {
+      it('stops propagation and uses props for up-to-date values', () => {
+        const data = 'Strongback,Tirimo';
+        const headers = ['use-caste', 'comm'];
+        const separator = ',';
+        const filename = 'SyeniteFulcrum';
+        const enclosingCharacter = '"';
+
+        const wrapper = shallow(<CSVLink {...{data, headers, separator, filename, enclosingCharacter}} />);
+        const instance = wrapper.instance();
+
+        // create spies
+        const preventDefault = sinon.spy();
+        window.navigator.msSaveBlob = sinon.spy();
+        const toCSVSpy = sinon.spy(toCSV);
+
+        // the following is set to true to mimic IE 11
+        window.navigator.msSaveOrOpenBlob = true;
+        // call the class function
+        instance.handleLegacy({ preventDefault });
+
+        expect(preventDefault.called).toBeTruthy;
+        expect(toCSVSpy.calledWith([data, headers, separator, enclosingCharacter])).toBeTruthy;
+        expect(window.navigator.msSaveBlob.calledWith(filename)).toBeTruthy;
+      });
+    });
      // TODO write unit-tests for handleClick
      // TODO write unit-tests for handleSyncClick
      // TODO write unit-tests for handleAsyncClick
