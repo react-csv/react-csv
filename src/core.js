@@ -43,8 +43,8 @@ export const getHeaderValue = (property, obj) => {
         return o[p];
       }
     }, obj);
-  
-  return (foundValue === undefined) ? '' : foundValue;
+  // if at any point the nested keys passed do not exist then looks for key `property` in object obj
+  return (foundValue === undefined) ? ((property in obj) ? obj[property] : '') : foundValue;
 }
 
 export const elementOrEmpty = (element) => element || element === 0 ? element : '';

@@ -4,13 +4,20 @@ class Table extends React.Component {
   state= {};
   renderHeaders() {
    return (<thead><tr>
-             {this.props.headers.map((header, i) => <th key={"th"+i}>{header}</th>)}
+             {this.props.headers.map((header, i) => <th key={"th"+i}>{typeof(header) === 'object' ? header.label : header}</th>)}
          </tr></thead>);
   }
 
    renderRow(row, key) {
      return (<tr key={'tbody-tr'+key}>
-               {row.map((cell, i) => <td key={'td-'+key+'-'+i}>{cell}</td>)}
+              {Array.isArray(row) ?
+                row.map((cell, i) => {
+                  return <td key={'td-'+key+'-'+i}>{typeof(cell) === 'object' ? cell.name : cell}</td>
+                }) :
+                Object.values(row).map((cell, i) => {
+                  return <td key={'td-'+key+'-'+i}>{typeof(cell) === 'object' ? cell.name : cell}</td>
+                })
+              }
            </tr>);
    }
 

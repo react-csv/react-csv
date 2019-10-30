@@ -151,6 +151,7 @@ data = [
   { details: { firstName: 'John', lastName: 'Jones' }, job: 'developer'},
 ];
 ```
+Note: if at any point the nested keys passed do not exist then looks for key with dot notation in the object.
 
 ### - **separator** Props:
 
