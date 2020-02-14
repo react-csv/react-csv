@@ -74,6 +74,18 @@ describe('In browser environment', () => {
        expect(buildURI.calledOnce).toBeTruthy();
        buildURI.restore();
      });
+
+     it(`calls "buildURI" method on update`, () => {
+      const dataURI = `data:text/csv;some,thing`
+      const buildURI = sinon.stub(CSVLink.prototype, 'buildURI').returns(dataURI);
+      const wrapper = mount( <CSVLink data={[]} > Click here </CSVLink>);
+      expect(buildURI.calledOnce).toBeTruthy();
+      minProps.data.push(['x','y']);
+      wrapper.update()
+      expect(buildURI.calledTwice).toBeTruthy();
+      buildURI.restore();
+    });
+
      it(`generates CSV download link and bind it to "href" of <a> element`, () => {
        const linkPrefix = `data:text/csv`
        const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
