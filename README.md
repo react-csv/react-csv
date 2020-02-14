@@ -336,11 +336,11 @@ For non-node developers, they have to use CDN version :
 
 - Add an example for the new feature to `sample-site`.
 
-- `npm start` runs the [`sample-site`](sample-site/)
+- `docker-compose run --rm npm start` runs the [`sample-site`](sample-site/)
 
-- `npm run docgen` generates documentation in HTML output.
+- `docker-compose run --rm npm run docgen` generates documentation in HTML output.
 
-- `npm run cdn` generate a bundle to be used as CDN
+- `docker-compose run --rm npm run cdn` generate a bundle to be used as CDN
 
 # Donation
 

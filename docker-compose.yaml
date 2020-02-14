@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  npm:
+    image: node:13.7.0-alpine
+    volumes:
+    - .:/code
+    working_dir: /code
+    environment:
+      NPM_TOKEN: ${NPM_TOKEN}
+    entrypoint: npm

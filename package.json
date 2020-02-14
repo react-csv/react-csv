@@ -1,6 +1,6 @@
 {
   "name": "react-csv",
-  "version": "1.1.2",
+  "version": "2.0.1",
   "description": "Build CSV files on the fly basing on Array/literal object of data ",
   "main": "index.js",
   "jsnext:main": "src/index.js",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.18.2",
-    "babel-istanbul": "^0.11.0",
+    "babel-istanbul": "^0.12.2",
     "babel-loader": "^6.2.8",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -63,7 +63,6 @@
     "jsdom-global": "2.1.0",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.2.0",
-    "node-sass": "^4.5.3",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-docgen": "^2.13.0",
