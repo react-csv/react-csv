@@ -1,11 +1,20 @@
 version: '3.7'
 
 services:
-  npm:
+  npm: &base
     image: node:13.7.0-alpine
+    restart: "no"
     volumes:
     - .:/code
     working_dir: /code
     environment:
       NPM_TOKEN: ${NPM_TOKEN}
     entrypoint: npm
+  app:
+    <<: *base
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    ports:
+    - 8008:8008
+    command: npm start
