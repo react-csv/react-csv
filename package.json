@@ -67,7 +67,7 @@
     "react": "^15.5.4",
     "react-docgen": "^2.13.0",
     "react-dom": "^15.5.4",
-    "react-styleguidist": "^4.6.3",
+    "react-styleguidist": "^9.2.0",
     "react-test-renderer": "^15.5.4",
     "sass-loader": "^4.0.2",
     "sinon": "^1.17.6",
