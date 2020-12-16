@@ -59,7 +59,7 @@
     "expect": "^26.6.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "isparta-loader": "^2.0.0",
-    "jsdom": "9.8.3",
+    "jsdom": "16.4.0",
     "jsdom-global": "2.1.0",
     "mocha": "^8.2.1",
     "mocha-lcov-reporter": "^1.2.0",
