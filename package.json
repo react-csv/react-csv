@@ -70,7 +70,7 @@
     "react-styleguidist": "^9.2.0",
     "react-test-renderer": "^15.5.4",
     "sass-loader": "^4.0.2",
-    "sinon": "^1.17.6",
+    "sinon": "^9.2.3",
     "style-loader": "^0.13.1",
     "uglify-js": "^3.12.1",
     "webpack": "^1.13.3",
