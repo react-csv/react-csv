@@ -53,7 +53,7 @@
     "browserify": "^13.3.0",
     "console-info": "0.0.4",
     "coveralls": "^2.11.15",
-    "css-loader": "^0.26.1",
+    "css-loader": "^0.28.11",
     "documentation": "^4.0.0-rc.1",
     "enzyme": "^2.8.2",
     "expect": "^26.6.2",
