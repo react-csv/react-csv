@@ -74,7 +74,7 @@
     "style-loader": "^0.13.1",
     "uglify-js": "^3.12.1",
     "webpack": "^1.13.3",
-    "webpack-dev-middleware": "^1.8.4",
+    "webpack-dev-middleware": "^4.1.0",
     "webpack-dev-server": "^3.1.11",
     "webpack-hot-middleware": "^2.13.2"
   }
