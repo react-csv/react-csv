@@ -283,6 +283,11 @@ describe('In browser environment', () => {
       const headers = [`X`, `Y`];
       expect(string2csv(fixtures, headers)).toEqual(`X,Y\n${fixtures}`);
     });
+
+    it('escapes double quotes', () => {
+      const result = string2csv('lorem "ipsum" dolor sit amet')
+      expect(result).toEqual('lorem ""ipsum"" dolor sit amet');
+    })
   });
 
   describe(`core::toCSV`, () => {
