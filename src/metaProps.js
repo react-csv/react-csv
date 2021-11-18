@@ -24,11 +24,3 @@ export const PropsNotForwarded = [
   `data`,
   `headers`
 ];
-
-// export const DownloadPropTypes = Object.assign(
-//   {},
-//   PropTypes,
-//   {
-//     : ,
-//   }
-// );
