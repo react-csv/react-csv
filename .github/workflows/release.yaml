@@ -15,10 +15,10 @@ jobs:
         with:
           ref: ${{ github.event.release.target_commitish }}
       # install Node.js
-      - name: Use Node.js 13
+      - name: Use Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: '13'
+          node-version: '16'
           cache: 'npm'
       - run: npm install # ci --prefer-offline
       # set up git since we will later push to the repo

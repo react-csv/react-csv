@@ -13,10 +13,10 @@ jobs:
       NPM_TOKEN: ""
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 13.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v2
         with:
-          node-version: '13'
+          node-version: '16'
           cache: 'npm'
       - name: Install
         run: npm install #ci --prefer-offline
