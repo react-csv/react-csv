@@ -22,22 +22,21 @@ jobs:
           cache: 'npm'
       - run: npm install # ci --prefer-offline
       # set up git since we will later push to the repo
-      - run: git config --global user.name "React CSV Bot"
-      - run: git config --global user.email "github@abdennoor.com"
+      - run: |
+          git config --global user.name "React CSV Bot";
+          git config --global user.email "github@abdennoor.com";
       - name: Docs generating
         run: npm run docgen
       # upgrade npm version in package.json to the tag used in the release.
       # omit the "v" letter of "v1.2.3"
-      - run: npm version ${GTAG:1}
-        env:
-          GTAG: ${{ github.event.release.tag_name }}
+      - run: npm version $(git describe --tags | sed 's/v//g')
+        # npm version $(echo $GTAG | sed 's/v//g')
+        # env:
+        #   GTAG: ${{ github.event.release.tag_name }}
       - run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
       # publish to NPM -> there is one caveat, continue reading for the fix
       # it will build and generate CDN
-      - run: |
-          cat package.json;
-          echo ${{ github.event.release.target_commitish }}
-          npm publish --access public;
+      - run: npm publish
         # --tag ${{ github.event.release.target_commitish }}
         env:
           # Use a token to publish to NPM. See below for how to set it up
