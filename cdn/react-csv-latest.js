@@ -323,7 +323,7 @@ var getHeaderValue = exports.getHeaderValue = function getHeaderValue(property, 
 };
 
 var elementOrEmpty = exports.elementOrEmpty = function elementOrEmpty(element) {
-  return element || element === 0 ? element : '';
+  return typeof element === 'undefined' || element === null ? '' : element;
 };
 
 var joiner = exports.joiner = function joiner(data) {
