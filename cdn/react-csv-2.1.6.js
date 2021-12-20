@@ -131,8 +131,6 @@ var CSVLink = function (_React$Component) {
   }, {
     key: 'handleLegacy',
     value: function handleLegacy(event) {
-      var isAsync = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
       if (window.navigator.msSaveOrOpenBlob) {
         event.preventDefault();
 
@@ -145,9 +143,7 @@ var CSVLink = function (_React$Component) {
             uFEFF = _props.uFEFF;
 
 
-        var csvData = isAsync && typeof data === 'function' ? data() : data;
-
-        var blob = new Blob([uFEFF ? '\uFEFF' : '', (0, _core.toCSV)(csvData, headers, separator, enclosingCharacter)]);
+        var blob = new Blob([uFEFF ? '\uFEFF' : '', (0, _core.toCSV)(data, headers, separator, enclosingCharacter)]);
         window.navigator.msSaveBlob(blob, filename);
 
         return false;
@@ -163,7 +159,7 @@ var CSVLink = function (_React$Component) {
           event.preventDefault();
           return;
         }
-        _this2.handleLegacy(event, true);
+        _this2.handleLegacy(event);
       };
 
       this.props.onClick(event, done);
@@ -390,7 +386,7 @@ var _propTypes = require('prop-types');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var propTypes = exports.propTypes = {
-  data: (0, _propTypes.oneOfType)([_propTypes.string, _propTypes.array, _propTypes.func]).isRequired,
+  data: (0, _propTypes.oneOfType)([_propTypes.string, _propTypes.array]).isRequired,
   headers: _propTypes.array,
   target: _propTypes.string,
   separator: _propTypes.string,

@@ -120,10 +120,36 @@ var CSVLink = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (CSVLink.__proto__ || Object.getPrototypeOf(CSVLink)).call(this, props));
 
     _this.buildURI = _this.buildURI.bind(_this);
+    _this.state = { href: '' };
     return _this;
   }
 
   _createClass(CSVLink, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _props = this.props,
+          data = _props.data,
+          headers = _props.headers,
+          separator = _props.separator,
+          uFEFF = _props.uFEFF,
+          enclosingCharacter = _props.enclosingCharacter;
+
+      this.setState({ href: this.buildURI(data, uFEFF, headers, separator, enclosingCharacter) });
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (this.props !== prevProps) {
+        var _props2 = this.props,
+            data = _props2.data,
+            headers = _props2.headers,
+            separator = _props2.separator,
+            uFEFF = _props2.uFEFF;
+
+        this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
+      }
+    }
+  }, {
     key: 'buildURI',
     value: function buildURI() {
       return _core.buildURI.apply(undefined, arguments);
@@ -131,23 +157,19 @@ var CSVLink = function (_React$Component) {
   }, {
     key: 'handleLegacy',
     value: function handleLegacy(event) {
-      var isAsync = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
       if (window.navigator.msSaveOrOpenBlob) {
         event.preventDefault();
 
-        var _props = this.props,
-            data = _props.data,
-            headers = _props.headers,
-            separator = _props.separator,
-            filename = _props.filename,
-            enclosingCharacter = _props.enclosingCharacter,
-            uFEFF = _props.uFEFF;
+        var _props3 = this.props,
+            data = _props3.data,
+            headers = _props3.headers,
+            separator = _props3.separator,
+            filename = _props3.filename,
+            enclosingCharacter = _props3.enclosingCharacter,
+            uFEFF = _props3.uFEFF;
 
 
-        var csvData = isAsync && typeof data === 'function' ? data() : data;
-
-        var blob = new Blob([uFEFF ? '\uFEFF' : '', (0, _core.toCSV)(csvData, headers, separator, enclosingCharacter)]);
+        var blob = new Blob([uFEFF ? '\uFEFF' : '', (0, _core.toCSV)(data, headers, separator, enclosingCharacter)]);
         window.navigator.msSaveBlob(blob, filename);
 
         return false;
@@ -163,7 +185,7 @@ var CSVLink = function (_React$Component) {
           event.preventDefault();
           return;
         }
-        _this2.handleLegacy(event, true);
+        _this2.handleLegacy(event);
       };
 
       this.props.onClick(event, done);
@@ -195,20 +217,17 @@ var CSVLink = function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
-      var _props2 = this.props,
-          data = _props2.data,
-          headers = _props2.headers,
-          separator = _props2.separator,
-          filename = _props2.filename,
-          uFEFF = _props2.uFEFF,
-          children = _props2.children,
-          onClick = _props2.onClick,
-          asyncOnClick = _props2.asyncOnClick,
-          enclosingCharacter = _props2.enclosingCharacter,
-          rest = _objectWithoutProperties(_props2, ['data', 'headers', 'separator', 'filename', 'uFEFF', 'children', 'onClick', 'asyncOnClick', 'enclosingCharacter']);
-
-      var isNodeEnvironment = typeof window === 'undefined';
-      var href = isNodeEnvironment ? '' : this.buildURI(data, uFEFF, headers, separator, enclosingCharacter);
+      var _props4 = this.props,
+          data = _props4.data,
+          headers = _props4.headers,
+          separator = _props4.separator,
+          filename = _props4.filename,
+          uFEFF = _props4.uFEFF,
+          children = _props4.children,
+          onClick = _props4.onClick,
+          asyncOnClick = _props4.asyncOnClick,
+          enclosingCharacter = _props4.enclosingCharacter,
+          rest = _objectWithoutProperties(_props4, ['data', 'headers', 'separator', 'filename', 'uFEFF', 'children', 'onClick', 'asyncOnClick', 'enclosingCharacter']);
 
       return _react2.default.createElement(
         'a',
@@ -219,7 +238,7 @@ var CSVLink = function (_React$Component) {
             return _this4.link = link;
           },
           target: '_self',
-          href: href,
+          href: this.state.href,
           onClick: this.handleClick()
         }),
         children
@@ -293,8 +312,6 @@ var jsons2arrays = exports.jsons2arrays = function jsons2arrays(jsons, headers) 
 
 var getHeaderValue = exports.getHeaderValue = function getHeaderValue(property, obj) {
   var foundValue = property.replace(/\[([^\]]+)]/g, ".$1").split(".").reduce(function (o, p, i, arr) {
-    if (o == undefined) return null;
-
     if (o[p] === undefined) {
       arr.splice(1);
     } else {
@@ -390,7 +407,7 @@ var _propTypes = require('prop-types');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var propTypes = exports.propTypes = {
-  data: (0, _propTypes.oneOfType)([_propTypes.string, _propTypes.array, _propTypes.func]).isRequired,
+  data: (0, _propTypes.oneOfType)([_propTypes.string, _propTypes.array]).isRequired,
   headers: _propTypes.array,
   target: _propTypes.string,
   separator: _propTypes.string,

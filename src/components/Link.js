@@ -16,19 +16,6 @@ class CSVLink extends React.Component {
   constructor(props) {
     super(props);
     this.buildURI = this.buildURI.bind(this);
-    this.state = { href: '' };
-  }
-
-  componentDidMount() {
-    const {data, headers, separator, uFEFF, enclosingCharacter} = this.props;
-    this.setState({ href: this.buildURI(data, uFEFF, headers, separator, enclosingCharacter) });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
-      const { data, headers, separator, uFEFF } = prevProps;
-      this.setState({ href: this.buildURI(data, uFEFF, headers, separator) });
-    }
   }
 
   buildURI() {
@@ -38,7 +25,7 @@ class CSVLink extends React.Component {
   /**
    * In IE11 this method will trigger the file download
    */
-  handleLegacy(event) {
+  handleLegacy(event, isAsync = false) {
     // If this browser is IE 11, it does not support the `download` attribute
     if (window.navigator.msSaveOrOpenBlob) {
       // Stop the click propagation
@@ -53,7 +40,9 @@ class CSVLink extends React.Component {
         uFEFF
       } = this.props;
 
-      let blob = new Blob([uFEFF ? '\uFEFF' : '', toCSV(data, headers, separator, enclosingCharacter)]);
+      const csvData = isAsync && typeof data === 'function' ? data() : data;
+
+      let blob = new Blob([uFEFF ? '\uFEFF' : '', toCSV(csvData, headers, separator, enclosingCharacter)]);
       window.navigator.msSaveBlob(blob, filename);
 
       return false;
@@ -66,7 +55,7 @@ class CSVLink extends React.Component {
         event.preventDefault();
         return;
       }
-      this.handleLegacy(event);
+      this.handleLegacy(event, true);
     };
 
     this.props.onClick(event, done);
@@ -106,13 +95,16 @@ class CSVLink extends React.Component {
       ...rest
     } = this.props;
 
+    const isNodeEnvironment = typeof window === 'undefined';
+    const href = isNodeEnvironment ? '' : this.buildURI(data, uFEFF, headers, separator, enclosingCharacter)
+
     return (
       <a
         download={filename}
         {...rest}
         ref={link => (this.link = link)}
         target="_self"
-        href={this.state.href}
+        href={href}
         onClick={this.handleClick()}
       >
         {children}
