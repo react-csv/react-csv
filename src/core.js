@@ -36,13 +36,12 @@ export const getHeaderValue = (property, obj) => {
     .replace(/\[([^\]]+)]/g, ".$1")
     .split(".")
     .reduce(function(o, p, i, arr) {
-     // for keys that do not exist return null
-     if (o == undefined) return null;
-     // if at any point the nested keys passed do not exist, splice the array so it doesnt keep reducing
-      if (o[p] === undefined) {
+      // if at any point the nested keys passed do not exist, splice the array so it doesnt keep reducing
+      const value = o[p];
+      if (value === undefined || value === null) {
         arr.splice(1);
       } else {
-        return o[p];
+        return value;
       }
     }, obj);
   // if at any point the nested keys passed do not exist then looks for key `property` in object obj
