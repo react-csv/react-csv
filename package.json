@@ -1,6 +1,6 @@
 {
   "name": "react-csv",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Build CSV files on the fly basing on Array/literal object of data ",
   "main": "index.js",
   "jsnext:main": "src/index.js",
