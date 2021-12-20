@@ -17,7 +17,7 @@ describe('In browser environment', () => {
   before(function () {
     this.jsdom = require('jsdom-global')()
   })
-  
+
   after(function () {
     this.jsdom()
   })
@@ -30,8 +30,11 @@ describe('In browser environment', () => {
     it(`returns false if one of array items is not literal object`, () => {
       let target = ["", {}, {}, {}];
       expect(isJsons(target)).toBeFalsy();
-      target = [{},
-        [], {}, {}
+      target = [
+        {},
+        [],
+        {},
+        {}
       ];
       expect(isJsons(target)).toBeFalsy();
     });
@@ -39,7 +42,7 @@ describe('In browser environment', () => {
   });
 
   describe(`core::isArrays`, () => {
-    it(`retruns true if all array items are arrays too`, () => {
+    it(`returns true if all array items are arrays too`, () => {
       const target = [
         [],
         [],
@@ -48,25 +51,30 @@ describe('In browser environment', () => {
       ];
       expect(isArrays(target)).toBeTruthy();
     });
-    it(`retruns false if one of array items is not array`, () => {
-      let target = [{},
+    it(`returns false if one of array items is not array`, () => {
+      let target = [
+        {},
         [],
         [],
         []
       ];
       expect(isArrays(target)).toBeFalsy();
       target = [
-        [], new Set([]), [],
+        [],
+        new Set([]),
+        [],
         []
       ];
       expect(isArrays(target)).toBeFalsy();
       target = [
-        [], '[]', [],
+        [],
+        '[]',
+        [],
         []
       ];
       expect(isArrays(target)).toBeFalsy();
     });
-  
+
   });
 
 
@@ -87,9 +95,9 @@ describe('In browser environment', () => {
     });
 
     it(`returns union of keys of all array items `, () => {
-        let actual = jsonsHeaders(fixtures);
-        expect(actual).toEqual([`maths`, `phy`, 'sport', 'ch'])
-      }),
+      let actual = jsonsHeaders(fixtures);
+      expect(actual).toEqual([`maths`, `phy`, 'sport', 'ch'])
+    }),
 
       it(`does not duplicate keys on the array`, () => {
         let actual = jsonsHeaders(fixtures);
@@ -150,9 +158,9 @@ describe('In browser environment', () => {
         maths: '77',
         sport: 0
       }, {
-        people: { 
-          name: 'john', 
-          age: 12 
+        people: {
+          name: 'john',
+          age: 12
         }
       }]
       const headers = ['maths', 'sport', 'phy', 'ch', 'people.name'];
@@ -238,19 +246,19 @@ describe('In browser environment', () => {
       expect(actual.split(`\n`).join(`|`)).toEqual(expected);
     });
 
-  it(`renders CSV string according to order of given headers`, () => {
-    let fixtures =[{X:'12', Y:'bb'}, {Y:'ee', X:'55'}]
-    const headers = ['Y', 'X', 'Z'];
-    const actual = jsons2csv(fixtures, headers);
-    expect(actual.startsWith(`"Y","X","Z"`)).toBeTruthy();
-    expect(actual.endsWith(`"ee","55",""`)).toBeTruthy();
+    it(`renders CSV string according to order of given headers`, () => {
+      let fixtures = [{ X: '12', Y: 'bb' }, { Y: 'ee', X: '55' }]
+      const headers = ['Y', 'X', 'Z'];
+      const actual = jsons2csv(fixtures, headers);
+      expect(actual.startsWith(`"Y","X","Z"`)).toBeTruthy();
+      expect(actual.endsWith(`"ee","55",""`)).toBeTruthy();
 
-  });
+    });
 
     it(`converts Array of literal objects to string in CSV format including custom header labels`, () => {
       const customHeaders = [
-        {label: 'Letter X', key: 'X'},
-        {label: 'Letter Y', key: 'Y'}
+        { label: 'Letter X', key: 'X' },
+        { label: 'Letter Y', key: 'Y' }
       ];
 
       const actual = jsons2csv(fixtures, customHeaders);
@@ -262,52 +270,57 @@ describe('In browser environment', () => {
 
   });
 
-  describe(`core::string2csv`, () =>{
+  describe(`core::string2csv`, () => {
     let fixtures;
     beforeEach(() => {
-    fixtures = `33,44\n55,66`;
+      fixtures = `33,44\n55,66`;
     });
     it(`returns the same string if no header given`, () => {
       expect(string2csv(fixtures)).toEqual(fixtures);
     });
 
     it(`prepends headers at the top of input`, () => {
-      const headers =[`X`, `Y`];
+      const headers = [`X`, `Y`];
       expect(string2csv(fixtures, headers)).toEqual(`X,Y\n${fixtures}`);
     });
+
+    it('escapes double quotes', () => {
+      const result = string2csv('lorem "ipsum" dolor sit amet')
+      expect(result).toEqual('lorem ""ipsum"" dolor sit amet');
+    })
   });
 
-  describe(`core::toCSV`, () =>{
+  describe(`core::toCSV`, () => {
     let fixtures;
     beforeEach(() => {
-    fixtures = {string:'Xy', arrays:[[],[]],jsons:[{}, {}]};
+      fixtures = { string: 'Xy', arrays: [[], []], jsons: [{}, {}] };
     });
     it(`requires one argument at least`, () => {
       expect(() => toCSV()).toThrow();
     });
 
     it(`accepts data as "Array" of jsons `, () => {
-        expect(() => toCSV(fixtures.jsons)).toNotThrow();
+      expect(() => toCSV(fixtures.jsons)).toNotThrow();
     });
 
     it(`accepts data as "Array" of arrays `, () => {
-        expect(() => toCSV(fixtures.arrays)).toNotThrow();
+      expect(() => toCSV(fixtures.arrays)).toNotThrow();
     });
 
     it(`accepts data as "string" `, () => {
-        expect(() => toCSV(fixtures.string)).toNotThrow();
+      expect(() => toCSV(fixtures.string)).toNotThrow();
     });
 
   })
 
-  describe(`core::buildURI`, () =>{
+  describe(`core::buildURI`, () => {
     let fixtures;
     beforeEach(() => {
-    fixtures = {string:'Xy', arrays:[['a', 'b'],['c', 'd']],jsons:[{}, {}]};
+      fixtures = { string: 'Xy', arrays: [['a', 'b'], ['c', 'd']], jsons: [{}, {}] };
     });
 
-    it(`generates URI to download data in CSV format`,() => {
-      const prefixCsvURI= `data:text/csv;`;
+    it(`generates URI to download data in CSV format`, () => {
+      const prefixCsvURI = `data:text/csv;`;
       expect(buildURI(fixtures.jsons, false).startsWith(prefixCsvURI)).toBeTruthy();
       expect(buildURI(fixtures.arrays).startsWith(prefixCsvURI)).toBeTruthy();
       expect(buildURI(fixtures.string).startsWith(prefixCsvURI)).toBeTruthy();
@@ -315,10 +328,10 @@ describe('In browser environment', () => {
     });
 
     it(`generates CSV string according to "separator"`, () => {
-      const prefixCsvURI= `data:text/csv;charset=utf-8,\uFEFF,`;
-      const expectedSepartorCount = fixtures.arrays.map(row => row.length -1).reduce((total, next) =>total + next, 0);
+      const prefixCsvURI = `data:text/csv;charset=utf-8,\uFEFF,`;
+      const expectedSepartorCount = fixtures.arrays.map(row => row.length - 1).reduce((total, next) => total + next, 0);
       let separator = ';';
-      let fullURI = buildURI(fixtures.arrays, true, null , separator);
+      let fullURI = buildURI(fixtures.arrays, true, null, separator);
 
       expect(
         fullURI.slice(prefixCsvURI.length).match(/;/g).length
@@ -341,5 +354,5 @@ describe('In browser environment', () => {
       expect(joiner(data)).toMatch('"1","2","3","5"\n"hello hello"');
     });
   });
-  
+
 });
