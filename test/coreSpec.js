@@ -10,7 +10,8 @@ import {
   string2csv,
   toCSV,
   buildURI,
-  joiner
+  joiner,
+  elementOrEmpty,
 } from '../src/core';
 
 describe('In browser environment', () => {
@@ -197,6 +198,34 @@ describe('In browser environment', () => {
         ['', '', '', '', 'john', ''],
         ['', '', '', '', '', '20']
       ];
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe(`core::elementOrEmpty`, () => {
+    it(`returns the value of the element`, () => {
+      const expected = "any string ...";
+      const actual = elementOrEmpty(expected);
+      expect(actual).toEqual(expected);
+    });
+
+    it(`returns an empty string when the element is null or undefined`, () => {
+      const emptyString = '';
+      const wasNull = elementOrEmpty(null);
+      const wasUndefined = elementOrEmpty(undefined);
+      expect(wasNull).toEqual(emptyString);
+      expect(wasUndefined).toEqual(emptyString);
+    });
+  });
+
+  describe(`core::joiner`, () => {
+    it(`returns the csv string of the data`, () => {
+      const expected = '"1","two","3","true"\n"4","","six","false"';
+      const actual = joiner([
+        [ 1, 'two', 3, true],
+        null,
+        [ 4.0, undefined, 'six', false]
+      ]);
       expect(actual).toEqual(expected);
     });
   });
