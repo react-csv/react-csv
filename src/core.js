@@ -1,3 +1,5 @@
+export const isNodeEnvironment = () => typeof window === 'undefined';
+
 /**
  * Simple safari detection based on user agent test
  */
@@ -83,14 +85,21 @@ export const toCSV = (data, headers, separator, enclosingCharacter) => {
 };
 
 export const buildURI = ((data, uFEFF, headers, separator, enclosingCharacter) => {
+  if (isNodeEnvironment()) {
+    return Promise.reject();
+  }
+
   const csv = toCSV(data, headers, separator, enclosingCharacter);
   const type = isSafari() ? 'application/csv' : 'text/csv';
   const blob = new Blob([uFEFF ? '\uFEFF' : '', csv], { type });
-  const dataURI = `data:${type};charset=utf-8,${uFEFF ? '\uFEFF' : ''}${csv}`;
-
   const URL = window.URL || window.webkitURL;
 
-  return (typeof URL.createObjectURL === 'undefined')
-    ? dataURI
-    : URL.createObjectURL(blob);
+  if (typeof URL.createObjectURL === 'undefined') {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+  return Promise.resolve(URL.createObjectURL(blob));
 });
