@@ -26,6 +26,11 @@ const getAttrs =((htmlElment) => Array.from(
 describe('In browser environment', () => {
   before(function () {
     this.jsdom = require('jsdom-global')()
+    global.FileReader = function () {
+      this.result = `data:text/csv;some,thing`;
+      this.onloadend = null;
+      this.readAsDataURL = () => this.onloadend()
+    }
   })
   
   after(function () {
@@ -68,7 +73,7 @@ describe('In browser environment', () => {
  
  
      it(`calls "buildURI" method on mounting`, () => {
-       const dataURI = `data:text/csv;some,thing`
+       const dataURI = Promise.resolve(`data:text/csv;some,thing`);
        const buildURI = sinon.stub(CSVLink.prototype, 'buildURI').returns(dataURI);
        const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
        expect(buildURI.calledOnce).toBeTruthy();
@@ -76,7 +81,7 @@ describe('In browser environment', () => {
      });
 
      it(`calls "buildURI" method on update`, () => {
-      const dataURI = `data:text/csv;some,thing`
+      const dataURI = Promise.resolve(`data:text/csv;some,thing`);
       const buildURI = sinon.stub(CSVLink.prototype, 'buildURI').returns(dataURI);
       const wrapper = mount( <CSVLink data={[]} > Click here </CSVLink>);
       expect(buildURI.calledOnce).toBeTruthy();
@@ -86,9 +91,9 @@ describe('In browser environment', () => {
       buildURI.restore();
     });
 
-     it(`generates CSV download link and bind it to "href" of <a> element`, () => {
+     it(`generates CSV download link and bind it to "href" of <a> element`, async () => {
        const linkPrefix = `data:text/csv`
-       const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
+       const wrapper = await mount( <CSVLink {...minProps} > Click here </CSVLink>);
        const actualLink = wrapper.find(`a`).get(0).getAttribute('href');
        expect(actualLink.startsWith(linkPrefix)).toBeTruthy();
      });
@@ -166,25 +171,26 @@ describe('In browser environment', () => {
         expect(wrapper.props().children).toNotExist();
        });
       it(`calls "buildURI" on mounting`, () => {
-        const dataURI = `data:text/csv;some,thing`
+        const dataURI = Promise.resolve(`data:text/csv;some,thing`);
         const buildURI = sinon.stub(CSVDownload.prototype, 'buildURI').returns(dataURI);
         const wrapper = mount( <CSVDownload {...minProps} />);
         expect(buildURI.calledOnce).toBeTruthy();
         buildURI.restore();
       });
-      it(`redirects in different page on mounting`, () => {
+      it(`redirects in different page on mounting`, async () => {
         const openCallback = sinon.stub(window,'open').returns({
           focus: ()=> {}
         });
         const wrapper = mount( <CSVDownload {...manyProps} />);
-        expect(openCallback.calledWith(buildURI(manyProps.data, manyProps.uFEFF), manyProps.target, manyProps.specs, manyProps.replace)).toBeTruthy();
+        const dataUrl = await buildURI(manyProps.data, manyProps.uFEFF);
+        expect(openCallback.calledWith(dataUrl, manyProps.target, manyProps.specs, manyProps.replace)).toBeTruthy();
         expect(openCallback.calledOnce).toBeTruthy();
         openCallback.restore();
        });
  
-      it(`persists new opened window`, () => {
+      it(`persists new opened window`, async () => {
         const openCallback = sinon.stub(window,'open').returns('newPage');
-        const wrapper = mount( <CSVDownload {...manyProps} />);
+        const wrapper = await mount( <CSVDownload {...manyProps} />);
         const actualNewWindow= wrapper.instance().getWindow();
         expect(actualNewWindow).toEqual('newPage');
         openCallback.restore();
@@ -195,7 +201,7 @@ describe('In browser environment', () => {
 })
 
 describe('In Node environment', () => {
-  it('does not call buildURI', () => {
+  it('does call buildURI on mount', () => {
     const minProps = {
       data: [
        ['X', 'Y'],
@@ -205,9 +211,9 @@ describe('In Node environment', () => {
     };
 
     const dataURI = `data:text/csv;some,thing`
-    const buildURI = sinon.stub(CSVLink.prototype, 'buildURI').returns(dataURI);
+    const buildURI = sinon.stub(CSVLink.prototype, 'buildURI').returns(Promise.resolve(dataURI));
     const wrapper = shallow( <CSVLink {...minProps} > Click here </CSVLink>);
-    expect(buildURI.notCalled).toBeTruthy();
+    expect(buildURI.called).toBeTruthy();
     buildURI.restore();
   });
 });
