@@ -10,7 +10,8 @@ import {
   string2csv,
   toCSV,
   buildURI,
-  joiner
+  joiner,
+  elementOrEmpty,
 } from '../src/core';
 
 describe('In browser environment', () => {
@@ -201,6 +202,25 @@ describe('In browser environment', () => {
     });
   });
 
+  describe(`core::elementOrEmpty`, () => {
+    it(`returns the value of the element`, () => {
+      const expected = "any string ...";
+      const actual = elementOrEmpty(expected);
+      expect(actual).toEqual(expected);
+    });
+
+    it(`returns an empty string when the element is null or undefined`, () => {
+      const emptyString = '';
+      const wasNull = elementOrEmpty(null);
+      const wasUndefined = elementOrEmpty(undefined);
+      expect(wasNull).toEqual(emptyString);
+      expect(wasUndefined).toEqual(emptyString);
+    });
+  });
+
+  describe(`core::joiner`, () => {
+  });
+
   describe(`core::arrays2csv`, () => {
     let fixtures;
     beforeEach(() => {
@@ -349,6 +369,15 @@ describe('In browser environment', () => {
     const data = [null, undefined, [1, 2, 3, 5], ["hello hello"]];
     it('does not throw upon receiving empty (null / undefined) indices in the data array', () => {
       expect(joiner).toNotThrow(data);
+    });
+    it(`filters null rows and replaces null / undefined values by an empty string`, () => {
+      const expected = '"1","two","3","true"\n"4","","six","false"';
+      const actual = joiner([
+        [ 1, 'two', 3, true],
+        null,
+        [ 4.0, undefined, 'six', false]
+      ]);
+      expect(actual).toEqual(expected);
     });
     it('does return the valid data contained between null and undefined values', () => {
       expect(joiner(data)).toMatch('"1","2","3","5"\n"hello hello"');
