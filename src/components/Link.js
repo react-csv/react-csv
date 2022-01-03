@@ -1,5 +1,5 @@
 import React from 'react';
-import { buildURI, toCSV } from '../core';
+import { buildURI, toCSV, isNodeEnvironment } from '../core';
 import {
   defaultProps as commonDefaultProps,
   propTypes as commonPropTypes
@@ -16,6 +16,9 @@ class CSVLink extends React.Component {
   constructor(props) {
     super(props);
     this.buildURI = this.buildURI.bind(this);
+    this.state = {
+      href: '#',
+    }
   }
 
   buildURI() {
@@ -81,6 +84,30 @@ class CSVLink extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.generateHref(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.generateHref(newProps);
+  }
+
+  generateHref(props) {
+    const {
+      data,
+      headers,
+      separator,
+      uFEFF,
+      enclosingCharacter,
+    } = props;
+    this.buildURI(data, uFEFF, headers, separator, enclosingCharacter).then((dataUrl) => {
+      this.setState({
+        ...this.state,
+        href: dataUrl
+      })
+    });
+  }
+
   render() {
     const {
       data,
@@ -94,9 +121,7 @@ class CSVLink extends React.Component {
       enclosingCharacter,
       ...rest
     } = this.props;
-
-    const isNodeEnvironment = typeof window === 'undefined';
-    const href = isNodeEnvironment ? '' : this.buildURI(data, uFEFF, headers, separator, enclosingCharacter)
+    const { href } = this.state;
 
     return (
       <a

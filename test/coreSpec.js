@@ -335,34 +335,41 @@ describe('In browser environment', () => {
 
   describe(`core::buildURI`, () => {
     let fixtures;
+    let prefixCsvURI;
+    let separator;
     beforeEach(() => {
+      separator = ',';
+      prefixCsvURI = `data:text/csv;base64,`;
       fixtures = { string: 'Xy', arrays: [['a', 'b'], ['c', 'd']], jsons: [{}, {}] };
+      global.FileReader = function () {
+        this.result = `${prefixCsvURI}${joiner(fixtures.arrays, separator)}`;
+        this.onloadend = null;
+        this.readAsDataURL = () => this.onloadend()
+      }
     });
 
-    it(`generates URI to download data in CSV format`, () => {
-      const prefixCsvURI = `data:text/csv;`;
-      expect(buildURI(fixtures.jsons, false).startsWith(prefixCsvURI)).toBeTruthy();
-      expect(buildURI(fixtures.arrays).startsWith(prefixCsvURI)).toBeTruthy();
-      expect(buildURI(fixtures.string).startsWith(prefixCsvURI)).toBeTruthy();
-
+    it(`generates URI to download data in CSV format`, async () => {
+      const jsonFixtureDataURL = await buildURI(fixtures.jsons, false);
+      expect(jsonFixtureDataURL.startsWith(prefixCsvURI)).toBeTruthy();
+      const arrayFixtureDataURL = await buildURI(fixtures.arrays);
+      expect(arrayFixtureDataURL.startsWith(prefixCsvURI)).toBeTruthy();
+      const stringFixtureDataURL = await buildURI(fixtures.string);
+      expect(stringFixtureDataURL.startsWith(prefixCsvURI)).toBeTruthy();
     });
 
-    it(`generates CSV string according to "separator"`, () => {
-      const prefixCsvURI = `data:text/csv;charset=utf-8,\uFEFF,`;
+    it(`generates CSV string according to "separator"`, async () => {
       const expectedSepartorCount = fixtures.arrays.map(row => row.length - 1).reduce((total, next) => total + next, 0);
-      let separator = ';';
-      let fullURI = buildURI(fixtures.arrays, true, null, separator);
-
+      separator = ';';
+      let fullURI = await buildURI(fixtures.arrays, true, null, separator);
       expect(
         fullURI.slice(prefixCsvURI.length).match(/;/g).length
       ).toEqual(expectedSepartorCount);
 
       separator = ':'; // any separator
-      fullURI = buildURI(fixtures.arrays, true, null, separator);
+      fullURI = await buildURI(fixtures.arrays, true, null, separator);
       expect(
         fullURI.slice(prefixCsvURI.length).match(/:/g).length
       ).toEqual(expectedSepartorCount);
-
     });
   });
   describe('core::joiner', () => {
