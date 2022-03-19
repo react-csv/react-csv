@@ -37,12 +37,13 @@ class CSVLink extends React.Component {
         separator,
         filename,
         enclosingCharacter,
-        uFEFF
-      } = this.props;
+        uFEFF,
+        cRLF
+      } = this.props
 
       const csvData = isAsync && typeof data === 'function' ? data() : data;
 
-      let blob = new Blob([uFEFF ? '\uFEFF' : '', toCSV(csvData, headers, separator, enclosingCharacter)]);
+      let blob = new Blob([uFEFF ? '\uFEFF' : '', toCSV(csvData, headers, separator, enclosingCharacter, cRLF)]);
       window.navigator.msSaveBlob(blob, filename);
 
       return false;
@@ -92,11 +93,12 @@ class CSVLink extends React.Component {
       onClick,
       asyncOnClick,
       enclosingCharacter,
+	  cRLF,
       ...rest
     } = this.props;
 
     const isNodeEnvironment = typeof window === 'undefined';
-    const href = isNodeEnvironment ? '' : this.buildURI(data, uFEFF, headers, separator, enclosingCharacter)
+    const href = isNodeEnvironment ? '' : this.buildURI(data, uFEFF, headers, separator, enclosingCharacter, cRLF)
 
     return (
       <a

@@ -382,6 +382,19 @@ describe('In browser environment', () => {
     it('does return the valid data contained between null and undefined values', () => {
       expect(joiner(data)).toMatch('"1","2","3","5"\n"hello hello"');
     });
+	it(`use CRLF as the new line character`, () => {
+    const expected = '"1","2","3"\r\n"4","5","6"'
+    const actual = joiner(
+      [
+        [1, 2, 3],
+        [4, 5, 6],
+      ],
+      ',',
+      '"',
+      true
+    )
+    expect(actual).toEqual(expected)
+  })
   });
 
 });
