@@ -9,6 +9,7 @@ export const propTypes = {
   separator: string,
   filename: string,
   uFEFF: bool,
+  cRLF: bool,
   onClick: func,
   asyncOnClick: bool,
   enclosingCharacter: string
@@ -18,6 +19,7 @@ export const defaultProps = {
   separator: ',',
   filename: 'generatedBy_react-csv.csv',
   uFEFF: true,
+  cRLF: false,
   asyncOnClick: false,
   enclosingCharacter: '"'
 };
