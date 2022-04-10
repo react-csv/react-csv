@@ -103,7 +103,7 @@ class CSVLink extends React.Component {
         download={filename}
         {...rest}
         ref={link => (this.link = link)}
-        target="_self"
+        target={this.props.target ?? "_self"}
         href={href}
         onClick={this.handleClick()}
       >
