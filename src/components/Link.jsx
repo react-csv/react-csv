@@ -22,17 +22,24 @@ class CSVLink extends React.Component {
     return buildURI(...arguments);
   }
 
+  getData = () => {
+    const { asyncOnClick, data } = this.props;
+    if (asyncOnClick && typeof data === 'function') {
+      return data()
+    }
+    return data
+  }
+
   /**
    * In IE11 this method will trigger the file download
    */
-  handleLegacy(event, isAsync = false) {
+  handleLegacy(event) {
     // If this browser is IE 11, it does not support the `download` attribute
     if (window.navigator.msSaveOrOpenBlob) {
       // Stop the click propagation
       event.preventDefault();
 
       const {
-        data,
         headers,
         separator,
         filename,
@@ -40,8 +47,7 @@ class CSVLink extends React.Component {
         uFEFF
       } = this.props;
 
-      const csvData = isAsync && typeof data === 'function' ? data() : data;
-
+      const csvData = this.getData()
       let blob = new Blob([uFEFF ? '\uFEFF' : '', toCSV(csvData, headers, separator, enclosingCharacter)]);
       window.navigator.msSaveBlob(blob, filename);
 
@@ -55,7 +61,7 @@ class CSVLink extends React.Component {
         event.preventDefault();
         return;
       }
-      this.handleLegacy(event, true);
+      this.handleLegacy(event);
     };
 
     this.props.onClick(event, done);
@@ -95,8 +101,9 @@ class CSVLink extends React.Component {
       ...rest
     } = this.props;
 
+    const csvData = this.getData()
     const isNodeEnvironment = typeof window === 'undefined';
-    const href = isNodeEnvironment ? '' : this.buildURI(data, uFEFF, headers, separator, enclosingCharacter)
+    const href = isNodeEnvironment ? '' : this.buildURI(csvData, uFEFF, headers, separator, enclosingCharacter)
 
     return (
       <a

@@ -48,6 +48,17 @@ describe('In browser environment', () => {
       const wrapper = shallow( <CSVLink {...minProps} > Click here </CSVLink>);
        expect(wrapper.length).toEqual(1);
     });
+
+    it(`allows the data prop as a function when async`, () => {
+      const getDataFunction = () => minProps.data;
+      const props = {
+        ...minProps,
+        asyncOnClick: true,
+        data: getDataFunction,
+      };
+      const wrapper = shallow(<CSVLink {...props}> Click here </CSVLink>);
+      expect(wrapper.length).toEqual(1);
+    });
  
     it(`has comma as default separator `, () => {
       const wrapper = mount( <CSVLink {...minProps} > Click here </CSVLink>);
@@ -64,8 +75,6 @@ describe('In browser environment', () => {
        const wrapper = shallow( <CSVLink {...minProps} > Click here </CSVLink>);
         expect(wrapper.find('a').length).toEqual(1);
       });
- 
- 
  
      it(`calls "buildURI" method on mounting`, () => {
        const dataURI = `data:text/csv;some,thing`
