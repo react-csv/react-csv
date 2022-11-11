@@ -57,7 +57,7 @@ export const joiner = ((data, separator = ',', enclosingCharacter = '"') => {
     .map(
       row => row
         .map((element) => elementOrEmpty(element))
-        .map(column => `${enclosingCharacter}${column}${enclosingCharacter}`)
+        .map(column => `${enclosingCharacter}${typeof column === 'string' ? column.replace(/"/g, '""'): column}${enclosingCharacter}`)
         .join(separator)
     )
     .join(`\n`);
