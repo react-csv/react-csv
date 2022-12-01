@@ -16,6 +16,7 @@ class CSVLink extends React.Component {
   constructor(props) {
     super(props);
     this.buildURI = this.buildURI.bind(this);
+    this.href = null;
   }
 
   buildURI() {
@@ -50,11 +51,16 @@ class CSVLink extends React.Component {
   }
 
   handleAsyncClick(event) {
+    event.preventDefault();
     const done = proceed => {
       if (proceed === false) {
-        event.preventDefault();
         return;
       }
+      let link=document.createElement('a');
+      link.href = this.href;
+      const {filename} = this.props;
+      link.download = filename;
+      link.click();
       this.handleLegacy(event, true);
     };
 
@@ -97,6 +103,7 @@ class CSVLink extends React.Component {
 
     const isNodeEnvironment = typeof window === 'undefined';
     const href = isNodeEnvironment ? '' : this.buildURI(data, uFEFF, headers, separator, enclosingCharacter)
+    this.href = href
 
     return (
       <a
