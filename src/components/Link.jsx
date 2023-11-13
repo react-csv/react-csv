@@ -96,7 +96,8 @@ class CSVLink extends React.Component {
     } = this.props;
 
     const isNodeEnvironment = typeof window === 'undefined';
-    const href = isNodeEnvironment ? '' : this.buildURI(data, uFEFF, headers, separator, enclosingCharacter)
+    const csvData = typeof data === 'function' ? data() : data;
+    const href = isNodeEnvironment ? '' : this.buildURI(csvData, uFEFF, headers, separator, enclosingCharacter)
 
     return (
       <a
