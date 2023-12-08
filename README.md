@@ -167,6 +167,25 @@ data = [
 ```
 Note: if at any point the nested keys passed do not exist then looks for key with dot notation in the object.
 
+##### Disabling Headers
+
+It is possible to remove headers from the CSV export by passing `false` to the `headers` prop.
+
+```js
+import { CSVLink } from "react-csv";
+
+data = [
+  { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
+  { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
+  { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
+];
+
+<CSVLink data={data} headers={false}>
+  Download me
+</CSVLink>;
+```
+
+
 ### - **separator** Props:
 
 Following a request to add [this feature](https://github.com/react-csv/react-csv/issues/3) , from `1.0.1` release, `react-csv` supports `separator` props which is equals by default a comma `,` .

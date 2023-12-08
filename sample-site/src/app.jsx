@@ -90,6 +90,16 @@ class App extends React.Component {
                     Export to CSV ⬇
                   </CSVLink>
               </div>
+			  <div className="large-2 columns">
+                  <CSVLink
+                    headers={false}
+                    data={this.state.csvData}
+                    filename={this.getFileName()}
+                    className="btn"
+                  >
+                    Export to CSV (No Headers) ⬇
+                  </CSVLink>
+              </div>
           </div>
           <div>
               <b>Header :</b>

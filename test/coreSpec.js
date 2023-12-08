@@ -122,6 +122,15 @@ describe('In browser environment', () => {
         sport: 0
       }]
     });
+    it(`converts an Array of literal objects to Array of arrays without headers`, () => {
+      const actual = jsons2arrays(fixtures, false);
+      const expected = [
+        ['90', ''],
+        ['', '97'],
+        ['77', 0]
+      ];
+      expect(actual).toEqual(expected);
+    });
     it(`converts an Array of literal objects to Array of arrays`, () => {
       const actual = jsons2arrays(fixtures);
       const expected = [
@@ -373,9 +382,9 @@ describe('In browser environment', () => {
     it(`filters null rows and replaces null / undefined values by an empty string`, () => {
       const expected = '"1","two","3","true"\n"4","","six","false"';
       const actual = joiner([
-        [ 1, 'two', 3, true],
+        [1, 'two', 3, true],
         null,
-        [ 4.0, undefined, 'six', false]
+        [4.0, undefined, 'six', false]
       ]);
       expect(actual).toEqual(expected);
     });
