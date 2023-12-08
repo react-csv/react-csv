@@ -131,16 +131,16 @@ describe('In browser environment', () => {
       ];
       expect(actual).toEqual(expected);
     });
-	it(`converts an Array of literal objects to Array of arrays`, () => {
-		const actual = jsons2arrays(fixtures);
-		const expected = [
-		  ['maths', 'sport'],
-		  ['90', ''],
-		  ['', '97'],
-		  ['77', 0]
-		];
-		expect(actual).toEqual(expected);
-	  });
+    it(`converts an Array of literal objects to Array of arrays`, () => {
+      const actual = jsons2arrays(fixtures);
+      const expected = [
+        ['maths', 'sport'],
+        ['90', ''],
+        ['', '97'],
+        ['77', 0]
+      ];
+      expect(actual).toEqual(expected);
+    });
 
     it(`converts to Array of arrays following the order of headers`, () => {
       const actual = jsons2arrays(fixtures, ['sport', 'maths']);
@@ -382,9 +382,9 @@ describe('In browser environment', () => {
     it(`filters null rows and replaces null / undefined values by an empty string`, () => {
       const expected = '"1","two","3","true"\n"4","","six","false"';
       const actual = joiner([
-        [ 1, 'two', 3, true],
+        [1, 'two', 3, true],
         null,
-        [ 4.0, undefined, 'six', false]
+        [4.0, undefined, 'six', false]
       ]);
       expect(actual).toEqual(expected);
     });
