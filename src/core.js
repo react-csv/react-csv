@@ -19,9 +19,6 @@ export const jsonsHeaders = ((array) => Array.from(
 export const jsons2arrays = (jsons, headers) => {
   const noExportHeaders = headers === false;
   headers = headers || jsonsHeaders(jsons);
-  if (noExportHeaders) {
-    headers = jsonsHeaders(jsons);
-  }
 
   // allow headers to have custom labels, defaulting to having the header data key be the label
   let headerLabels = headers;
