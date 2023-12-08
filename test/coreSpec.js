@@ -122,16 +122,25 @@ describe('In browser environment', () => {
         sport: 0
       }]
     });
-    it(`converts an Array of literal objects to Array of arrays`, () => {
-      const actual = jsons2arrays(fixtures);
+    it(`converts an Array of literal objects to Array of arrays without headers`, () => {
+      const actual = jsons2arrays(fixtures, false);
       const expected = [
-        ['maths', 'sport'],
         ['90', ''],
         ['', '97'],
         ['77', 0]
       ];
       expect(actual).toEqual(expected);
     });
+	it(`converts an Array of literal objects to Array of arrays`, () => {
+		const actual = jsons2arrays(fixtures);
+		const expected = [
+		  ['maths', 'sport'],
+		  ['90', ''],
+		  ['', '97'],
+		  ['77', 0]
+		];
+		expect(actual).toEqual(expected);
+	  });
 
     it(`converts to Array of arrays following the order of headers`, () => {
       const actual = jsons2arrays(fixtures, ['sport', 'maths']);
